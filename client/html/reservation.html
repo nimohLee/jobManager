@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busan IT Hotel</title>
+
+    <link href='../node_modules/fullcalendar/main.css' rel='stylesheet' />
+    
+
+    <!-- fontawesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- font link -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600&family=Josefin+Sans:wght@600;700;800&family=Montserrat&display=swap"
+        rel="stylesheet" />
+
+    <!-- Date Range Picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <!-- style sheet -->
+    <link rel="stylesheet" href="../css/reservation-style.css">
+    <link rel="stylesheet" href="../media_query/reservation-media.css">
+
+</head>
+
+<body class="fade">
+    <div class="container">
+        <header>
+            <div class="header-wrap">
+                <div class="logo">
+                    <a href="./main.html">
+                        <h1><i class="fa-solid fa-hotel"></i>&nbsp;IT Hotel</h1>
+                    </a>
+                </div>
+                <div class="ul-wrap">
+                    <ul>
+                        <li><a href="../html/main.html#reservation-section">Reservation</a></li>
+                        <li class="login-menu-btn">Member</a>
+                            <div class="login-menu">
+                                <ul>
+                                    <li><a href="./login.html">Log in</a></li>
+                                    <li><a href="./sign-up.html">Sign up</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        </li>
+                        <li>
+                            <a href="./my_booking.html">MyBooking</a>
+                        </li>
+                    </ul>
+                </div>                                                                   
+            </div>
+        </header>
+        <div class="bg">
+        </div>
+
+        <main>
+            <h1>Reservation</h1>
+            <div class="allContents-wrap">
+            
+            <section class="calender-wrap">  
+                        <div id="calendar"></div>
+                        <div id="calendar2"></div>
+            </section>
+            <section class="detail">
+                <div class="book-date-container">
+                    <div class="start-wrap">
+                    <label for="start" style="font-size: 1.5em;">체크인</label>
+                    <input type="text" class="date-output" name="start" id="start" max="2023-12-31" value disabled>
+                     </div>
+                    <div class="end-wrap">
+                    <label for="end" style="font-size: 1.5em;">체크아웃</label>
+                    <input type="text"  class="date-output" name="end" id="end" max="2023-12-31" value disabled>
+                  </div>
+                </div>
+                <div class="selectBookInfo">
+                    <div class="item-count">
+                        <label >객실 수</label>
+                        <div class="item">
+                            <div class="item-quantity-button rooms-btn">
+                                <i class = "fal fa-plus"></i>
+                            </div>
+                            <input type="number" name="rooms" class="rooms" min="1" max="5" step="1" value="1" disabled>
+
+                            <div class="item-quantity-button">
+                                <i class = "fal fa-minus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-count">
+                        <label >성인</label>
+                        <div class="item">
+                            <div class="item-quantity-button adult-btn">
+                                <i class = "fal fa-plus"></i>
+                            </div>
+                            <input type="number" name="adults" class="adults" min="1" max="5" step="1" value="1" disabled>
+                            <div class="item-quantity-button">
+                                <i class = "fal fa-minus"></i>
+                            </div>
+                        </div>
+                            
+           
+                    </div>
+                    <div class="item-count">
+                        <label >아동</label>
+                        <div class="item">
+                            <div class="item-quantity-button kids-btn">
+                                <i class = "fal fa-plus"></i>
+                            </div>
+                            <input type="number" name="kids" class="kids" min="1" max="5" step="1" value="1" disabled>
+                            <div class="item-quantity-button">
+                                <i class = "fal fa-minus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="btnWrapForFlex"><button class="inquiryBtn">객실 조회</button></div>
+            </section>
+        </div>
+        </main>
+
+    </div>
+
+    <script src="../js/loadPage.js"></script>
+
+    <script src='../node_modules/fullcalendar/main.js'></script>
+    <script>
+         document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendarEl2 = document.getElementById('calendar2');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        var calendar2 = new FullCalendar.Calendar(calendarEl2, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+        calendar2.render();
+      });
+    </script>
+    <script src="../js/reservation-view.js"></script>
+</body>
+
+</html>

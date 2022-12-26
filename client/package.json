@@ -1,0 +1,26 @@
+{
+  "name": "hotel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nimohLee/hotel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nimohLee/hotel/issues"
+  },
+  "homepage": "https://github.com/nimohLee/hotel#readme",
+  "dependencies": {
+    "fullcalendar": "^5.11.3",
+    "mongoose": "^6.6.1",
+    "morgan": "^1.10.0",
+    "nunjucks": "^3.2.3"
+  }
+}

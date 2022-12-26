@@ -1,0 +1,32 @@
+@media (max-width : 960px) {
+    
+    .header-wrap{
+      padding: 0 30px;
+      
+    }
+   
+
+  }
+ 
+ @media (max-width : 1200px){
+  .bg{
+    height: 200vh;
+  }
+ }
+ 
+ 
+ 
+ 
+  @media (max-width : 960px) {
+    
+    .header-wrap{
+      padding: 0 30px;
+      
+    }
+    
+  }
+
+
+  @media(max-height : 750px){
+    body{overflow:scroll;}
+  }

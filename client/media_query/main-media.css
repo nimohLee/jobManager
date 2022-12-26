@@ -1,0 +1,122 @@
+@media(max-width:1440px){
+  .intro-section {
+    left: -40vw;
+  }
+  }
+
+
+@media(max-width:1200px){
+  
+  .intro-section{
+    left: -53vw;
+  }
+
+.select-time {
+  flex-direction: column;
+  align-items: center;
+}
+.start-date{
+  margin-bottom: 5em;
+}
+
+}
+
+
+
+  @media (max-width : 960px) {
+  
+    .header-wrap{
+      padding: 0 30px;
+      
+    }
+    .intro-section {
+
+      left: -60vw;
+
+    }
+
+
+
+  }
+
+  @media(max-width : 768px){
+   
+
+.bg{
+  height: 100vh;
+}
+
+.contents-wrap {
+  padding: 0 0em;
+}
+    
+    .intro-section {
+      top:40vw;
+      left: 5vw;
+
+    }
+  
+    .reveal{
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .reveal.active{
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .intro-text {
+      color: #4F4D4C;
+    }
+    
+    .intro-text h2 {
+      font-size: 3em;
+      font-weight: 700;
+    }
+    
+    .intro-text p {
+      font-size: 1.2em;
+    }
+    
+    .reservation-section h2{
+      font-size: 1em;
+    }
+   
+  article{
+    flex-direction: column;
+  }
+
+  .res-img, .gym-img{
+    width: 600px;
+   
+  }
+  .description-order{
+    order:2;
+  }
+  
+  .gym-img-wrap{
+    order: 1;
+  }
+
+  .map-section{
+    
+    /* padding: 3em 0 3em 0;   */
+  }
+  
+
+  footer,hr{
+    display: none;
+  }
+
+  }
+
+  
+  @media (max-width : 320px){
+    .intro-section {
+
+      left: -60vw;
+
+    }
+  }

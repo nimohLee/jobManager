@@ -1,0 +1,338 @@
+@charset 'utf-8';
+
+@import './reset.css';
+html{
+ 
+}
+
+body {
+  overflow-x: hidden;
+  opacity: 1;
+  transition-duration: 0.5s;
+  transition-property: opacity;
+
+}
+body.fade {
+  opacity: 0;
+}
+
+
+.container {
+  width: 100vw;
+  position: relative;
+
+  margin: 0 auto;
+}
+
+header {
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  border:1px solid #4f4d4c71;
+  box-shadow: 0 0 1px 0px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.header-wrap {
+  width: 100%;
+  padding: 0 10em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ul-wrap>ul {
+  display: flex;
+}
+
+.ul-wrap>ul>li {
+  font-size: 1.2em;
+  margin-left: 30px;
+}
+
+.ul-wrap a {
+  transition-duration: .5s;
+}
+
+#go-reservation{
+  cursor: pointer;
+}
+
+.ul-wrap a:hover , .login-menu-btn:hover, #go-reservation:hover{
+  color: tomato;
+  transition-duration: .5s;
+}
+
+/* 햄버거 버튼 없애고, login 에 커서 올리면  sign in과 log in 선택 메뉴 니오게 하기. */
+
+main {
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  
+  /* main이 자기 자리를 지키는 relative를 사용함으로써 footer가 그 밑으로 감 */
+  top: 60px;
+  z-index: 0;
+  padding-bottom: 2.5em;
+}
+
+.logo {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+  color: #4F4D4C;
+}
+
+.logo a{
+  cursor: pointer;
+}
+
+.ul-wrap {
+  font-family: 'Dosis', sans-serif;
+}
+
+.login-menu{
+  
+  visibility: hidden;
+  opacity: 0;
+  transition-duration: .5s;
+  position: absolute;
+  padding-top: 10px;
+  font-size: 1em;
+  top:60px;
+  height: 90px;
+  width: 70px;
+  text-align: center;
+  background-color: white;
+}
+
+.login-menu li{
+  margin: 10px 0;  
+}
+
+.login-menu-btn{
+  cursor: pointer;
+}
+
+.blocked{
+  visibility: visible;
+  opacity: 1;
+
+  transition-duration: .5s;
+}
+
+/* main part */
+
+.bg {
+
+  background-image: url(../images/bed_image.jpg);
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.intro-section {
+  position: absolute;
+  top: 45vh;
+  left: -28vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1;
+}
+
+.intro-text {
+  color: #4F4D4C;
+}
+
+.intro-text h2 {
+  font-size: 4em;
+  font-weight: 700;
+}
+
+.intro-text p {
+  font-size: 1.5em;
+}
+
+
+
+.contents-wrap {
+  padding: 0 10em;
+}
+
+.reservation-section {
+  /* display: flex;
+  align-items: center; */
+  transition-duration: 2s;
+  padding: 10em 0;
+  margin: 40px 0;
+  height: 30vh;
+  margin-bottom: 15em;
+  
+}
+
+.reservation-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+}
+form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+.select-time {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.start-date{
+  /* margin-right: 20%; */
+  display: flex;
+  flex-direction: column;
+}
+
+#start{
+  padding: 0 30px;
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 20px;
+  width: 18em;
+  height: 4em;
+  border-radius: 10px;
+  border: 1px solid #4F4D4C;
+}
+
+#end{
+  padding: 0 30px;
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 20px;
+  width: 18em;
+  height: 4em;
+  border-radius: 10px;
+  border: 1px solid #4F4D4C;
+}
+
+.end-date{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* reservation button */
+.reser-btn-wrap{
+  align-self: center;
+}
+
+.reservation-btn{
+  padding: 0;
+  width: 13em;
+  height: 2.8em;
+  border-radius: 10px;
+  border: 1px solid #4F4D4C;
+  color: white;
+  font-size: 1.2em;
+  transition-duration: .5s;
+  background-color: #4F4D4C;
+  cursor: pointer;
+}
+
+.reservation-btn:hover{
+ background-color: #4f4d4c5a;
+  color: black;
+  transition-duration: .3s;
+}
+
+.facilites-section {
+
+  margin-bottom: 10em;
+}
+
+
+article {
+  display: flex;
+  align-items: center;
+}
+
+img{
+  margin:30px; width: 40%; border-radius: 10px;
+}
+
+.description {
+  margin: 40px;
+}
+
+.description h2 {
+  font-size: 2em;
+}
+
+.description p {
+  margin-top: 15px;
+  font-size: 1.3em;
+}
+
+.map-section {
+  text-align: center;
+
+}
+
+.map-wrap {
+  margin-top: 40px;
+  margin-bottom: 2.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* footer bottom 0으로 가장 아랫부분에 붙도록 함. */
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+
+  padding: 0 40px;
+}
+
+.hotelList ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hotelList ul li {}
+
+
+/* scroll transform */
+.reveal {
+  position: relative;
+  transform: translateX(-30px);
+  opacity: 0;
+  /* transition: 2s all ease; */
+  transition-duration: 1.5s;
+}
+
+
+.reveal.active {
+  transform: translateY(0px);
+  opacity: 1;
+  transition: 1.5s all ease;
+}
+
+
+
+
+
+

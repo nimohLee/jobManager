@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 화면 전환 부드럽게해주는 meta  -->
+  <meta http-equiv="page-enter" content="blendTrans(duration=1)">
+  <meta http-equiv="page-exit" content="blendTrans(duration=1)">
+
+  <title>Busan IT Hotel</title>
+
+  <!-- fontawesome cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="../images/favicon.ico">
+
+  <!-- font link -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600&family=Josefin+Sans:wght@600;700;800&family=Montserrat&display=swap"
+    rel="stylesheet" />
+
+
+  <!-- style sheet -->
+  <link rel="stylesheet" href="../css/login-style.css" />
+
+  <!-- media query -->
+  <link rel="stylesheet" href="../media_query/login-media.css" />
+
+
+
+
+</head>
+
+<body class="fade">
+  <div class="container">
+    <header>
+      <div class="header-wrap">
+        <div class="logo">
+          <a href="./main.html">
+            <h1><i class="fa-solid fa-hotel"></i>&nbsp;IT Hotel</h1>
+          </a>
+        </div>
+        <div class="ul-wrap">
+          <ul>
+            <li><a href="./main.html#reservation-section">Reservation</a></li>
+            <li class="login-menu-btn">Member</a>
+              <div class="login-menu">
+                <ul>
+                  <li><a href="./login.html">Log in</a></li>
+                  <li><a href="./sign-up.html">Sign up</a></li>
+                </ul>
+              </div>
+
+            </li>
+            </li>
+            <li>
+              <a href="../html/my_booking.html">MyBooking</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </header>
+    <div class="bg">
+    </div>
+
+    <div class="login-wrap">
+      <div class="login-box">
+        <h1>Login</h1>
+        <form action="#" enctype="multipart/form-data" id="form">
+          <div class="form-control">
+            <label for="">Userid</label>
+            <input type="text" name="userid" id="userid" class="userid" placeholder="userid" />
+            <!-- required 붙이면 submit 안됨-->
+            <small></small></div>
+          <div class="form-control">
+            <label for="">Passwd</label>
+            <input type="password" name="passwd" id="passwd" class="passwd" placeholder="passwd" />
+            <small></small>
+          </div>
+          <div>
+            <a href="../html/sign-up.html" class="go-signin"><strong>Don't you have an account?</strong></a>
+          </div>
+          <button type="submit" class="btn" id="btn">Login</button>
+          <div class="btn-wrap">
+            <div class="text-box"></div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/login.js"></script>
+  <script src="../js/loadPage.js"></script>
+
+
+</body>
+
+</html>

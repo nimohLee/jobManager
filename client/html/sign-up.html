@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Busan IT Hotel</title>
+
+  <!-- fontawesome cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="../images/favicon.ico">
+
+  <!-- font link -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600&family=Josefin+Sans:wght@600;700;800&family=Montserrat&display=swap"
+    rel="stylesheet" />
+  <!-- style sheet -->
+  <link rel="stylesheet" href="../css/signUp-style.css" />
+  <!-- mediaQuery -->
+  <link rel="stylesheet" href="../media_query/signUp-media.css">
+
+</head>
+
+<body class="fade">
+  <div class="container">
+    <header>
+      <div class="header-wrap">
+        <div class="logo">
+          <a href="../html/main.html">
+            <h1><i class="fa-solid fa-hotel"></i>&nbsp;IT Hotel</h1>
+          </a>
+        </div>
+        <div class="ul-wrap">
+          <ul>
+            <li><a href="../html/main.html#reservation-section">Reservation</a></li>
+            <li class="login-menu-btn">Member</a>
+              <div class="login-menu">
+                <ul>
+                  <li><a href="./login.html">Log in</a></li>
+                  <li><a href="./sign-up.html">Sign up</a></li>
+                </ul>
+              </div>
+
+            </li>
+
+            </li>
+            <li>
+              <a href="../html/my_booking.html">MyBooking</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </header>
+    <div class="bg">
+    </div>
+    <div class="signin-wrap">
+      <div class="signin-box">
+        <h1>Sign Up</h1>
+        <form action="#" id="form">
+          <div class="input-wrap">
+            <div class="form-control">
+              <label for="">Username</label>
+              <input type="text" name="user-name" id="user-name" class="user-name" placeholder="Username" />
+              <small></small>
+            </div>
+            <div class="form-control">
+              <label for="">Identification</label>
+              <input type="text" name="user-id" id="user-id" class="user-id" placeholder="Identification" />
+              <small></small>
+            </div>
+            <div class="form-control">
+              <label for="">Password</label>
+              <input type="password" name="user-pw" id="user-pw" class="user-pw" placeholder="Password" />
+              <small></small>
+            </div>
+            <div class="form-control">
+              <label for="">Re-Password</label>
+              <input type="password" name="re-passwd" id="re-passwd" class="re-passwd" placeholder="Re-Password" />
+              <small></small>
+            </div>
+          </div>
+          <div>
+            <a href="login.html" class="go-login"><strong>Already registered sign up?</strong></a>
+          </div>
+          <div class="btn-wrap">
+            <div class="text-box"></div>
+            <button type="submit" class="btn" id="btn">Sign up</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let uName = document.querySelector('#user-name');
+      let uID = document.querySelector("#user-id");
+      let uPW = document.querySelector("#user-pw");
+      let uPW2 = document.querySelector("#re-passwd");
+      let signBtn = document.querySelector("#btn");
+
+
+
+      function validateCheck() {
+        let uNameValue = uName.value.trim();
+        let uIDValue = uID.value.trim();
+        let uPWValue = uPW.value.trim();
+        let uPW2Value = uPW2.value.trim();
+
+        let nameOk = false;
+        let idOk = false;
+        let pwOk = false;
+        let pw2Ok = false;
+
+
+        // name validation
+        if (uNameValue === null || uNameValue == "") {
+          errorCheck(uName, "이름을 입력해주세요");
+        } else if (!regExpName(uNameValue)) {
+          errorCheck(uName, "이름을 확인해주세요");
+        } else {
+          nameOk = successCheck(uName);
+        }
+
+        // id validation
+        if (uIDValue === null || uIDValue == "") {
+          errorCheck(uID, "아이디를 입력해주세요");
+        } else if (uIDValue.length < 6 || uIDValue.length > 10) {
+          errorCheck(uID, "아이디를 6자 이상 10자 미만으로 입력해주세요");
+        } else if (!regExpID(uIDValue)) {
+          errorCheck(uID, "아이디는 영어 소문자, 영어 대문자, 숫자 조합만 가능합니다")
+        } else {
+          idOk = successCheck(uID);
+        }
+
+        // pw validation
+        if (uPWValue === null || uPWValue == "") {
+          errorCheck(uPW, "비밀번호를 입력해주세요");
+        } else if (uPWValue.length < 6 || uPWValue.length > 11) {
+          errorCheck(uPW, "비밀번호를 6자 이상 11자 미만으로 입력해주세요");
+        } else if (!regExpID(uPWValue)) {
+          errorCheck(uPW, "비밀번호는 영어 소문자, 숫자 조합만 가능합니다")
+        } else {
+          pwOk = successCheck(uPW);
+        }
+
+        // pw2 validation
+        if (uPW2Value === null || uPW2Value == "") {
+          errorCheck(uPW2, "비밀번호 확인을 입력해주세요");
+        } else if (uPW2Value !== uPWValue) {
+          errorCheck(uPW2, "비밀번호가 다릅니다");
+        } else {
+          pw2Ok = successCheck(uPW2);
+        }
+
+        console.log(nameOk)
+        if (nameOk == true && idOk == true && pwOk == true && pw2Ok == true) {
+          location.href = "./main.html";
+        }
+
+
+      }
+
+      function regExpName(input) {
+        let exp = /[a-zA-Z가-힣]/;
+
+        return exp.test(input);
+      }
+
+      function regExpID(input) {
+        let exp = /([a-z0-9]){6,10}/;
+
+        return exp.test(input);
+      }
+
+      // const signIn = () => {
+      //   if (uID == "" || uName == "" || uPW == "" || rePW == "") {}
+
+      //   if (uPW.value == rePW.value) {
+      //     alert("회원가입이 성공적으로 완료되었습니다.");
+      //   } else if (uPW.value != rePW.value) {
+      //     alert("비밀번호를 확인해주세요");
+      //     uPW.value = "";
+      //     rePW.value = "";
+      //     uPW.focus();
+      //   }  
+      // };
+
+      function errorCheck(input, msg) {
+
+        let formContol = input.parentElement;
+        let small = formContol.querySelector('small');
+        formContol.className = "form-control error"
+        small.innerHTML = msg;
+      }
+
+      function successCheck(input) {
+        let formControl = input.parentElement;
+        formControl.className = "form-control success"
+        return true;
+      }
+
+      document.querySelector('#form').addEventListener('submit', (e) => {
+
+        e.preventDefault();
+
+        validateCheck();
+
+      })
+    </script>
+
+
+  </div>
+
+  <!-- 페이지 전환 Delay 주기 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.setTimeout(() => {
+        document.body.classList.remove('fade');
+      });
+    });
+  </script>
+  <script>
+    let loginBtn = document.querySelector('.login-menu-btn');
+    let loginMenu = document.querySelector('.login-menu');
+    let toLogin = document.querySelector('#sub-login-btn');
+
+    const add = () => {
+      loginMenu.classList.add('blocked');
+    }
+    const remove = () => {
+      loginMenu.classList.remove('blocked');
+    }
+
+    loginBtn.addEventListener('mouseover', add);
+    loginBtn.addEventListener('mouseout', remove);
+  </script>
+</body>
+
+</html>
