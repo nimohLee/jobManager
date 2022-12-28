@@ -6,7 +6,9 @@ import com.nimoh.hotel.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 게시판 서비스
@@ -22,49 +24,39 @@ public class BoardServiceImpl implements BoardService{
         this.boardRepository = boardRepository;
     }
 
-    /**
-     * 게시판 목록 리턴
-     * @return
-     */
+
     @Override
-    public List<Board> getList() {
-        return boardRepository.getList();
+    public List<Board> findAll() {
+        return boardRepository.findAll();
     }
 
-    /**
-     * 게시판 상세정보 리턴
-     * @param boardIdx
-     * @return
-     */
     @Override
-    public Board get(int boardIdx) {
-        return boardRepository.get(boardIdx);
+    public Optional<Board> findById(Long boardIdx) {
+        Optional<Board> result;
+        try{
+             result = boardRepository.findById(boardIdx);
+             return result;
+        }catch (Exception e){
+            throw new Error("findById is failed");
+        }
     }
 
-    /**
-     * 게시글 등록
-     * @param board
-     */
     @Override
-    public void save(BoardDto boardDto) {
-        boardRepository.save(boardDto);
-    }
+    public Board save(BoardDto boardDto) {
+        Board board = new Board();
+        board.setTitle(boardDto.getTitle());
+        board.setContent(boardDto.getContent());
+        board.setWriter(boardDto.getWriter());
+        board.setCategory(boardDto.getCategory());
+        board.setRegDate(new Date());
+        try {
+            boardRepository.save(board);
+            return board;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
 
-    /**
-     * 게시글 수정
-     * @param board
-     */
-    @Override
-    public void update(Board board) {
-        boardRepository.update(board);
-    }
 
-    /**
-     * 게시글 삭제
-     * @param boardIdx
-     */
-    @Override
-    public void delete(int boardIdx) {
-        boardRepository.delete(boardIdx);
     }
 }
