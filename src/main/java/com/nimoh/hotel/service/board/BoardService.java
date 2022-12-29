@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface BoardService {
 
-    List<Board> findAll();
-    Optional<Board> findById(Long boardIdx);
+    List<BoardDetailResponse> findAll();
+    BoardDetailResponse findById(Long boardIdx);
     BoardDetailResponse save(BoardRequest boardRequest);
 }

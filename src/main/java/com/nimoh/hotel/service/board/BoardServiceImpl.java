@@ -10,9 +10,11 @@ import com.nimoh.hotel.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 게시판 서비스
@@ -30,18 +32,36 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
-    public List<Board> findAll() {
-        return boardRepository.findAll();
+    public List<BoardDetailResponse> findAll() {
+        final List<Board> findResult = boardRepository.findAll();
+
+        return findResult.stream().map(v -> BoardDetailResponse.builder()
+                        .id(v.getId())
+                        .title(v.getTitle())
+                        .writer(v.getWriter())
+                        .content(v.getContent())
+                        .regDate(v.getRegDate())
+                        .category(v.getCategory())
+                        .build())
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public Optional<Board> findById(Long boardIdx) {
+    public BoardDetailResponse findById(Long boardIdx) {
         Optional<Board> result = boardRepository.findById(boardIdx);
 
         if (result.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        return result;
+        return BoardDetailResponse.builder()
+                .id(result.get().getId())
+                .title(result.get().getTitle())
+                .content(result.get().getContent())
+                .writer(result.get().getWriter())
+                .category(result.get().getCategory())
+                .regDate(result.get().getRegDate())
+                .build();
     }
 
     @Override

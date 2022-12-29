@@ -91,9 +91,9 @@ public class BoardServiceTest {
         doReturn(Optional.of(board())).when(boardRepository).findById(boardIdx);
 
         //when
-        Optional<Board> result = boardService.findById(boardIdx);
+        BoardDetailResponse result = boardService.findById(boardIdx);
         //then
-        assertThat(result).isNotEmpty();
+        assertThat(result).isNotNull();
     }
 
     @Test
@@ -106,7 +106,7 @@ public class BoardServiceTest {
         boards.add(board1);
         doReturn(boards).when(boardRepository).findAll();
         //when
-        List<Board> result = boardService.findAll();
+        List<BoardDetailResponse> result = boardService.findAll();
         //then
         assertThat(result.size()).isEqualTo(2);    }
 
