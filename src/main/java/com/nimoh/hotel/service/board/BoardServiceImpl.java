@@ -47,10 +47,24 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardDetailResponse save(BoardRequest boardRequest) {
-        if(boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
+        if (boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
             throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
+        final Board board = Board.builder()
+                .title(boardRequest.getTitle())
+                .content(boardRequest.getContent())
+                .writer(boardRequest.getWriter())
+                .category(boardRequest.getCategory())
+                .regDate(new Date())
+                .build();
 
-    return null;
+        final Board savedBoard = boardRepository.save(board);
+
+    return BoardDetailResponse.builder()
+            .title(savedBoard.getTitle())
+            .content(savedBoard.getContent())
+            .writer(savedBoard.getWriter())
+            .category(savedBoard.getCategory())
+            .build();
     }
 }

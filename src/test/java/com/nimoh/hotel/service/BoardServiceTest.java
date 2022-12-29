@@ -11,9 +11,7 @@ import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
@@ -43,9 +41,29 @@ public class BoardServiceTest {
         assertThat(result.getErrorResult()).isEqualTo(BoardErrorResult.REQUEST_VALUE_INVALID);
     }
 
+    @Test
+    public void 게시글추가성공() {
+        //given
+
+        doReturn(board()).when(boardRepository).save(ArgumentMatchers.any(Board.class));
+        //when
+        BoardDetailResponse result = boardService.save(boardRequest());
+        //then
+        assertThat(result.getTitle()).isEqualTo("test");
+    }
 
     public BoardRequest boardRequest(){
         return BoardRequest.builder()
                 .title("test").content("hello").writer("nimoh").category("free").build();
+    }
+
+    public Board board() {
+        return Board.builder()
+                .title("test")
+                .content("hello")
+                .writer("nimoh")
+                .category("free")
+                .regDate(new Date())
+                .build();
     }
 }
