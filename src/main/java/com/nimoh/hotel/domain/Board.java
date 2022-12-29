@@ -1,21 +1,31 @@
 package com.nimoh.hotel.domain;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
 public class Board {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-
     private Long id;
+
+    @Column(name = "title",nullable = false)
     private String title;
+
+    @Column(name = "writer",nullable = false)
     private String writer;
+
+    @Column(name = "content",nullable = false)
     private String content;
+
+    @Column(name = "category",nullable = false)
     private String category;
 
     @Column(name = "reg_date")

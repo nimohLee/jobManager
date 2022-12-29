@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
-
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,16 +42,13 @@ public class BoardController {
      */
     @GetMapping("/{boardIdx}")
     public ResponseEntity<Optional<Board>> get(@PathVariable Long boardIdx) {
-        Optional<Board> board;
         try{
-            board = boardService.findById(boardIdx);
-            return new ResponseEntity<>(board,HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).
+                    body(boardService.findById(boardIdx));
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(boardService.findById(boardIdx));
         }
-
-
-
     }
 
     /**

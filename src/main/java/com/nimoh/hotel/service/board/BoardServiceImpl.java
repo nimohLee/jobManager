@@ -43,12 +43,14 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board save(BoardDto boardDto) {
-        Board board = new Board();
-        board.setTitle(boardDto.getTitle());
-        board.setContent(boardDto.getContent());
-        board.setWriter(boardDto.getWriter());
-        board.setCategory(boardDto.getCategory());
-        board.setRegDate(new Date());
+        final Board board = Board.builder()
+                .title(boardDto.getTitle())
+                .writer(boardDto.getWriter())
+                .content(boardDto.getContent())
+                .category(boardDto.getCategory())
+                .regDate(new Date())
+                .build();
+
         try {
             boardRepository.save(board);
             return board;

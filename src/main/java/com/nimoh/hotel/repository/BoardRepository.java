@@ -1,7 +1,6 @@
 package com.nimoh.hotel.repository;
 
 import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.BoardDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

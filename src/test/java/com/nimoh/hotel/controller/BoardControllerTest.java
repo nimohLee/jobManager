@@ -47,20 +47,20 @@ public class BoardControllerTest {
     private Board board;
     @BeforeEach
     void before() {
-        board = new Board();
-        board.setTitle("title");
-        board.setWriter("nimoh");
-        board.setContent("hello");
-        board.setCategory("free");
-        board.setRegDate(new Date());
+        final Board board = Board.builder()
+                .id(1L)
+                .title("test")
+                .content("12345")
+                .writer("nimoh")
+                .category("free")
+                .regDate(new Date())
+                .build();
     }
-
 
     @Test
     @DisplayName("게시글 하나만 가져오기 성공")
     void getBoardList() throws Exception{
         //given
-
         given(boardService.findById(1L)).willReturn(Optional.ofNullable(board));
 
         //when
@@ -81,11 +81,14 @@ public class BoardControllerTest {
     void getBoardListFail() throws Exception{
 
         //given
-        Board board = new Board();
-        board.setTitle("hello");
-        board.setWriter("nimoh");
-        board.setContent("content");
-        board.setCategory("test");
+        final Board board = Board.builder()
+                .id(1L)
+                .title("test")
+                .content("12345")
+                .writer("nimoh")
+                .category("free")
+                .regDate(new Date())
+                .build();
 
         /* error 발생 가정하기 */
         given(boardService.findById(0L)).willThrow();
@@ -102,10 +105,9 @@ public class BoardControllerTest {
     void createBoardSuccess() throws Exception {
         //given
         Mockito.when(boardService.save(boardDto)).thenReturn(board);
-
+        //when
         Gson gson = new Gson();
         String content = gson.toJson(boardDto);
-        //when
         //then
         mockMvc.perform(
                 post("/board")
@@ -119,9 +121,9 @@ public class BoardControllerTest {
     void createBoardFail() throws Exception {
         //given
         given(boardService.save(boardDto)).willThrow();
+        //when
         Gson gson = new Gson();
         String content = gson.toJson(boardDto);
-        //when
         //then
         mockMvc.perform(
                         post("/board")
