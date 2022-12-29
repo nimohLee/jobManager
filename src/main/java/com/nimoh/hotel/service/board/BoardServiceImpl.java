@@ -36,13 +36,12 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Optional<Board> findById(Long boardIdx) {
-        Optional<Board> result;
-        try{
-             result = boardRepository.findById(boardIdx);
-             return result;
-        }catch (Exception e){
-            throw new Error("findById is failed");
+        Optional<Board> result = boardRepository.findById(boardIdx);
+
+        if (result.isEmpty()){
+            throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
+        return result;
     }
 
     @Override
@@ -67,4 +66,16 @@ public class BoardServiceImpl implements BoardService{
             .category(savedBoard.getCategory())
             .build();
     }
+
+    public void delete(Long boardId) {
+        final Optional<Board> targetBoard = boardRepository.findById(boardId);
+
+        if (targetBoard.isEmpty()){
+            throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
+        }
+
+        boardRepository.deleteById(boardId);
+    }
+
+
 }
