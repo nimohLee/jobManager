@@ -1,5 +1,6 @@
 package com.nimoh.hotel.domain;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Getter
+@DynamicUpdate
 public class Board {
 
     @Id
