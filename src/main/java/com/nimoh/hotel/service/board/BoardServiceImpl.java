@@ -2,6 +2,7 @@ package com.nimoh.hotel.service.board;
 
 import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.BoardDto;
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.errors.BoardErrorResult;
 import com.nimoh.hotel.errors.BoardException;
@@ -45,21 +46,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public Board save(BoardDto boardDto) {
-        final Board board = Board.builder()
-                .title(boardDto.getTitle())
-                .writer(boardDto.getWriter())
-                .content(boardDto.getContent())
-                .category(boardDto.getCategory())
-                .regDate(new Date())
-                .build();
-
-        try {
-            boardRepository.save(board);
-            return board;
-        }catch (Exception e){
-            e.printStackTrace();
-            throw e;
+    public BoardDetailResponse save(BoardRequest boardRequest) {
+        if(boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
+            throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
+
+    return null;
     }
 }

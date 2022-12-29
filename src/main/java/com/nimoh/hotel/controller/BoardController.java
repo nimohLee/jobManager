@@ -2,6 +2,8 @@ package com.nimoh.hotel.controller;
 
 import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.BoardDto;
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,11 +58,11 @@ public class BoardController {
      * @param boardDto
      */
     @PostMapping("")
-    public ResponseEntity<Void> save(BoardDto boardDto) {
+    public ResponseEntity<Void> save(BoardRequest boardRequest) {
         HttpStatus httpStatus;
-        Board result;
+        BoardDetailResponse result;
         try{
-            result = boardService.save(boardDto);
+            result = boardService.save(boardRequest);
             httpStatus = HttpStatus.CREATED;
             System.out.println(result);
         }catch (Exception e){

@@ -3,6 +3,8 @@ import com.google.gson.Gson;
 import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.BoardDto;
 
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +63,7 @@ public class BoardControllerTest {
     @DisplayName("게시글 하나만 가져오기 성공")
     void getBoardList() throws Exception{
         //given
-        given(boardService.findById(1L)).willReturn(Optional.ofNullable(board));
+//        given(boardService.findById(1L)).willReturn(BoardDetailResponse.builder().build());
 
         //when
         Long boardIdx = 1L;
@@ -104,7 +106,7 @@ public class BoardControllerTest {
     @DisplayName("Board 생성 성공 테스트")
     void createBoardSuccess() throws Exception {
         //given
-        Mockito.when(boardService.save(boardDto)).thenReturn(board);
+        Mockito.when(boardService.save(boardRequest())).thenReturn(BoardDetailResponse.builder().build());
         //when
         Gson gson = new Gson();
         String content = gson.toJson(boardDto);
@@ -120,7 +122,7 @@ public class BoardControllerTest {
     @DisplayName("Board 생성 실패 테스트")
     void createBoardFail() throws Exception {
         //given
-        given(boardService.save(boardDto)).willThrow();
+        given(boardService.save(boardRequest())).willThrow();
         //when
         Gson gson = new Gson();
         String content = gson.toJson(boardDto);
@@ -130,5 +132,10 @@ public class BoardControllerTest {
                                 .content(content)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError());
+    }
+
+    public BoardRequest boardRequest(){
+        return BoardRequest.builder()
+                .title("test").content("hello").writer("nimoh").category("free").build();
     }
 }
