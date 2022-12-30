@@ -1,5 +1,4 @@
 package com.nimoh.hotel.dto.board;
-
 import lombok.*;
 
 @Getter
@@ -7,6 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class BoardRequest {
+
     private String title;
     private String content;
     private String writer;

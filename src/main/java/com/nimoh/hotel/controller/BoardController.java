@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
+
 /**
  * 게시판 컨트롤러
  * @author nimoh
@@ -42,8 +44,10 @@ public class BoardController {
      * @return
      */
     @GetMapping("/{boardIdx}")
-    public ResponseEntity<BoardDetailResponse> get(@PathVariable Long boardIdx) {
-            return ResponseEntity.status(HttpStatus.OK)
+    public ResponseEntity<BoardDetailResponse> get(
+            @PathVariable Long boardIdx
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
                     .body(boardService.findById(boardIdx));
     }
 
@@ -52,7 +56,11 @@ public class BoardController {
      * @param boardDto
      */
     @PostMapping("")
-    public ResponseEntity<Void> save(BoardRequest boardRequest) {
+    public ResponseEntity<Void> save(
+            @RequestHeader(USER_ID_HEADER) final String userId,
+            @RequestBody final BoardRequest boardRequest
+
+    ) {
         HttpStatus httpStatus;
         BoardDetailResponse result;
         try{
