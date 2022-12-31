@@ -100,6 +100,27 @@ public class BoardControllerTest {
         resultActions.andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void 게시글등록성공() throws Exception{
+        //given
+        final String url = "/api/v1/board";
+        //when
+        //then
+    }
+
+    @Test
+    public void 게시글삭제실패_유저헤더없음() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
 
     private BoardDetailResponse boardDetailResponse(){
         return BoardDetailResponse.builder()

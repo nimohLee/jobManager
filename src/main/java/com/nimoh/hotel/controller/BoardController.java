@@ -1,5 +1,6 @@
 package com.nimoh.hotel.controller;
 
+import com.nimoh.hotel.constants.Headers;
 import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.BoardDto;
 import com.nimoh.hotel.dto.board.BoardDetailResponse;
@@ -61,6 +62,7 @@ public class BoardController {
             @RequestBody final BoardRequest boardRequest
 
     ) {
+
         HttpStatus httpStatus;
         BoardDetailResponse result;
         try{
@@ -86,8 +88,12 @@ public class BoardController {
      * 게시글 삭제
      * @param boardIdx
      */
-//    @DeleteMapping("/{boardIdx}")
-//    public void delete(@PathVariable int boardIdx) {
-//        boardService.delete(boardIdx);
-//    }
+    @DeleteMapping("/{boardIdx}")
+    public ResponseEntity<Void> delete(
+            @PathVariable Long boardIdx,
+            @RequestHeader(USER_ID_HEADER) final String userId
+    ) {
+        boardService.delete(boardIdx);
+        return ResponseEntity.noContent().build();
+    }
 }
