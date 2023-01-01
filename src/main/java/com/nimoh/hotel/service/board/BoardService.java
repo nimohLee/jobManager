@@ -11,7 +11,7 @@ public interface BoardService {
 
     List<BoardDetailResponse> findAll();
     BoardDetailResponse findById(Long boardIdx);
-    BoardDetailResponse save(BoardRequest boardRequest);
+    BoardDetailResponse save(BoardRequest boardRequest,Long userId);
 
     boolean delete(Long boardId,Long userId);
 }

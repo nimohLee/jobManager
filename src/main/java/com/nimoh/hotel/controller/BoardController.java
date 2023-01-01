@@ -58,11 +58,11 @@ public class BoardController {
      */
     @PostMapping("")
     public ResponseEntity<BoardDetailResponse> save(
-            @RequestHeader(USER_ID_HEADER) final String userId,
+            @RequestHeader(USER_ID_HEADER) final Long userId,
             @RequestBody final BoardRequest boardRequest
 
     ) {
-            BoardDetailResponse result = boardService.save(boardRequest);
+            BoardDetailResponse result = boardService.save(boardRequest,userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

@@ -34,9 +34,9 @@ public class BoardServiceTest {
     public void 요청에null값이있어서추가실패() {
         //given
         BoardRequest boardRequest = BoardRequest.builder().build();
-
+        Long userId = 1L;
         //when
-        final BoardException result = assertThrows(BoardException.class, ()->boardService.save(boardRequest));
+        final BoardException result = assertThrows(BoardException.class, ()->boardService.save(boardRequest,userId));
 
         //then
         assertThat(result.getErrorResult()).isEqualTo(BoardErrorResult.REQUEST_VALUE_INVALID);
@@ -45,10 +45,10 @@ public class BoardServiceTest {
     @Test
     public void 게시글추가성공() {
         //given
-
+        Long userId = 1L;
         doReturn(board(2L)).when(boardRepository).save(ArgumentMatchers.any(Board.class));
         //when
-        BoardDetailResponse result = boardService.save(boardRequest());
+        BoardDetailResponse result = boardService.save(boardRequest(),userId);
         //then
         assertThat(result.getTitle()).isEqualTo("test");
     }

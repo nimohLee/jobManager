@@ -65,14 +65,14 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardDetailResponse save(BoardRequest boardRequest) {
+    public BoardDetailResponse save(BoardRequest boardRequest,Long userId) {
         if (boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
             throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
         final Board board = Board.builder()
                 .title(boardRequest.getTitle())
                 .content(boardRequest.getContent())
-                .writer(boardRequest.getWriter())
+                .writer(userId)
                 .category(boardRequest.getCategory())
                 .regDate(new Date())
                 .build();

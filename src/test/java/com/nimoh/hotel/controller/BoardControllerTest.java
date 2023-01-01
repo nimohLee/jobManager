@@ -114,7 +114,7 @@ public class BoardControllerTest {
         //given
         final String url = "/api/v1/board";
         BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
-        given(boardService.save(any())).willReturn(boardDetailResponse());
+        given(boardService.save(any(),1L)).willReturn(boardDetailResponse());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
@@ -209,7 +209,7 @@ public class BoardControllerTest {
         final String url = "/api/v1/board/1";
         final Long userId = 1L;
         //when
-        doReturn(boardDetailResponse()).when(boardService).save(any(BoardRequest.class));
+        doReturn(boardDetailResponse()).when(boardService).save(any(BoardRequest.class),userId);
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
                         .header(USER_ID_HEADER,userId)
