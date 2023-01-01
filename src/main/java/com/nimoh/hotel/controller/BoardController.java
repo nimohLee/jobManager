@@ -79,12 +79,12 @@ public class BoardController {
      * 게시글 삭제
      * @param boardIdx
      */
-    @DeleteMapping("/{boardIdx}")
+    @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> delete(
-            @PathVariable Long boardIdx,
-            @RequestHeader(USER_ID_HEADER) final String userId
+            @RequestHeader(USER_ID_HEADER) final Long userId,
+            @PathVariable Long boardId
     ) {
-        boardService.delete(boardIdx);
+        boardService.delete(boardId,userId);
         return ResponseEntity.noContent().build();
     }
 }

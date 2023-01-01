@@ -13,5 +13,5 @@ public interface BoardService {
     BoardDetailResponse findById(Long boardIdx);
     BoardDetailResponse save(BoardRequest boardRequest);
 
-    void delete(Long boardIdx);
+    boolean delete(Long boardId,Long userId);
 }

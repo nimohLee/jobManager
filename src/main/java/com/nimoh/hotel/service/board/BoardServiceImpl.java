@@ -87,14 +87,17 @@ public class BoardServiceImpl implements BoardService{
             .build();
     }
 
-    public void delete(Long boardId) {
+    public boolean delete(Long boardId,Long userId) {
         final Optional<Board> targetBoard = boardRepository.findById(boardId);
 
         if (targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-
+        if(targetBoard.get().getWriter() != userId){
+            throw new BoardException(BoardErrorResult.NO_PERMISSION);
+        }
         boardRepository.deleteById(boardId);
+        return true;
     }
 
 

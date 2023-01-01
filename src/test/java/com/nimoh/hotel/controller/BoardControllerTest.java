@@ -146,17 +146,31 @@ public class BoardControllerTest {
         final String url = "/api/v1/board/1";
         final Long boardId = 1L;
         final Long userId = 1L;
-        doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
+        lenient().doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
                 .when(boardService)
-                .save(boardId,userId);
+                .delete(boardId,userId);
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER, "1L")
-                        .param("boardId","1")
+                        .header(USER_ID_HEADER, 1L)
         );
         //then
-        resultActions.andExpect(status().isInternalServerError());
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void 게시글삭제성공() throws Exception {
+        //given
+        String url = "/api/v1/board/1";
+        doReturn(true).when(boardService).delete(1L,1L);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER,1L)
+
+        );
+        //then
+        resultActions.andExpect(status().isNoContent());
     }
 
     private BoardDetailResponse boardDetailResponse() throws ParseException {

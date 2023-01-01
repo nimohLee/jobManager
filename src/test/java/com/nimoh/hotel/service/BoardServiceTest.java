@@ -57,20 +57,35 @@ public class BoardServiceTest {
     public void 해당게시글이존재하지않는경우삭제실패(){
         //given
         final Long boardId = -1L;
+        final Long userId = 1L;
         //when
-        final BoardException result = assertThrows(BoardException.class,()->boardService.delete(boardId));
+        final BoardException result = assertThrows(BoardException.class,()->boardService.delete(boardId,userId));
         //then
         assertThat(result.getErrorResult()).isEqualTo(BoardErrorResult.BOARD_NOT_FOUND);
     }
+
+    @Test
+    public void 게시글삭제실패_해당게시글ID와현재유저ID가다름() {
+        //given
+        final Long boardId = 1L;
+        final Long userId = 2L;
+        doReturn(Optional.of(board(1L))).when(boardRepository).findById(boardId);
+        //when
+        final BoardException result = assertThrows(BoardException.class, () -> boardService.delete(boardId,userId));
+        //then
+        assertThat(result.getErrorResult()).isEqualTo(BoardErrorResult.NO_PERMISSION);
+    }
+
     @Test
     public void 게시글삭제성공() {
         //given
         final Long boardId = 2L;
+        final Long userId = 1L;
         final Board board = board(2L);
         doReturn(Optional.of(board)).when(boardRepository).findById(boardId);
 
         //when
-        boardService.delete(2L);
+        boardService.delete(boardId,userId);
         //then
     }
 
