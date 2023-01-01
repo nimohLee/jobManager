@@ -33,7 +33,7 @@ public class BoardServiceTest {
     @Test
     public void 요청에null값이있어서추가실패() {
         //given
-        BoardRequest boardRequest = boardRequest();
+        BoardRequest boardRequest = BoardRequest.builder().build();
 
         //when
         final BoardException result = assertThrows(BoardException.class, ()->boardService.save(boardRequest));

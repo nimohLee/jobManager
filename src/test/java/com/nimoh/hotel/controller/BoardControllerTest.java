@@ -1,14 +1,13 @@
 package com.nimoh.hotel.controller;
 import com.google.gson.Gson;
 
-import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.board.BoardDetailResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.errors.BoardErrorResult;
 import com.nimoh.hotel.errors.BoardException;
 import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -141,6 +140,24 @@ public class BoardControllerTest {
         resultActions.andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void 게시글삭제실패_Service에서throw() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+        final Long boardId = 1L;
+        final Long userId = 1L;
+        doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
+                .when(boardService)
+                .save(boardId,userId);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER, "1L")
+                        .param("boardId","1")
+        );
+        //then
+        resultActions.andExpect(status().isInternalServerError());
+    }
 
     private BoardDetailResponse boardDetailResponse() throws ParseException {
 
