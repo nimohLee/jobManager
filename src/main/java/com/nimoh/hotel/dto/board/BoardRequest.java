@@ -9,6 +9,6 @@ public class BoardRequest {
 
     private String title;
     private String content;
-    private String writer;
+    private Long writer;
     private String category;
 }

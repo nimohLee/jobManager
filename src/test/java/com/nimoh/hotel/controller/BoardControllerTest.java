@@ -114,7 +114,7 @@ public class BoardControllerTest {
     public void 게시글등록성공() throws Exception{
         //given
         final String url = "/api/v1/board";
-        BoardRequest boardRequest = boardRequest("test","nimoh","hello","free");
+        BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
         given(boardService.save(any())).willReturn(boardDetailResponse());
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -147,14 +147,14 @@ public class BoardControllerTest {
         return BoardDetailResponse.builder()
                 .id(1L)
                 .title("test")
-                .writer("nimoh")
+                .writer(1L)
                 .content("hello")
                 .category("free")
                 .regDate(new Date())
                 .build();
     }
 
-    private BoardRequest boardRequest(final String title, final String writer, final String content, final String category) {
+    private BoardRequest boardRequest(final String title, final Long writer, final String content, final String category) {
         return BoardRequest.builder()
                 .title(title)
                 .content(content)

@@ -33,8 +33,8 @@ public class BoardServiceTest {
     @Test
     public void 요청에null값이있어서추가실패() {
         //given
-        BoardRequest boardRequest = BoardRequest.builder()
-                .content("hello").writer("nimoh").category("free").build();
+        BoardRequest boardRequest = boardRequest();
+
         //when
         final BoardException result = assertThrows(BoardException.class, ()->boardService.save(boardRequest));
 
@@ -46,7 +46,7 @@ public class BoardServiceTest {
     public void 게시글추가성공() {
         //given
 
-        doReturn(board()).when(boardRepository).save(ArgumentMatchers.any(Board.class));
+        doReturn(board(2L)).when(boardRepository).save(ArgumentMatchers.any(Board.class));
         //when
         BoardDetailResponse result = boardService.save(boardRequest());
         //then
@@ -65,12 +65,12 @@ public class BoardServiceTest {
     @Test
     public void 게시글삭제성공() {
         //given
-        final Long boardId = 1L;
-        final Board board = board();
+        final Long boardId = 2L;
+        final Board board = board(2L);
         doReturn(Optional.of(board)).when(boardRepository).findById(boardId);
 
         //when
-        boardService.delete(1L);
+        boardService.delete(2L);
         //then
     }
 
@@ -88,7 +88,7 @@ public class BoardServiceTest {
     public void 게시글하나조회성공(){
         //given
         final Long boardIdx = 1L;
-        doReturn(Optional.of(board())).when(boardRepository).findById(boardIdx);
+        doReturn(Optional.of(board(1L))).when(boardRepository).findById(boardIdx);
 
         //when
         BoardDetailResponse result = boardService.findById(boardIdx);
@@ -112,15 +112,15 @@ public class BoardServiceTest {
 
     public BoardRequest boardRequest(){
         return BoardRequest.builder()
-                .title("test").content("hello").writer("nimoh").category("free").build();
+                .title("test").content("hello").writer(1L).category("free").build();
     }
 
-    public Board board() {
+    public Board board(Long boardId) {
         return Board.builder()
-                .id(1L)
+                .id(boardId)
                 .title("test")
                 .content("hello")
-                .writer("nimoh")
+                .writer(1L)
                 .category("free")
                 .regDate(new Date())
                 .build();

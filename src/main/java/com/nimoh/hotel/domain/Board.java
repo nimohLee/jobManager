@@ -22,7 +22,7 @@ public class Board {
     private String title;
 
     @Column(name = "writer",nullable = false)
-    private String writer;
+    private Long writer;
 
     @Column(name = "content",nullable = false)
     private String content;

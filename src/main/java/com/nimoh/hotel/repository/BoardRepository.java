@@ -13,6 +13,6 @@ import java.util.List;
  * */
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    public List<Board> findAllByWriter(String writer);
+    public List<Board> findAllByWriter(Long writer);
     public List<Board> findAllByTitle(String title);
 }

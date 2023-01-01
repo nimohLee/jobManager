@@ -12,7 +12,7 @@ import java.util.Date;
 public class BoardListResponse {
     private final Long id;
     private final String title;
-    private final String writer;
+    private final Long writer;
     private final String content;
     private final String category;
     private final Date regDate;
