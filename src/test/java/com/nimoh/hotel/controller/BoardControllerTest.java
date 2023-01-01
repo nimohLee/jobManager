@@ -141,7 +141,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글삭제실패_Service에서throw() throws Exception{
+    public void 게시글삭제실패_삭제권한없음() throws Exception{
         //given
         final String url = "/api/v1/board/1";
         final Long boardId = 1L;
@@ -171,6 +171,51 @@ public class BoardControllerTest {
         );
         //then
         resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void 게시글수정실패_유저헤더없음() throws Exception {
+        //given
+        final String url = "/api/v1/board/1";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 게시글수정실패_수정권한없음() throws Exception {
+        //given
+        final String url = "/api/v1/board/1";
+        final Long userId = 1L;
+        lenient().doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
+                .when(boardService)
+                .save(boardRequest("test",1L,"hello","free"),userId);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+                        .header(USER_ID_HEADER, 1L)
+        );
+        //then
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void 게시글수정성공() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+        final Long userId = 1L;
+        //when
+        doReturn(boardDetailResponse()).when(boardService).save(any(BoardRequest.class));
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+                        .header(USER_ID_HEADER,userId)
+        );
+        //then
+        resultActions.andExpect(status().isCreated());
     }
 
     private BoardDetailResponse boardDetailResponse() throws ParseException {
