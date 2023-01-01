@@ -57,22 +57,13 @@ public class BoardController {
      * @param boardDto
      */
     @PostMapping("")
-    public ResponseEntity<Void> save(
+    public ResponseEntity<BoardDetailResponse> save(
             @RequestHeader(USER_ID_HEADER) final String userId,
             @RequestBody final BoardRequest boardRequest
 
     ) {
-
-        HttpStatus httpStatus;
-        BoardDetailResponse result;
-        try{
-            result = boardService.save(boardRequest);
-            httpStatus = HttpStatus.CREATED;
-            System.out.println(result);
-        }catch (Exception e){
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<>(httpStatus);
+            BoardDetailResponse result = boardService.save(boardRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     /**

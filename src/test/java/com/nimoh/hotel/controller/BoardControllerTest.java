@@ -1,11 +1,14 @@
 package com.nimoh.hotel.controller;
 import com.google.gson.Gson;
 
+import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.errors.BoardErrorResult;
 import com.nimoh.hotel.errors.BoardException;
 import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,15 +16,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -104,8 +114,18 @@ public class BoardControllerTest {
     public void 게시글등록성공() throws Exception{
         //given
         final String url = "/api/v1/board";
+        BoardRequest boardRequest = boardRequest("test","nimoh","hello","free");
+        given(boardService.save(any())).willReturn(boardDetailResponse());
         //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .header(USER_ID_HEADER, "1234")
+                        .content(gson.toJson(boardRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
         //then
+        resultActions.andExpect(status().isCreated());
+
     }
 
     @Test
@@ -122,7 +142,8 @@ public class BoardControllerTest {
     }
 
 
-    private BoardDetailResponse boardDetailResponse(){
+    private BoardDetailResponse boardDetailResponse() throws ParseException {
+
         return BoardDetailResponse.builder()
                 .id(1L)
                 .title("test")
@@ -130,6 +151,15 @@ public class BoardControllerTest {
                 .content("hello")
                 .category("free")
                 .regDate(new Date())
+                .build();
+    }
+
+    private BoardRequest boardRequest(final String title, final String writer, final String content, final String category) {
+        return BoardRequest.builder()
+                .title(title)
+                .content(content)
+                .writer(writer)
+                .category(category)
                 .build();
     }
 }
