@@ -114,7 +114,7 @@ public class BoardControllerTest {
         //given
         final String url = "/api/v1/board";
         BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
-        given(boardService.save(any(),1L)).willReturn(boardDetailResponse());
+        given(boardService.save(any(),any())).willReturn(boardDetailResponse());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
@@ -190,14 +190,15 @@ public class BoardControllerTest {
     public void 게시글수정실패_수정권한없음() throws Exception {
         //given
         final String url = "/api/v1/board/1";
-        final Long userId = 1L;
-        lenient().doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
+        doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
                 .when(boardService)
-                .save(boardRequest("test",1L,"hello","free"),userId);
+                .update(any(BoardRequest.class),any(),any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
                         .header(USER_ID_HEADER, 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(BoardRequest.builder().build()))
         );
         //then
         resultActions.andExpect(status().isForbidden());
@@ -208,11 +209,13 @@ public class BoardControllerTest {
         //given
         final String url = "/api/v1/board/1";
         final Long userId = 1L;
+        final BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
         //when
-        doReturn(boardDetailResponse()).when(boardService).save(any(BoardRequest.class),userId);
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
                         .header(USER_ID_HEADER,userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(boardRequest))
         );
         //then
         resultActions.andExpect(status().isCreated());

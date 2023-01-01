@@ -10,10 +10,7 @@ import com.nimoh.hotel.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -80,11 +77,39 @@ public class BoardServiceImpl implements BoardService{
         final Board savedBoard = boardRepository.save(board);
 
     return BoardDetailResponse.builder()
+            .id(savedBoard.getId())
             .title(savedBoard.getTitle())
             .content(savedBoard.getContent())
             .writer(savedBoard.getWriter())
             .category(savedBoard.getCategory())
             .build();
+    }
+
+    public BoardDetailResponse update(BoardRequest boardRequest,Long userId,Long boardId){
+        final Optional<Board> targetBoard = boardRepository.findById(boardId);
+        if(targetBoard.isEmpty()){
+            throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
+        }
+        if(!targetBoard.get().getWriter().equals(userId)){
+            throw new BoardException(BoardErrorResult.NO_PERMISSION);
+        }
+
+        Board board = Board.builder()
+                        .id(boardId)
+                                .writer(userId)
+                .title(boardRequest.getTitle())
+                                        .content(boardRequest.getContent())
+                                                .build();
+        Board result = boardRepository.save(board);
+
+        return BoardDetailResponse.builder()
+                .id(result.getId())
+                .title(result.getTitle())
+                .content(result.getContent())
+                .writer(result.getWriter())
+                .category(result.getCategory())
+                .build();
+
     }
 
     public boolean delete(Long boardId,Long userId) {
@@ -93,7 +118,7 @@ public class BoardServiceImpl implements BoardService{
         if (targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        if(targetBoard.get().getWriter() != userId){
+        if(!targetBoard.get().getWriter().equals(userId)){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
         boardRepository.deleteById(boardId);

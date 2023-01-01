@@ -70,10 +70,15 @@ public class BoardController {
      * 게시글 수정
      * @param board
      */
-//    @PutMapping("")
-//    public void update(Board board) {
-//        boardService.update(board);
-//    }
+    @PutMapping("/{boardId}")
+    public ResponseEntity<BoardDetailResponse> update(
+            @RequestHeader(USER_ID_HEADER) Long userId,
+            @PathVariable Long boardId,
+            @RequestBody BoardRequest boardRequest
+    ) {
+        BoardDetailResponse result = boardService.update(boardRequest,userId,boardId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
 
     /**
      * 게시글 삭제
