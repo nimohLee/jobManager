@@ -40,14 +40,21 @@ public class RoomServiceTest {
     }
 
     @Test
-    public void id로방하나조회성공() {
+    public void 방id로방하나조회성공() {
         //given
         doReturn(Optional.of(Room.builder().build())).when(roomRepository).findById(any());
         //when
         RoomDetailResponse result = roomService.findById(1L);
         //then
         assertThat(result).isNotNull();
-
     }
 
+    @Test
+    public void 방이름으로하나조회실패_해당방이름없음() {
+        //given
+        //when
+        RoomException result = assertThrows(RoomException.class, ()->roomService.findByName(any()));
+        //then
+        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.REQUEST_VALUE_INVALID);
+    }
 }

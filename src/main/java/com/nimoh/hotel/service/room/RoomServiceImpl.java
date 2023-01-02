@@ -37,6 +37,15 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
+    public List<RoomDetailResponse> findByName(String roomName) {
+        Optional<Room> findRooms = roomRepository.findByName(roomName);
+        if(findRooms.isEmpty()){
+            throw new RoomException(RoomErrorResult.REQUEST_VALUE_INVALID);
+        }
+        return null;
+    }
+
+    @Override
     public List<Room> findAll() {
         return null;
     }
