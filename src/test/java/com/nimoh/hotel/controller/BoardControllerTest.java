@@ -7,7 +7,6 @@ import com.nimoh.hotel.errors.BoardErrorResult;
 import com.nimoh.hotel.errors.BoardException;
 import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
