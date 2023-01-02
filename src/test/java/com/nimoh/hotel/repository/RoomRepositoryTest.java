@@ -52,7 +52,7 @@ public class RoomRepositoryTest {
         Room room = room();
         //when
         roomRepository.save(room);
-        Optional<Room> result = roomRepository.findByName("Sweet");
+        Optional<Room> result = roomRepository.findByNameContainingIgnoreCase("Sweet");
         //then
         assertThat(result.isPresent()).isTrue();
     }
