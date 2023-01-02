@@ -54,7 +54,7 @@ public class RoomServiceTest {
         //when
         RoomException result = assertThrows(RoomException.class, ()->roomService.findByName(any()));
         //then
-        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.REQUEST_VALUE_INVALID);
+        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
     }
 
     @Test

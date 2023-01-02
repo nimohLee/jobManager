@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService{
     public List<RoomDetailResponse> findByName(String roomName) {
         List<Room> findRooms = roomRepository.findByNameContainingIgnoreCase(roomName);
         if(findRooms.isEmpty()){
-            throw new RoomException(RoomErrorResult.REQUEST_VALUE_INVALID);
+            throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
         return findRooms.stream().map(
                 v -> RoomDetailResponse.builder()

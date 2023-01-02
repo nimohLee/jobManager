@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum RoomErrorResult {
-    REQUEST_VALUE_INVALID(HttpStatus.BAD_REQUEST,"request value invalid")
+    REQUEST_VALUE_INVALID(HttpStatus.BAD_REQUEST,"request value invalid"),
+    ROOM_NOT_FOUND(HttpStatus.NO_CONTENT,"ROOM_NOT_FOUND")
     ;
 
     private final HttpStatus status;
