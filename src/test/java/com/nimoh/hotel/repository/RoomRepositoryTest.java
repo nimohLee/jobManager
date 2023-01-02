@@ -52,9 +52,9 @@ public class RoomRepositoryTest {
         Room room = room();
         //when
         roomRepository.save(room);
-        Optional<Room> result = roomRepository.findByNameContainingIgnoreCase("Sweet");
+        List<Room> result = roomRepository.findByNameContainingIgnoreCase("swee"); // containing 메서드(%Like%)와 IgnoreCase를 테스트하기 위해 약간 Sweet을 sweet으로 조회
         //then
-        assertThat(result.isPresent()).isTrue();
+        assertThat(result.size()).isGreaterThan(0);
     }
 
     @Test

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImpl implements RoomService{
@@ -38,11 +39,19 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public List<RoomDetailResponse> findByName(String roomName) {
-        Optional<Room> findRooms = roomRepository.findByNameContainingIgnoreCase(roomName);
+        List<Room> findRooms = roomRepository.findByNameContainingIgnoreCase(roomName);
         if(findRooms.isEmpty()){
             throw new RoomException(RoomErrorResult.REQUEST_VALUE_INVALID);
         }
-        return null;
+        return findRooms.stream().map(
+                v -> RoomDetailResponse.builder()
+                        .name(v.getName())
+                        .standardPeople(v.getStandardPeople())
+                        .maxPeople(v.getMaxPeople())
+                        .description(v.getDescription())
+                        .countOfRooms(v.getCountOfRooms())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override

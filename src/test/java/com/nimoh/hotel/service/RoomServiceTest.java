@@ -5,16 +5,15 @@ import com.nimoh.hotel.dto.room.RoomDetailResponse;
 import com.nimoh.hotel.errors.RoomErrorResult;
 import com.nimoh.hotel.errors.RoomException;
 import com.nimoh.hotel.repository.RoomRepository;
-import com.nimoh.hotel.service.room.RoomService;
 import com.nimoh.hotel.service.room.RoomServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -50,11 +49,35 @@ public class RoomServiceTest {
     }
 
     @Test
-    public void 방이름으로하나조회실패_해당방이름없음() {
+    public void 방이름으로조회실패_해당방이름없음() {
         //given
         //when
         RoomException result = assertThrows(RoomException.class, ()->roomService.findByName(any()));
         //then
         assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.REQUEST_VALUE_INVALID);
+    }
+
+    @Test
+    public void 방이름으로하나조회성공() {
+        //given
+        List<Room> rooms = Arrays.asList(
+                room()
+        );
+        doReturn(rooms).when(roomRepository).findByNameContainingIgnoreCase(any());
+        //when
+        List<RoomDetailResponse> result = roomService.findByName("swee");
+        //then
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    private Room room() {
+        return Room.builder()
+                .id(1L)
+                .name("sweet")
+                .standardPeople(2)
+                .maxPeople(4)
+                .description("description")
+                .countOfRooms(5)
+                .build();
     }
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    public Optional<Room> findByNameContainingIgnoreCase(String roomName);
+    public List<Room> findByNameContainingIgnoreCase(String roomName);
 
     public List<Room> findByStandardPeople(Integer standardPeople);
 
