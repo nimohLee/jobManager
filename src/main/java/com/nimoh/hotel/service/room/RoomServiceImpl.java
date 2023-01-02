@@ -1,6 +1,7 @@
 package com.nimoh.hotel.service.room;
 
 import com.nimoh.hotel.domain.Room;
+import com.nimoh.hotel.dto.room.RoomDetailResponse;
 import com.nimoh.hotel.errors.RoomErrorResult;
 import com.nimoh.hotel.errors.RoomException;
 import com.nimoh.hotel.repository.RoomRepository;
@@ -21,13 +22,18 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public Room findById(Long roomId)
-    {
+    public RoomDetailResponse findById(Long roomId) {
         Optional<Room> findRooms = roomRepository.findById(roomId);
         if(findRooms.isEmpty()){
             throw new RoomException(RoomErrorResult.REQUEST_VALUE_INVALID);
         }
-        return null;
+        return RoomDetailResponse.builder()
+                .name(findRooms.get().getName())
+                .standardPeople(findRooms.get().getStandardPeople())
+                .maxPeople(findRooms.get().getMaxPeople())
+                .countOfRooms(findRooms.get().getCountOfRooms())
+                .description(findRooms.get().getDescription())
+                .build();
     }
 
     @Override
