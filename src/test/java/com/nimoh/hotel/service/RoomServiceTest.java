@@ -1,5 +1,8 @@
 package com.nimoh.hotel.service;
 
+import com.nimoh.hotel.domain.Room;
+import com.nimoh.hotel.errors.RoomErrorResult;
+import com.nimoh.hotel.errors.RoomException;
 import com.nimoh.hotel.repository.RoomRepository;
 import com.nimoh.hotel.service.room.RoomService;
 import com.nimoh.hotel.service.room.RoomServiceImpl;
@@ -28,7 +31,7 @@ public class RoomServiceTest {
     public void 방하나조회실패_방id에해당하는방이없음() {
         //given
         //when
-        final RoomException result = assertThrows(RoomException.class, () -> roomService.findById(any()));
+        final RoomException result = assertThrows(RoomException.class, () -> roomService.findById(2L));
         //then
         assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.REQUEST_VALUE_INVALID);
     }
