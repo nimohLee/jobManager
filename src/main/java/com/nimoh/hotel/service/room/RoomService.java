@@ -8,7 +8,7 @@ import java.util.List;
 public interface RoomService {
     public RoomDetailResponse findById(Long roomId);
 
-    public List<Room> findAll();
+    public List<RoomDetailResponse> findAll();
 
     public List<RoomDetailResponse> findByName(String roomName);
     public List<RoomDetailResponse> findByMaxPeople(int maxPeople);

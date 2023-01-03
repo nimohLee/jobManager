@@ -120,8 +120,28 @@ public class RoomServiceTest {
         assertThat(result.size()).isEqualTo(2);
     }
 
-
-
+    @Test
+    public void 모든방조회실패_방이하나도없음() {
+        //given
+        //when
+        RoomException result = assertThrows(RoomException.class, ()->roomService.findAll());
+        //then
+        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
+    }
+    @Test
+    public void 모든방조회성공() {
+        //given
+        final List<Room> rooms = Arrays.asList(
+                Room.builder().build(),
+                Room.builder().build(),
+                Room.builder().build()
+        );
+        doReturn(rooms).when(roomRepository).findAll();
+        //when
+        final List<RoomDetailResponse> result = roomService.findAll();
+        //then
+        assertThat(result.size()).isEqualTo(3);
+    }
     private Room room() {
         return Room.builder()
                 .id(1L)
