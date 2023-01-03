@@ -79,6 +79,21 @@ public class RoomServiceTest {
         assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
     }
 
+    @Test
+    public void 최대인원으로조회성공() {
+        //given
+        final int maxPeople = 2;
+        final List<Room> rooms = Arrays.asList(
+                Room.builder().id(1L).name("sweet").maxPeople(maxPeople).standardPeople(3).countOfRooms(4).description("description").build(),
+                Room.builder()
+                        .id(2L).name("rose").maxPeople(maxPeople).standardPeople(3).countOfRooms(4).description("description").build()
+        );
+        doReturn(rooms).when(roomRepository).findByMaxPeople(maxPeople);
+        //when
+        final List<RoomDetailResponse> result = roomService.findByMaxPeople(maxPeople);
+        //then
+        assertThat(result.size()).isEqualTo(2);
+    }
 
     private Room room() {
         return Room.builder()

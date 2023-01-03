@@ -59,7 +59,15 @@ public class RoomServiceImpl implements RoomService{
         if (findRooms.isEmpty()) {
             throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
-        return null;
+        return findRooms.stream().map(
+                v -> RoomDetailResponse.builder()
+                        .name(v.getName())
+                        .countOfRooms(v.getCountOfRooms())
+                        .standardPeople(v.getStandardPeople())
+                        .maxPeople(v.getMaxPeople())
+                        .description(v.getDescription())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
     @Override
