@@ -72,7 +72,7 @@ public class RoomServiceTest {
     @Test
     public void 최대인원으로조회실패_해당방이없음() {
         //given
-        final int maxPeople = 10;
+        final String maxPeople = "10";
         //when
         RoomException result = assertThrows(RoomException.class, ()-> roomService.findByMaxPeople(maxPeople));
         //then
@@ -82,13 +82,13 @@ public class RoomServiceTest {
     @Test
     public void 최대인원으로조회성공() {
         //given
-        final int maxPeople = 2;
+        final String maxPeople = "2";
         final List<Room> rooms = Arrays.asList(
-                Room.builder().id(1L).name("sweet").maxPeople(maxPeople).standardPeople(3).countOfRooms(4).description("description").build(),
+                Room.builder().id(1L).name("sweet").maxPeople(2).standardPeople(3).countOfRooms(4).description("description").build(),
                 Room.builder()
-                        .id(2L).name("rose").maxPeople(maxPeople).standardPeople(3).countOfRooms(4).description("description").build()
+                        .id(2L).name("rose").maxPeople(2).standardPeople(3).countOfRooms(4).description("description").build()
         );
-        doReturn(rooms).when(roomRepository).findByMaxPeople(maxPeople);
+        doReturn(rooms).when(roomRepository).findByMaxPeople(2);
         //when
         final List<RoomDetailResponse> result = roomService.findByMaxPeople(maxPeople);
         //then
@@ -99,7 +99,7 @@ public class RoomServiceTest {
     public void 기준인원으로조회실패_해당방이없음() {
         //given
         //when
-        RoomException result = assertThrows(RoomException.class, ()-> roomService.findByStandardPeople(10));
+        RoomException result = assertThrows(RoomException.class, ()-> roomService.findByStandardPeople("10"));
         //then
         assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
     }
@@ -115,7 +115,7 @@ public class RoomServiceTest {
         );
         doReturn(rooms).when(roomRepository).findByStandardPeople(standardPeople);
         //when
-        final List<RoomDetailResponse> result = roomService.findByStandardPeople(standardPeople);
+        final List<RoomDetailResponse> result = roomService.findByStandardPeople("2");
         //then
         assertThat(result.size()).isEqualTo(2);
     }

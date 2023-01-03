@@ -11,5 +11,7 @@ public interface RoomService {
     public List<RoomDetailResponse> findAll();
 
     public List<RoomDetailResponse> findByName(String roomName);
-    public List<RoomDetailResponse> findByMaxPeople(int maxPeople);
+    public List<RoomDetailResponse> findByMaxPeople(String maxPeople);
+
+    List<RoomDetailResponse> findByStandardPeople(String StandardPeople);
 }

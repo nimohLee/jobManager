@@ -46,16 +46,16 @@ public class RoomServiceImpl implements RoomService{
         return getRoomDetailResponses(findRooms);
     }
 
-    public List<RoomDetailResponse> findByMaxPeople(int maxPeople) {
-        List<Room> findRooms = roomRepository.findByMaxPeople(maxPeople);
+    public List<RoomDetailResponse> findByMaxPeople(String maxPeople) {
+        List<Room> findRooms = roomRepository.findByMaxPeople(Integer.parseInt(maxPeople));
         if (findRooms.isEmpty()) {
             throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
         return getRoomDetailResponses(findRooms);
     }
 
-    public List<RoomDetailResponse> findByStandardPeople(int standardPeople) {
-        List<Room> findRooms = roomRepository.findByStandardPeople(standardPeople);
+    public List<RoomDetailResponse> findByStandardPeople(String standardPeople) {
+        List<Room> findRooms = roomRepository.findByStandardPeople(Integer.parseInt(standardPeople));
         if (findRooms.isEmpty()) {
             throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
