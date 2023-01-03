@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 public class RoomServiceTest {
@@ -73,8 +72,9 @@ public class RoomServiceTest {
     @Test
     public void 최대인원으로조회실패_해당방이없음() {
         //given
+        final int maxPeople = 10;
         //when
-        RoomException result = assertThrows(RoomException.class, ()-> roomService.findByMaxPeople(10));
+        RoomException result = assertThrows(RoomException.class, ()-> roomService.findByMaxPeople(maxPeople));
         //then
         assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
     }
@@ -94,6 +94,33 @@ public class RoomServiceTest {
         //then
         assertThat(result.size()).isEqualTo(2);
     }
+
+    @Test
+    public void 기준인원으로조회실패_해당방이없음() {
+        //given
+        //when
+        RoomException result = assertThrows(RoomException.class, ()-> roomService.findByStandardPeople(10));
+        //then
+        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
+    }
+
+    @Test
+    public void 기준인원으로조회성공() {
+        //given
+        final int standardPeople = 2;
+        final List<Room> rooms = Arrays.asList(
+                Room.builder().id(1L).name("sweet").maxPeople(4).standardPeople(standardPeople).countOfRooms(4).description("description").build(),
+                Room.builder()
+                        .id(2L).name("rose").maxPeople(4).standardPeople(standardPeople).countOfRooms(4).description("description").build()
+        );
+        doReturn(rooms).when(roomRepository).findByStandardPeople(standardPeople);
+        //when
+        final List<RoomDetailResponse> result = roomService.findByStandardPeople(standardPeople);
+        //then
+        assertThat(result.size()).isEqualTo(2);
+    }
+
+
 
     private Room room() {
         return Room.builder()

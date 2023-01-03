@@ -43,15 +43,7 @@ public class RoomServiceImpl implements RoomService{
         if(findRooms.isEmpty()){
             throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
-        return findRooms.stream().map(
-                v -> RoomDetailResponse.builder()
-                        .name(v.getName())
-                        .standardPeople(v.getStandardPeople())
-                        .maxPeople(v.getMaxPeople())
-                        .description(v.getDescription())
-                        .countOfRooms(v.getCountOfRooms())
-                        .build())
-                .collect(Collectors.toList());
+        return getRoomDetailResponses(findRooms);
     }
 
     public List<RoomDetailResponse> findByMaxPeople(int maxPeople) {
@@ -59,6 +51,18 @@ public class RoomServiceImpl implements RoomService{
         if (findRooms.isEmpty()) {
             throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
+        return getRoomDetailResponses(findRooms);
+    }
+
+    public List<RoomDetailResponse> findByStandardPeople(int standardPeople) {
+        List<Room> findRooms = roomRepository.findByStandardPeople(standardPeople);
+        if (findRooms.isEmpty()) {
+            throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
+        }
+        return getRoomDetailResponses(findRooms);
+    }
+
+    private static List<RoomDetailResponse> getRoomDetailResponses(List<Room> findRooms) {
         return findRooms.stream().map(
                 v -> RoomDetailResponse.builder()
                         .name(v.getName())
