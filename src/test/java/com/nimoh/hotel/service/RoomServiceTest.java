@@ -35,7 +35,7 @@ public class RoomServiceTest {
         //when
         final RoomException result = assertThrows(RoomException.class, () -> roomService.findById(2L));
         //then
-        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.REQUEST_VALUE_INVALID);
+        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
     }
 
     @Test
@@ -69,6 +69,16 @@ public class RoomServiceTest {
         //then
         assertThat(result.size()).isEqualTo(1);
     }
+
+    @Test
+    public void 최대인원으로조회실패_해당방이없음() {
+        //given
+        //when
+        RoomException result = assertThrows(RoomException.class, ()-> roomService.findByMaxPeople(10));
+        //then
+        assertThat(result.getErrorResult()).isEqualTo(RoomErrorResult.ROOM_NOT_FOUND);
+    }
+
 
     private Room room() {
         return Room.builder()

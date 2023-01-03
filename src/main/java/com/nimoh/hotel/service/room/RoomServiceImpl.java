@@ -26,7 +26,7 @@ public class RoomServiceImpl implements RoomService{
     public RoomDetailResponse findById(Long roomId) {
         Optional<Room> findRooms = roomRepository.findById(roomId);
         if(findRooms.isEmpty()){
-            throw new RoomException(RoomErrorResult.REQUEST_VALUE_INVALID);
+            throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
         }
         return RoomDetailResponse.builder()
                 .name(findRooms.get().getName())
@@ -52,6 +52,14 @@ public class RoomServiceImpl implements RoomService{
                         .countOfRooms(v.getCountOfRooms())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public List<RoomDetailResponse> findByMaxPeople(int maxPeople) {
+        List<Room> findRooms = roomRepository.findByMaxPeople(maxPeople);
+        if (findRooms.isEmpty()) {
+            throw new RoomException(RoomErrorResult.ROOM_NOT_FOUND);
+        }
+        return null;
     }
 
     @Override
