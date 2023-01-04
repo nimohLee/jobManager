@@ -5,15 +5,12 @@ import com.nimoh.hotel.dto.room.RoomDetailResponse;
 import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.errors.RoomErrorResult;
 import com.nimoh.hotel.errors.RoomException;
-import com.nimoh.hotel.service.board.BoardServiceImpl;
 import com.nimoh.hotel.service.room.RoomServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,13 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.MultiValueMapAdapter;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,7 +54,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    public void 방조회실패_service에서예상치못한런타임에러() throws Exception {
+    public void 방id로조회실패_service에서런타임에러throw() throws Exception {
         //given
         final String url = "/api/v1/room/1";
         doThrow(new RuntimeException()).when(roomService).findById(1L);
