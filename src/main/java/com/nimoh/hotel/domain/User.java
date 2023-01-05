@@ -1,17 +1,21 @@
 package com.nimoh.hotel.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
+import lombok.*;
+
 
 import javax.persistence.*;
-import java.util.Collection;
+
 
 @Entity
 @Data
-public class User implements UserDetails {
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Table(name="users")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -20,43 +24,12 @@ public class User implements UserDetails {
 
     private String name;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private String email;
 
     public Long getId() {
         return id;
-    }
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public String getUserId(){
-        return this.uid;
-    }
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     public void setId(Long id) {

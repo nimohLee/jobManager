@@ -11,13 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/user")
-public class UserController {
-    @PostMapping("")
-    public ResponseEntity<String> signUp(
-            @Valid @RequestBody UserSignUpRequest userSignUpRequest
-    ) {
+@RequestMapping("/api/v1/validation")
+public class ValidationController {
 
-        return ResponseEntity.status(HttpStatus.OK).body(userSignUpRequest.toString());
-    }
+
 }

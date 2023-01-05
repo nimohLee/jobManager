@@ -16,7 +16,7 @@ public class SessionManagerTest {
     void 세션생성성공(){
 
         MockHttpServletResponse response = new MockHttpServletResponse();
-        User user = new User();
+        User user = User.builder().build();
         sessionManager.createSession(user,response);
 
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -30,7 +30,7 @@ public class SessionManagerTest {
     void 세션만료성공(){
 
         MockHttpServletResponse response = new MockHttpServletResponse();
-        User user = new User();
+        User user =User.builder().build();
         sessionManager.createSession(user,response);
 
         MockHttpServletRequest request = new MockHttpServletRequest();
