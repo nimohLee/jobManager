@@ -27,7 +27,23 @@ public class UserServiceImpl implements UserService {
         if (duplicateResult.isPresent()){
             throw new UserException(UserErrorResult.DUPLICATED_USER_ID);
         }
+        User signUpUser = User.builder()
+                .uid(request.getUid())
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .build();
+        User result = userRepository.save(signUpUser);
+        return UserResponse.builder()
+                .uid(result.getUid())
+                .name(result.getName())
+                .email(result.getEmail())
+                .build();
+    }
 
-        return null;
+    @Override
+    public boolean deleteById(Long userId) {
+        userRepository.deleteById(userId);
+        return true;
     }
 }

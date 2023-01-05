@@ -1,6 +1,8 @@
 package com.nimoh.hotel.service;
 
+import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.domain.User;
+import com.nimoh.hotel.dto.user.UserResponse;
 import com.nimoh.hotel.dto.user.UserSignUpRequest;
 import com.nimoh.hotel.errors.RoomException;
 import com.nimoh.hotel.errors.UserErrorResult;
@@ -11,6 +13,7 @@ import com.nimoh.hotel.service.user.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +23,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +48,40 @@ public class UserServiceTest {
         //then
 
         assertThat(result.getErrorResult()).isEqualTo(UserErrorResult.DUPLICATED_USER_ID);
+    }
+
+    @Test
+    public void 회원가입성공() {
+        //given
+        UserSignUpRequest request = UserSignUpRequest.builder()
+                .uid("name")
+                .name("니모")
+                .password("12345678910a")
+                .email("nimoh@email.com")
+                .build();
+        User user = User.builder()
+                .id(1L)
+                .uid("nimoh")
+                .email("nimoh@email.com")
+                .name("니모")
+                .password("123456789a")
+                .build();
+        doReturn(user).when(userRepository).save(ArgumentMatchers.any(User.class));
+
+        //when
+        UserResponse result = userService.signUp(request);
+        //then
+        assertThat(result.getUid()).isEqualTo("nimoh");
+    }
+
+    @Test
+    public void 회원탈퇴성공() {
+        //given
+        doNothing().when(userRepository).deleteById(1L);
+        //when
+        boolean result = userService.deleteById(1L);
+        //then
+        assertThat(result).isTrue();
     }
 
 }
