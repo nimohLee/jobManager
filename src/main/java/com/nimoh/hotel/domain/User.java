@@ -41,6 +41,12 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isCredentialsNonExpired() {
