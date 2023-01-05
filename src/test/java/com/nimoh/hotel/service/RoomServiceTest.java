@@ -2,8 +2,8 @@ package com.nimoh.hotel.service;
 
 import com.nimoh.hotel.domain.Room;
 import com.nimoh.hotel.dto.room.RoomDetailResponse;
-import com.nimoh.hotel.errors.RoomErrorResult;
-import com.nimoh.hotel.errors.RoomException;
+import com.nimoh.hotel.errors.room.RoomErrorResult;
+import com.nimoh.hotel.errors.room.RoomException;
 import com.nimoh.hotel.repository.RoomRepository;
 import com.nimoh.hotel.service.room.RoomServiceImpl;
 import org.junit.jupiter.api.Test;

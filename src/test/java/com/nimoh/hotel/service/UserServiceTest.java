@@ -1,16 +1,12 @@
 package com.nimoh.hotel.service;
 
-import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.domain.User;
 import com.nimoh.hotel.dto.user.UserResponse;
 import com.nimoh.hotel.dto.user.UserSignUpRequest;
-import com.nimoh.hotel.errors.RoomException;
-import com.nimoh.hotel.errors.UserErrorResult;
-import com.nimoh.hotel.errors.UserException;
+import com.nimoh.hotel.errors.user.UserErrorResult;
+import com.nimoh.hotel.errors.user.UserException;
 import com.nimoh.hotel.repository.UserRepository;
-import com.nimoh.hotel.service.user.UserService;
 import com.nimoh.hotel.service.user.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -21,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;

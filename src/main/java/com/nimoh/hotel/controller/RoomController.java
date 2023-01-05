@@ -1,9 +1,7 @@
 package com.nimoh.hotel.controller;
 
-import com.nimoh.hotel.domain.Room;
 import com.nimoh.hotel.dto.room.RoomDetailResponse;
-import com.nimoh.hotel.errors.RoomErrorResult;
-import com.nimoh.hotel.errors.RoomException;
+import com.nimoh.hotel.errors.room.RoomException;
 import com.nimoh.hotel.service.room.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

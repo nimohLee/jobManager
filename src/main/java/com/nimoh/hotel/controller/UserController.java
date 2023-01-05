@@ -1,7 +1,7 @@
 package com.nimoh.hotel.controller;
 
 import com.nimoh.hotel.dto.user.UserSignUpRequest;
-import com.nimoh.hotel.errors.UserException;
+import com.nimoh.hotel.errors.user.UserException;
 import com.nimoh.hotel.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

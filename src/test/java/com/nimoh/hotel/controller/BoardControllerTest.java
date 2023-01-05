@@ -3,8 +3,8 @@ import com.google.gson.Gson;
 
 import com.nimoh.hotel.dto.board.BoardDetailResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
-import com.nimoh.hotel.errors.BoardErrorResult;
-import com.nimoh.hotel.errors.BoardException;
+import com.nimoh.hotel.errors.board.BoardErrorResult;
+import com.nimoh.hotel.errors.board.BoardException;
 import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,15 +20,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Locale;
 
 import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
