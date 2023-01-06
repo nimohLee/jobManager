@@ -1,15 +1,18 @@
 package com.nimoh.hotel.service.board;
 
 import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.BoardDto;
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BoardService {
 
-    List<Board> findAll();
-    Optional<Board> findById(Long boardIdx);
+    List<BoardDetailResponse> findAll();
+    BoardDetailResponse findById(Long boardIdx);
+    BoardDetailResponse save(BoardRequest boardRequest,Long userId);
+    BoardDetailResponse update(BoardRequest boardRequest, Long userId,Long boardId);
 
-    Board save(BoardDto boardDto);
+    boolean delete(Long boardId,Long userId);
 }

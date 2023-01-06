@@ -1,21 +1,25 @@
 package com.nimoh.hotel.controller;
 
+import com.nimoh.hotel.constants.Headers;
 import com.nimoh.hotel.domain.Board;
 import com.nimoh.hotel.dto.BoardDto;
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
+
+import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
 
 /**
  * 게시판 컨트롤러
  * @author nimoh
  */
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/v1/board")
 public class BoardController {
 
     private final BoardService boardService;
@@ -30,8 +34,8 @@ public class BoardController {
      * @return
      */
     @GetMapping("")
-    public List<Board> getList() {
-        return boardService.findAll();
+    public ResponseEntity<List<BoardDetailResponse>> getList() {
+        return ResponseEntity.status(HttpStatus.OK).body(boardService.findAll());
     }
 
     /**
@@ -41,14 +45,11 @@ public class BoardController {
      * @return
      */
     @GetMapping("/{boardIdx}")
-    public ResponseEntity<Optional<Board>> get(@PathVariable Long boardIdx) {
-        try{
-            return ResponseEntity.status(HttpStatus.OK).
-                    body(boardService.findById(boardIdx));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<BoardDetailResponse> get(
+            @PathVariable Long boardIdx
+    ) {
+        return ResponseEntity.status(HttpStatus.OK)
                     .body(boardService.findById(boardIdx));
-        }
     }
 
     /**
@@ -56,34 +57,39 @@ public class BoardController {
      * @param boardDto
      */
     @PostMapping("")
-    public ResponseEntity<Void> save(BoardDto boardDto) {
-        HttpStatus httpStatus;
-        Board result;
-        try{
-            result = boardService.save(boardDto);
-            httpStatus = HttpStatus.CREATED;
-            System.out.println(result);
-        }catch (Exception e){
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<>(httpStatus);
+    public ResponseEntity<BoardDetailResponse> save(
+            @RequestHeader(USER_ID_HEADER) final Long userId,
+            @RequestBody final BoardRequest boardRequest
+
+    ) {
+            BoardDetailResponse result = boardService.save(boardRequest,userId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     /**
      * 게시글 수정
      * @param board
      */
-//    @PutMapping("")
-//    public void update(Board board) {
-//        boardService.update(board);
-//    }
+    @PutMapping("/{boardId}")
+    public ResponseEntity<BoardDetailResponse> update(
+            @RequestHeader(USER_ID_HEADER) Long userId,
+            @PathVariable Long boardId,
+            @RequestBody BoardRequest boardRequest
+    ) {
+        BoardDetailResponse result = boardService.update(boardRequest,userId,boardId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
 
     /**
      * 게시글 삭제
      * @param boardIdx
      */
-//    @DeleteMapping("/{boardIdx}")
-//    public void delete(@PathVariable int boardIdx) {
-//        boardService.delete(boardIdx);
-//    }
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> delete(
+            @RequestHeader(USER_ID_HEADER) final Long userId,
+            @PathVariable Long boardId
+    ) {
+        boardService.delete(boardId,userId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -1,134 +1,239 @@
 package com.nimoh.hotel.controller;
 import com.google.gson.Gson;
-import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.BoardDto;
 
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
+import com.nimoh.hotel.errors.board.BoardErrorResult;
+import com.nimoh.hotel.errors.board.BoardException;
+import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
-import static org.hamcrest.Matchers.notNullValue;
+
+import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(BoardController.class)
+@ExtendWith(MockitoExtension.class)
 public class BoardControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
+    private Gson gson;
 
-    @MockBean
+    @InjectMocks
+    private BoardController boardController;
+    @Mock
     private BoardServiceImpl boardService;
 
-
-    private final BoardDto boardDto = BoardDto.builder()
-                        .title("title")
-                        .writer("nimoh")
-                        .content("hello")
-                        .category("free")
-                        .build();
-    private Board board;
     @BeforeEach
-    void before() {
-        final Board board = Board.builder()
+    public void init() {
+        gson = new Gson();
+        mockMvc = MockMvcBuilders.standaloneSetup(boardController).setControllerAdvice(new GlobalExceptionHandler()).build();
+    }
+
+    @Test
+    public void 게시글하나조회실패_해당게시글없음() throws Exception {
+        //given
+        final String url = "/api/v1/board/-1";
+
+        doThrow(new BoardException(BoardErrorResult.BOARD_NOT_FOUND)).when(boardService).findById(-1L);
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .header(USER_ID_HEADER,"123")
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 게시글하나조회성공() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+        doReturn(boardDetailResponse()).when(boardService).findById(1L);
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+        );
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void 게시글모두조회성공() throws Exception {
+        //given
+        final String url = "/api/v1/board";
+        doReturn(Arrays.asList(
+                BoardDetailResponse.builder().build(),
+                BoardDetailResponse.builder().build(),
+                BoardDetailResponse.builder().build()
+        )).when(boardService).findAll();
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+        );
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void 게시글등록실패_유저헤더없음() throws Exception {
+        //given
+        final String url = "/api/v1/board/";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 게시글등록성공() throws Exception{
+        //given
+        final String url = "/api/v1/board";
+        BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
+        given(boardService.save(any(),any())).willReturn(boardDetailResponse());
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .header(USER_ID_HEADER, "1234")
+                        .content(gson.toJson(boardRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+        //then
+        resultActions.andExpect(status().isCreated());
+
+    }
+
+    @Test
+    public void 게시글삭제실패_유저헤더없음() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 게시글삭제실패_삭제권한없음() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+        final Long boardId = 1L;
+        final Long userId = 1L;
+        lenient().doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
+                .when(boardService)
+                .delete(boardId,userId);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER, 1L)
+        );
+        //then
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void 게시글삭제성공() throws Exception {
+        //given
+        String url = "/api/v1/board/1";
+        doReturn(true).when(boardService).delete(1L,1L);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER,1L)
+
+        );
+        //then
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void 게시글수정실패_유저헤더없음() throws Exception {
+        //given
+        final String url = "/api/v1/board/1";
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 게시글수정실패_수정권한없음() throws Exception {
+        //given
+        final String url = "/api/v1/board/1";
+        doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
+                .when(boardService)
+                .update(any(BoardRequest.class),any(),any());
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+                        .header(USER_ID_HEADER, 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(BoardRequest.builder().build()))
+        );
+        //then
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void 게시글수정성공() throws Exception{
+        //given
+        final String url = "/api/v1/board/1";
+        final Long userId = 1L;
+        final BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+                        .header(USER_ID_HEADER,userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(boardRequest))
+        );
+        //then
+        resultActions.andExpect(status().isCreated());
+    }
+
+    private BoardDetailResponse boardDetailResponse() throws ParseException {
+
+        return BoardDetailResponse.builder()
                 .id(1L)
                 .title("test")
-                .content("12345")
-                .writer("nimoh")
+                .writer(1L)
+                .content("hello")
                 .category("free")
                 .regDate(new Date())
                 .build();
     }
 
-    @Test
-    @DisplayName("게시글 하나만 가져오기 성공")
-    void getBoardList() throws Exception{
-        //given
-        given(boardService.findById(1L)).willReturn(Optional.ofNullable(board));
-
-        //when
-        Long boardIdx = 1L;
-        //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/board/"+boardIdx))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title",notNullValue()))
-                .andExpect(jsonPath("$.writer",notNullValue()))
-                .andExpect(jsonPath("$.content",notNullValue()))
-                .andExpect(jsonPath("$.category",notNullValue()));
-
-        verify(boardService).findById(1L);
-    }
-
-    @Test
-    @DisplayName("게시글 하나만 가져오기 실패")
-    void getBoardListFail() throws Exception{
-
-        //given
-        final Board board = Board.builder()
-                .id(1L)
-                .title("test")
-                .content("12345")
-                .writer("nimoh")
-                .category("free")
-                .regDate(new Date())
+    private BoardRequest boardRequest(final String title, final Long writer, final String content, final String category) {
+        return BoardRequest.builder()
+                .title(title)
+                .content(content)
+                .writer(writer)
+                .category(category)
                 .build();
-
-        /* error 발생 가정하기 */
-        given(boardService.findById(0L)).willThrow();
-
-        //when
-        Long boardIdx = 0L;
-        //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/board/"+boardIdx))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    @DisplayName("Board 생성 성공 테스트")
-    void createBoardSuccess() throws Exception {
-        //given
-        Mockito.when(boardService.save(boardDto)).thenReturn(board);
-        //when
-        Gson gson = new Gson();
-        String content = gson.toJson(boardDto);
-        //then
-        mockMvc.perform(
-                post("/board")
-                        .content(content)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    @DisplayName("Board 생성 실패 테스트")
-    void createBoardFail() throws Exception {
-        //given
-        given(boardService.save(boardDto)).willThrow();
-        //when
-        Gson gson = new Gson();
-        String content = gson.toJson(boardDto);
-        //then
-        mockMvc.perform(
-                        post("/board")
-                                .content(content)
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError());
     }
 }

@@ -1,5 +1,7 @@
 package com.nimoh.hotel.errors;
 
+import com.nimoh.hotel.errors.board.BoardErrorResult;
+import com.nimoh.hotel.errors.board.BoardException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

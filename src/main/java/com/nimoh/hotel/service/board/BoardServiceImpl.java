@@ -1,14 +1,16 @@
 package com.nimoh.hotel.service.board;
 
 import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.BoardDto;
+import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardRequest;
+import com.nimoh.hotel.errors.board.BoardErrorResult;
+import com.nimoh.hotel.errors.board.BoardException;
 import com.nimoh.hotel.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 게시판 서비스
@@ -26,39 +28,101 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
-    public List<Board> findAll() {
-        return boardRepository.findAll();
+    public List<BoardDetailResponse> findAll() {
+        final List<Board> findResult = boardRepository.findAll();
+
+        return findResult.stream().map(v -> BoardDetailResponse.builder()
+                        .id(v.getId())
+                        .title(v.getTitle())
+                        .writer(v.getWriter())
+                        .content(v.getContent())
+                        .regDate(v.getRegDate())
+                        .category(v.getCategory())
+                        .build())
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public Optional<Board> findById(Long boardIdx) {
-        Optional<Board> result;
-        try{
-             result = boardRepository.findById(boardIdx);
-             return result;
-        }catch (Exception e){
-            throw new Error("findById is failed");
+    public BoardDetailResponse findById(Long boardIdx) {
+        Optional<Board> result = boardRepository.findById(boardIdx);
+
+        if (result.isEmpty()){
+            throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
+        return BoardDetailResponse.builder()
+                .id(result.get().getId())
+                .title(result.get().getTitle())
+                .content(result.get().getContent())
+                .writer(result.get().getWriter())
+                .category(result.get().getCategory())
+                .regDate(result.get().getRegDate())
+                .build();
     }
 
     @Override
-    public Board save(BoardDto boardDto) {
+    public BoardDetailResponse save(BoardRequest boardRequest,Long userId) {
+        if (boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
+            throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
+        }
         final Board board = Board.builder()
-                .title(boardDto.getTitle())
-                .writer(boardDto.getWriter())
-                .content(boardDto.getContent())
-                .category(boardDto.getCategory())
+                .title(boardRequest.getTitle())
+                .content(boardRequest.getContent())
+                .writer(userId)
+                .category(boardRequest.getCategory())
                 .regDate(new Date())
                 .build();
 
-        try {
-            boardRepository.save(board);
-            return board;
-        }catch (Exception e){
-            e.printStackTrace();
-            throw e;
+        final Board savedBoard = boardRepository.save(board);
+
+    return BoardDetailResponse.builder()
+            .id(savedBoard.getId())
+            .title(savedBoard.getTitle())
+            .content(savedBoard.getContent())
+            .writer(savedBoard.getWriter())
+            .category(savedBoard.getCategory())
+            .build();
+    }
+
+    public BoardDetailResponse update(BoardRequest boardRequest,Long userId,Long boardId){
+        final Optional<Board> targetBoard = boardRepository.findById(boardId);
+        if(targetBoard.isEmpty()){
+            throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
+        }
+        if(!targetBoard.get().getWriter().equals(userId)){
+            throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
 
+        Board board = Board.builder()
+                        .id(boardId)
+                                .writer(userId)
+                .title(boardRequest.getTitle())
+                                        .content(boardRequest.getContent())
+                                                .build();
+        Board result = boardRepository.save(board);
+
+        return BoardDetailResponse.builder()
+                .id(result.getId())
+                .title(result.getTitle())
+                .content(result.getContent())
+                .writer(result.getWriter())
+                .category(result.getCategory())
+                .build();
 
     }
+
+    public boolean delete(Long boardId,Long userId) {
+        final Optional<Board> targetBoard = boardRepository.findById(boardId);
+
+        if (targetBoard.isEmpty()){
+            throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
+        }
+        if(!targetBoard.get().getWriter().equals(userId)){
+            throw new BoardException(BoardErrorResult.NO_PERMISSION);
+        }
+        boardRepository.deleteById(boardId);
+        return true;
+    }
+
+
 }

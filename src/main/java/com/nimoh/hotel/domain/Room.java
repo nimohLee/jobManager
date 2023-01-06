@@ -1,11 +1,16 @@
 package com.nimoh.hotel.domain;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
