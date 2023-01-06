@@ -1,6 +1,7 @@
 package com.nimoh.hotel.controller;
 
 import com.google.gson.Gson;
+import com.nimoh.hotel.constants.Headers;
 import com.nimoh.hotel.dto.user.UserSignUpRequest;
 import com.nimoh.hotel.errors.GlobalExceptionHandler;
 import com.nimoh.hotel.errors.user.UserErrorResult;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -166,5 +168,54 @@ public class UserControllerTest {
         );
         //then
         resultActions.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void 회원탈퇴실패_헤더없음() throws Exception {
+        //given
+        String url = "/api/v1/user";
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 회원탈퇴실패_service에서throw() throws Exception {
+        //given
+        String url = "/api/v1/user";
+        doThrow(new RuntimeException()).when(userService).deleteById(1L);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(Headers.USER_ID_HEADER, 1L)
+        );
+        //then
+        resultActions.andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void 회원탈퇴성공() throws Exception {
+        //given
+        String url = "/api/v1/user";
+        doReturn(true).when(userService).deleteById(1L);
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(Headers.USER_ID_HEADER, 1L)
+        );
+        //then
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    private UserSignUpRequest request(){
+        return UserSignUpRequest.builder()
+                .uid("nimoh123")
+                .name("test")
+                .password("12345678910a")
+                .email("nimoh@email.com")
+                .build();
     }
 }
