@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @RequiredArgsConstructor
 @Builder
-public class BoardDetailResponse {
+public class BoardResponse {
     private final Long id;
     private final String title;
     private final Long writer;

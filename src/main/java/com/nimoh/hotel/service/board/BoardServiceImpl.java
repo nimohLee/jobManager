@@ -1,7 +1,7 @@
 package com.nimoh.hotel.service.board;
 
 import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.errors.board.BoardErrorResult;
 import com.nimoh.hotel.errors.board.BoardException;
@@ -28,10 +28,10 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
-    public List<BoardDetailResponse> findAll() {
+    public List<BoardResponse> findAll() {
         final List<Board> findResult = boardRepository.findAll();
 
-        return findResult.stream().map(v -> BoardDetailResponse.builder()
+        return findResult.stream().map(v -> BoardResponse.builder()
                         .id(v.getId())
                         .title(v.getTitle())
                         .writer(v.getWriter())
@@ -44,13 +44,13 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardDetailResponse findById(Long boardIdx) {
+    public BoardResponse findById(Long boardIdx) {
         Optional<Board> result = boardRepository.findById(boardIdx);
 
         if (result.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        return BoardDetailResponse.builder()
+        return BoardResponse.builder()
                 .id(result.get().getId())
                 .title(result.get().getTitle())
                 .content(result.get().getContent())
@@ -61,7 +61,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardDetailResponse save(BoardRequest boardRequest,Long userId) {
+    public BoardResponse save(BoardRequest boardRequest, Long userId) {
         if (boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
             throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
@@ -75,7 +75,7 @@ public class BoardServiceImpl implements BoardService{
 
         final Board savedBoard = boardRepository.save(board);
 
-    return BoardDetailResponse.builder()
+    return BoardResponse.builder()
             .id(savedBoard.getId())
             .title(savedBoard.getTitle())
             .content(savedBoard.getContent())
@@ -84,7 +84,7 @@ public class BoardServiceImpl implements BoardService{
             .build();
     }
 
-    public BoardDetailResponse update(BoardRequest boardRequest,Long userId,Long boardId){
+    public BoardResponse update(BoardRequest boardRequest, Long userId, Long boardId){
         final Optional<Board> targetBoard = boardRepository.findById(boardId);
         if(targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
@@ -101,7 +101,7 @@ public class BoardServiceImpl implements BoardService{
                                                 .build();
         Board result = boardRepository.save(board);
 
-        return BoardDetailResponse.builder()
+        return BoardResponse.builder()
                 .id(result.getId())
                 .title(result.getTitle())
                 .content(result.getContent())

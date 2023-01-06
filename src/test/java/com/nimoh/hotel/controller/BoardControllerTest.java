@@ -1,7 +1,7 @@
 package com.nimoh.hotel.controller;
 import com.google.gson.Gson;
 
-import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.errors.board.BoardErrorResult;
 import com.nimoh.hotel.errors.board.BoardException;
@@ -79,9 +79,9 @@ public class BoardControllerTest {
         //given
         final String url = "/api/v1/board";
         doReturn(Arrays.asList(
-                BoardDetailResponse.builder().build(),
-                BoardDetailResponse.builder().build(),
-                BoardDetailResponse.builder().build()
+                BoardResponse.builder().build(),
+                BoardResponse.builder().build(),
+                BoardResponse.builder().build()
         )).when(boardService).findAll();
         //when
         final ResultActions resultActions = mockMvc.perform(
@@ -216,9 +216,9 @@ public class BoardControllerTest {
         resultActions.andExpect(status().isCreated());
     }
 
-    private BoardDetailResponse boardDetailResponse() throws ParseException {
+    private BoardResponse boardDetailResponse() throws ParseException {
 
-        return BoardDetailResponse.builder()
+        return BoardResponse.builder()
                 .id(1L)
                 .title("test")
                 .writer(1L)

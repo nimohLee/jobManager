@@ -1,9 +1,6 @@
 package com.nimoh.hotel.controller;
 
-import com.nimoh.hotel.constants.Headers;
-import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.BoardDto;
-import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.service.board.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +31,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("")
-    public ResponseEntity<List<BoardDetailResponse>> getList() {
+    public ResponseEntity<List<BoardResponse>> getList() {
         return ResponseEntity.status(HttpStatus.OK).body(boardService.findAll());
     }
 
@@ -45,7 +42,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/{boardIdx}")
-    public ResponseEntity<BoardDetailResponse> get(
+    public ResponseEntity<BoardResponse> get(
             @PathVariable Long boardIdx
     ) {
         return ResponseEntity.status(HttpStatus.OK)
@@ -57,12 +54,12 @@ public class BoardController {
      * @param boardDto
      */
     @PostMapping("")
-    public ResponseEntity<BoardDetailResponse> save(
+    public ResponseEntity<BoardResponse> save(
             @RequestHeader(USER_ID_HEADER) final Long userId,
             @RequestBody final BoardRequest boardRequest
 
     ) {
-            BoardDetailResponse result = boardService.save(boardRequest,userId);
+            BoardResponse result = boardService.save(boardRequest,userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -71,12 +68,12 @@ public class BoardController {
      * @param board
      */
     @PutMapping("/{boardId}")
-    public ResponseEntity<BoardDetailResponse> update(
+    public ResponseEntity<BoardResponse> update(
             @RequestHeader(USER_ID_HEADER) Long userId,
             @PathVariable Long boardId,
             @RequestBody BoardRequest boardRequest
     ) {
-        BoardDetailResponse result = boardService.update(boardRequest,userId,boardId);
+        BoardResponse result = boardService.update(boardRequest,userId,boardId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

@@ -1,7 +1,7 @@
 package com.nimoh.hotel.service;
 
 import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.board.BoardDetailResponse;
+import com.nimoh.hotel.dto.board.BoardResponse;
 import com.nimoh.hotel.dto.board.BoardRequest;
 import com.nimoh.hotel.errors.board.BoardErrorResult;
 import com.nimoh.hotel.errors.board.BoardException;
@@ -48,7 +48,7 @@ public class BoardServiceTest {
         Long userId = 1L;
         doReturn(board(2L)).when(boardRepository).save(ArgumentMatchers.any(Board.class));
         //when
-        BoardDetailResponse result = boardService.save(boardRequest(),userId);
+        BoardResponse result = boardService.save(boardRequest(),userId);
         //then
         assertThat(result.getTitle()).isEqualTo("test");
     }
@@ -106,7 +106,7 @@ public class BoardServiceTest {
         doReturn(Optional.of(board(1L))).when(boardRepository).findById(boardIdx);
 
         //when
-        BoardDetailResponse result = boardService.findById(boardIdx);
+        BoardResponse result = boardService.findById(boardIdx);
         //then
         assertThat(result).isNotNull();
     }
@@ -121,7 +121,7 @@ public class BoardServiceTest {
         boards.add(board1);
         doReturn(boards).when(boardRepository).findAll();
         //when
-        List<BoardDetailResponse> result = boardService.findAll();
+        List<BoardResponse> result = boardService.findAll();
         //then
         assertThat(result.size()).isEqualTo(2);    }
 
