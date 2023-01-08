@@ -1,7 +1,7 @@
 package com.nimoh.hotel.service.board;
 
-import com.nimoh.hotel.dto.board.BoardResponse;
-import com.nimoh.hotel.dto.board.BoardRequest;
+import com.nimoh.hotel.data.dto.board.BoardResponse;
+import com.nimoh.hotel.data.dto.board.BoardRequest;
 
 import java.util.List;
 

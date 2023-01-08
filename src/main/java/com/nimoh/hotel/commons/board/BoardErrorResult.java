@@ -1,4 +1,4 @@
-package com.nimoh.hotel.errors.board;
+package com.nimoh.hotel.commons.board;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

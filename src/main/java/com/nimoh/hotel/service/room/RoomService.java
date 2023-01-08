@@ -1,7 +1,6 @@
 package com.nimoh.hotel.service.room;
 
-import com.nimoh.hotel.domain.Room;
-import com.nimoh.hotel.dto.room.RoomDetailResponse;
+import com.nimoh.hotel.data.dto.room.RoomDetailResponse;
 
 import java.util.List;
 

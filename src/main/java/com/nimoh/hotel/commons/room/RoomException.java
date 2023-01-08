@@ -1,4 +1,4 @@
-package com.nimoh.hotel.errors.room;
+package com.nimoh.hotel.commons.room;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

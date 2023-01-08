@@ -1,4 +1,4 @@
-package com.nimoh.hotel.dto.user;
+package com.nimoh.hotel.data.dto.user;
 
 import com.nimoh.hotel.validator.Password;
 import com.nimoh.hotel.validator.UserId;

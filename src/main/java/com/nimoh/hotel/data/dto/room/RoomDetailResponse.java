@@ -1,4 +1,4 @@
-package com.nimoh.hotel.dto.room;
+package com.nimoh.hotel.data.dto.room;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

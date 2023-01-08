@@ -1,11 +1,8 @@
 package com.nimoh.hotel.repository;
 
-import com.nimoh.hotel.domain.Board;
-import org.aspectj.lang.annotation.After;
-import org.junit.jupiter.api.AfterEach;
+import com.nimoh.hotel.data.entity.Board;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 

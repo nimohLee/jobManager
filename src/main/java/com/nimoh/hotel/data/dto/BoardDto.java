@@ -1,4 +1,4 @@
-package com.nimoh.hotel.dto;
+package com.nimoh.hotel.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;

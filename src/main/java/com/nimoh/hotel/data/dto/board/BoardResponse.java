@@ -1,4 +1,4 @@
-package com.nimoh.hotel.dto.board;
+package com.nimoh.hotel.data.dto.board;
 
 import lombok.Builder;
 import lombok.Getter;

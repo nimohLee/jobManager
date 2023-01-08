@@ -1,7 +1,7 @@
-package com.nimoh.hotel.errors;
+package com.nimoh.hotel.commons;
 
-import com.nimoh.hotel.errors.board.BoardErrorResult;
-import com.nimoh.hotel.errors.board.BoardException;
+import com.nimoh.hotel.commons.board.BoardErrorResult;
+import com.nimoh.hotel.commons.board.BoardException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

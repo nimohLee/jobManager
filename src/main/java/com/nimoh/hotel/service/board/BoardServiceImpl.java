@@ -1,10 +1,10 @@
 package com.nimoh.hotel.service.board;
 
-import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.board.BoardResponse;
-import com.nimoh.hotel.dto.board.BoardRequest;
-import com.nimoh.hotel.errors.board.BoardErrorResult;
-import com.nimoh.hotel.errors.board.BoardException;
+import com.nimoh.hotel.data.entity.Board;
+import com.nimoh.hotel.data.dto.board.BoardResponse;
+import com.nimoh.hotel.data.dto.board.BoardRequest;
+import com.nimoh.hotel.commons.board.BoardErrorResult;
+import com.nimoh.hotel.commons.board.BoardException;
 import com.nimoh.hotel.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

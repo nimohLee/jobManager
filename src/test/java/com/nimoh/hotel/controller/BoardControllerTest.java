@@ -1,11 +1,11 @@
 package com.nimoh.hotel.controller;
 import com.google.gson.Gson;
 
-import com.nimoh.hotel.dto.board.BoardResponse;
-import com.nimoh.hotel.dto.board.BoardRequest;
-import com.nimoh.hotel.errors.board.BoardErrorResult;
-import com.nimoh.hotel.errors.board.BoardException;
-import com.nimoh.hotel.errors.GlobalExceptionHandler;
+import com.nimoh.hotel.data.dto.board.BoardResponse;
+import com.nimoh.hotel.data.dto.board.BoardRequest;
+import com.nimoh.hotel.commons.board.BoardErrorResult;
+import com.nimoh.hotel.commons.board.BoardException;
+import com.nimoh.hotel.commons.GlobalExceptionHandler;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

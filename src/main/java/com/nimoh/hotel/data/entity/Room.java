@@ -1,32 +1,27 @@
-package com.nimoh.hotel.domain;
+package com.nimoh.hotel.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
 
 import javax.persistence.*;
 
-
+@Getter
+@Setter
+@ToString
 @Entity
-@Data
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name="users")
-public class User {
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String uid;
-
     private String name;
-
-    private String password;
-
-    private String email;
+    private int maxPeople;
+    private int standardPeople;
+    private int countOfRooms;
+    private String description;
 
     public Long getId() {
         return id;

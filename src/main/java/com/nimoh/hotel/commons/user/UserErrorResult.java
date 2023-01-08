@@ -1,8 +1,7 @@
-package com.nimoh.hotel.errors.user;
+package com.nimoh.hotel.commons.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor

@@ -1,7 +1,7 @@
 package com.nimoh.hotel.controller;
 
-import com.nimoh.hotel.dto.board.BoardResponse;
-import com.nimoh.hotel.dto.board.BoardRequest;
+import com.nimoh.hotel.data.dto.board.BoardResponse;
+import com.nimoh.hotel.data.dto.board.BoardRequest;
 import com.nimoh.hotel.service.board.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

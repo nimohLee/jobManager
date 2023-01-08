@@ -2,10 +2,10 @@ package com.nimoh.hotel.controller;
 
 import com.google.gson.Gson;
 import com.nimoh.hotel.constants.Headers;
-import com.nimoh.hotel.dto.user.UserSignUpRequest;
-import com.nimoh.hotel.errors.GlobalExceptionHandler;
-import com.nimoh.hotel.errors.user.UserErrorResult;
-import com.nimoh.hotel.errors.user.UserException;
+import com.nimoh.hotel.data.dto.user.UserSignUpRequest;
+import com.nimoh.hotel.commons.GlobalExceptionHandler;
+import com.nimoh.hotel.commons.user.UserErrorResult;
+import com.nimoh.hotel.commons.user.UserException;
 import com.nimoh.hotel.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

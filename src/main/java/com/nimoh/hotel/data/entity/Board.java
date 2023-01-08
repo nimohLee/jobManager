@@ -1,4 +1,4 @@
-package com.nimoh.hotel.domain;
+package com.nimoh.hotel.data.entity;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 

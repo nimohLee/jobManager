@@ -1,7 +1,6 @@
 package com.nimoh.hotel.session;
 
-import com.nimoh.hotel.domain.User;
-import org.assertj.core.api.Assertions;
+import com.nimoh.hotel.data.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
