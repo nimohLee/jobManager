@@ -3,6 +3,8 @@ package com.nimoh.hotel.data.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Table
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -23,11 +26,7 @@ public class Room {
     private int countOfRooms;
     private String description;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToMany
+    @JoinColumn(name = "amenity_id")
+    private List<Amenity> amenities = new ArrayList<>();
 }

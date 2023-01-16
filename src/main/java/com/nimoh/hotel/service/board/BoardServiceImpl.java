@@ -5,7 +5,9 @@ import com.nimoh.hotel.data.dto.board.BoardResponse;
 import com.nimoh.hotel.data.dto.board.BoardRequest;
 import com.nimoh.hotel.commons.board.BoardErrorResult;
 import com.nimoh.hotel.commons.board.BoardException;
+import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.repository.BoardRepository;
+import com.nimoh.hotel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +22,13 @@ import java.util.stream.Collectors;
 public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public BoardServiceImpl(BoardRepository boardRepository){
+    public BoardServiceImpl(BoardRepository boardRepository,
+                            UserRepository userRepository){
         this.boardRepository = boardRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -65,10 +70,14 @@ public class BoardServiceImpl implements BoardService{
         if (boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
             throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
+        final Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()){
+            throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
+        }
         final Board board = Board.builder()
                 .title(boardRequest.getTitle())
                 .content(boardRequest.getContent())
-                .writer(userId)
+                .writer(user.get())
                 .category(boardRequest.getCategory())
                 .regDate(new Date())
                 .build();
@@ -89,13 +98,14 @@ public class BoardServiceImpl implements BoardService{
         if(targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        if(!targetBoard.get().getWriter().equals(userId)){
+        Optional<User> user = userRepository.findById(userId);
+        if(!targetBoard.get().getWriter().equals(user.get())){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
 
         Board board = Board.builder()
                         .id(boardId)
-                                .writer(userId)
+                                .writer(user.get())
                 .title(boardRequest.getTitle())
                                         .content(boardRequest.getContent())
                                                 .build();

@@ -10,6 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table
 @DynamicUpdate
 public class Board {
 
@@ -21,8 +22,9 @@ public class Board {
     @Column(name = "title",nullable = false)
     private String title;
 
-    @Column(name = "writer",nullable = false)
-    private Long writer;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User writer;
 
     @Column(name = "content",nullable = false)
     private String content;
@@ -32,6 +34,7 @@ public class Board {
 
     @Column(name = "reg_date")
     private Date regDate;
+
 
     public Long getId() {
         return id;

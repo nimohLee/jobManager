@@ -7,17 +7,18 @@ import java.util.Date;
 
 @Data
 @Entity
+@Table
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 

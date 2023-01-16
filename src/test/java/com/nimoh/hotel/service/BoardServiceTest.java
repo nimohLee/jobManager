@@ -5,6 +5,7 @@ import com.nimoh.hotel.data.dto.board.BoardResponse;
 import com.nimoh.hotel.data.dto.board.BoardRequest;
 import com.nimoh.hotel.commons.board.BoardErrorResult;
 import com.nimoh.hotel.commons.board.BoardException;
+import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.repository.BoardRepository;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -135,7 +136,7 @@ public class BoardServiceTest {
                 .id(boardId)
                 .title("test")
                 .content("hello")
-                .writer(1L)
+                .writer(User.builder().build())
                 .category("free")
                 .regDate(new Date())
                 .build();
