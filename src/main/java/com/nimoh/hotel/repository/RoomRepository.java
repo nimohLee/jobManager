@@ -14,4 +14,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     public List<Room> findByStandardPeople(Integer standardPeople);
 
     public List<Room> findByMaxPeople(Integer maxPeople);
+
+    Integer findCountOfRoomsById(Long roomId);
 }

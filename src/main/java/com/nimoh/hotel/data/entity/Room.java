@@ -13,10 +13,10 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "room")
 public class Room {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -26,7 +26,7 @@ public class Room {
     private int countOfRooms;
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "amenity_id")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "room_id", nullable = true)
     private List<Amenity> amenities = new ArrayList<>();
 }

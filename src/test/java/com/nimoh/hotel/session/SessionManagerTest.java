@@ -27,7 +27,6 @@ public class SessionManagerTest {
 
     @Test
     void 세션만료성공(){
-
         MockHttpServletResponse response = new MockHttpServletResponse();
         User user =User.builder().build();
         sessionManager.createSession(user,response);
@@ -39,6 +38,4 @@ public class SessionManagerTest {
         Object expired = sessionManager.getSession(request);
         assertThat(expired).isNull();
     }
-
-
 }
