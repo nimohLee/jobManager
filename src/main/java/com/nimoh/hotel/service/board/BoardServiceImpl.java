@@ -123,11 +123,14 @@ public class BoardServiceImpl implements BoardService{
 
     public boolean delete(Long boardId,Long userId) {
         final Optional<Board> targetBoard = boardRepository.findById(boardId);
-
+        final Optional<User> user = userRepository.findById(userId);
         if (targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        if(!targetBoard.get().getWriter().equals(userId)){
+        if (user.isEmpty()){
+            throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
+        }
+        if(!targetBoard.get().getWriter().equals(user.get())){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
         boardRepository.deleteById(boardId);

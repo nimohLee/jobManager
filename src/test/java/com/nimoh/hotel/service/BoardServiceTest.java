@@ -7,6 +7,7 @@ import com.nimoh.hotel.commons.board.BoardErrorResult;
 import com.nimoh.hotel.commons.board.BoardException;
 import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.repository.BoardRepository;
+import com.nimoh.hotel.repository.UserRepository;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +32,9 @@ public class BoardServiceTest {
     @Mock
     private BoardRepository boardRepository;
 
+    @Mock
+    private UserRepository userRepository;
+
     @Test
     public void 요청에null값이있어서추가실패() {
         //given
@@ -47,6 +51,7 @@ public class BoardServiceTest {
     public void 게시글추가성공() {
         //given
         Long userId = 1L;
+        doReturn(Optional.of(user(1L))).when(userRepository).findById(any());
         doReturn(board(2L)).when(boardRepository).save(ArgumentMatchers.any(Board.class));
         //when
         BoardResponse result = boardService.save(boardRequest(),userId);
@@ -70,6 +75,7 @@ public class BoardServiceTest {
         //given
         final Long boardId = 1L;
         final Long userId = 2L;
+        doReturn(Optional.of(user(2L))).when(userRepository).findById(any());
         doReturn(Optional.of(board(1L))).when(boardRepository).findById(boardId);
         //when
         final BoardException result = assertThrows(BoardException.class, () -> boardService.delete(boardId,userId));
@@ -81,8 +87,10 @@ public class BoardServiceTest {
     public void 게시글삭제성공() {
         //given
         final Long boardId = 2L;
+        final User user = user(1L);
         final Long userId = 1L;
         final Board board = board(2L);
+        doReturn(Optional.of(user)).when(userRepository).findById(any());
         doReturn(Optional.of(board)).when(boardRepository).findById(boardId);
 
         //when
@@ -136,9 +144,18 @@ public class BoardServiceTest {
                 .id(boardId)
                 .title("test")
                 .content("hello")
-                .writer(User.builder().build())
+                .writer(user(1L))
                 .category("free")
                 .regDate(new Date())
+                .build();
+    }
+    public User user(Long userId){
+        return User.builder()
+                .id(userId)
+                .uid("nimoh")
+                .name("nimoh")
+                .password("12345678")
+                .email("test@test.com")
                 .build();
     }
 }
