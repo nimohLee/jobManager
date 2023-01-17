@@ -128,5 +128,58 @@ public class ReservationControllerTest {
         resultActions.andExpect(status().isCreated());
     }
 
+    @Test
+    public void 예약취소실패_유저헤더없음() throws Exception{
+        //given
+        final String url = "/api/v1/reservation";
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 예약취소실패_요청값없음() throws Exception{
+        //given
+        final String url = "/api/v1/reservation";
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER, "1234")
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 예약취소실패_service에서throw_해당예약유저가아님() throws Exception {
+        //given
+        final String url = "/api/v1/reservation";
+        doThrow(new ReservationException(ReservationErrorResult.USER_NOT_MATCHED)).when(reservationService).delete(any(),any());
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER, "1234")
+                        .param("reservationId","1")
+        );
+        //then
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void 예약취소성공() throws Exception{
+        //given
+        final String url = "/api/v1/reservation";
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(url)
+                        .header(USER_ID_HEADER, "1234")
+                        .param("reservationId","1")
+        );
+        //then
+        resultActions.andExpect(status().isNoContent());
+    }
 
 }
