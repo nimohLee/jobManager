@@ -1,7 +1,6 @@
 package com.nimoh.hotel.session;
 
-import com.nimoh.hotel.domain.User;
-import org.assertj.core.api.Assertions;
+import com.nimoh.hotel.data.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -28,7 +27,6 @@ public class SessionManagerTest {
 
     @Test
     void 세션만료성공(){
-
         MockHttpServletResponse response = new MockHttpServletResponse();
         User user =User.builder().build();
         sessionManager.createSession(user,response);
@@ -40,6 +38,4 @@ public class SessionManagerTest {
         Object expired = sessionManager.getSession(request);
         assertThat(expired).isNull();
     }
-
-
 }

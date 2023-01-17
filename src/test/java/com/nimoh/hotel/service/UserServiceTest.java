@@ -1,10 +1,10 @@
 package com.nimoh.hotel.service;
 
-import com.nimoh.hotel.domain.User;
-import com.nimoh.hotel.dto.user.UserResponse;
-import com.nimoh.hotel.dto.user.UserSignUpRequest;
-import com.nimoh.hotel.errors.user.UserErrorResult;
-import com.nimoh.hotel.errors.user.UserException;
+import com.nimoh.hotel.data.entity.User;
+import com.nimoh.hotel.data.dto.user.UserResponse;
+import com.nimoh.hotel.data.dto.user.UserSignUpRequest;
+import com.nimoh.hotel.commons.user.UserErrorResult;
+import com.nimoh.hotel.commons.user.UserException;
 import com.nimoh.hotel.repository.UserRepository;
 import com.nimoh.hotel.service.user.UserServiceImpl;
 import org.junit.jupiter.api.Test;

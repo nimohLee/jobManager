@@ -1,11 +1,13 @@
 package com.nimoh.hotel.service.board;
 
-import com.nimoh.hotel.domain.Board;
-import com.nimoh.hotel.dto.board.BoardDetailResponse;
-import com.nimoh.hotel.dto.board.BoardRequest;
-import com.nimoh.hotel.errors.board.BoardErrorResult;
-import com.nimoh.hotel.errors.board.BoardException;
+import com.nimoh.hotel.data.entity.Board;
+import com.nimoh.hotel.data.dto.board.BoardResponse;
+import com.nimoh.hotel.data.dto.board.BoardRequest;
+import com.nimoh.hotel.commons.board.BoardErrorResult;
+import com.nimoh.hotel.commons.board.BoardException;
+import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.repository.BoardRepository;
+import com.nimoh.hotel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +22,24 @@ import java.util.stream.Collectors;
 public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public BoardServiceImpl(BoardRepository boardRepository){
+    public BoardServiceImpl(BoardRepository boardRepository,
+                            UserRepository userRepository){
         this.boardRepository = boardRepository;
+        this.userRepository = userRepository;
     }
 
 
     @Override
-    public List<BoardDetailResponse> findAll() {
+    public List<BoardResponse> findAll() {
         final List<Board> findResult = boardRepository.findAll();
 
-        return findResult.stream().map(v -> BoardDetailResponse.builder()
+        return findResult.stream().map(v -> BoardResponse.builder()
                         .id(v.getId())
                         .title(v.getTitle())
-                        .writer(v.getWriter())
+                        .user(v.getUser())
                         .content(v.getContent())
                         .regDate(v.getRegDate())
                         .category(v.getCategory())
@@ -44,68 +49,73 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardDetailResponse findById(Long boardIdx) {
+    public BoardResponse findById(Long boardIdx) {
         Optional<Board> result = boardRepository.findById(boardIdx);
 
         if (result.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        return BoardDetailResponse.builder()
+        return BoardResponse.builder()
                 .id(result.get().getId())
                 .title(result.get().getTitle())
                 .content(result.get().getContent())
-                .writer(result.get().getWriter())
+                .user(result.get().getUser())
                 .category(result.get().getCategory())
                 .regDate(result.get().getRegDate())
                 .build();
     }
 
     @Override
-    public BoardDetailResponse save(BoardRequest boardRequest,Long userId) {
+    public BoardResponse save(BoardRequest boardRequest, Long userId) {
         if (boardRequest.getTitle()==null || boardRequest.getWriter()==null || boardRequest.getContent()==null){
+            throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
+        }
+        final Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()){
             throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
         final Board board = Board.builder()
                 .title(boardRequest.getTitle())
                 .content(boardRequest.getContent())
-                .writer(userId)
+                .user(user.get())
                 .category(boardRequest.getCategory())
                 .regDate(new Date())
                 .build();
 
         final Board savedBoard = boardRepository.save(board);
 
-    return BoardDetailResponse.builder()
+    return BoardResponse.builder()
             .id(savedBoard.getId())
             .title(savedBoard.getTitle())
             .content(savedBoard.getContent())
-            .writer(savedBoard.getWriter())
+            .user(savedBoard.getUser())
             .category(savedBoard.getCategory())
             .build();
     }
 
-    public BoardDetailResponse update(BoardRequest boardRequest,Long userId,Long boardId){
+    public BoardResponse update(BoardRequest boardRequest, Long userId, Long boardId){
         final Optional<Board> targetBoard = boardRepository.findById(boardId);
         if(targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        if(!targetBoard.get().getWriter().equals(userId)){
+        Optional<User> user = userRepository.findById(userId);
+        if(!targetBoard.get().getUser().equals(user.get())){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
 
         Board board = Board.builder()
                         .id(boardId)
-                                .writer(userId)
+                                .user(user.get())
                 .title(boardRequest.getTitle())
                                         .content(boardRequest.getContent())
                                                 .build();
         Board result = boardRepository.save(board);
 
-        return BoardDetailResponse.builder()
+        return BoardResponse.builder()
                 .id(result.getId())
                 .title(result.getTitle())
                 .content(result.getContent())
-                .writer(result.getWriter())
+                .user(result.getUser())
                 .category(result.getCategory())
                 .build();
 
@@ -113,11 +123,14 @@ public class BoardServiceImpl implements BoardService{
 
     public boolean delete(Long boardId,Long userId) {
         final Optional<Board> targetBoard = boardRepository.findById(boardId);
-
+        final Optional<User> user = userRepository.findById(userId);
         if (targetBoard.isEmpty()){
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
-        if(!targetBoard.get().getWriter().equals(userId)){
+        if (user.isEmpty()){
+            throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
+        }
+        if(!targetBoard.get().getUser().equals(user.get())){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
         boardRepository.deleteById(boardId);

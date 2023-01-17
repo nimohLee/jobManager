@@ -1,11 +1,14 @@
 package com.nimoh.hotel.repository;
 
-import com.nimoh.hotel.domain.Room;
+import com.nimoh.hotel.data.entity.Amenity;
+import com.nimoh.hotel.data.entity.Room;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +16,14 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RoomRepositoryTest {
 
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private AmenityRepository amenityRepository;
 
     @Test
     public void 방ID로특정방정보가져오기(){
@@ -109,6 +115,33 @@ public class RoomRepositoryTest {
         List<Room> result = roomRepository.findByMaxPeople(4);
         //then
         assertThat(result.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void 방어메니티가져오기() {
+        //given
+        final List<Amenity> amenities = new ArrayList<>();
+        amenities.add(Amenity.builder().id(1L).name("TV").build());
+        amenities.add(Amenity.builder().id(2L).name("Bed").build());
+
+        amenityRepository.save(Amenity.builder().id(1L).name("TV").build());
+        amenityRepository.save(Amenity.builder().id(2L).name("Bed").build());
+
+        final Room room = Room.builder()
+                .id(1L)
+                .name("Rose")
+                .countOfRooms(2)
+                .description("hello")
+                .standardPeople(2)
+                .maxPeople(4)
+                .amenities(amenities)
+                .build();
+
+        roomRepository.save(room);
+        //when
+        Optional<Room> result = roomRepository.findById(1L);
+        //then
+        assertThat(result.get().getAmenities().size()).isEqualTo(2);
     }
 
     private static Room room() {

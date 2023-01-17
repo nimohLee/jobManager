@@ -1,17 +1,7 @@
 package com.nimoh.hotel.controller;
 
-import com.nimoh.hotel.domain.User;
-import com.nimoh.hotel.service.auth.LoginService;
-import com.nimoh.hotel.session.SessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/v1/auth")

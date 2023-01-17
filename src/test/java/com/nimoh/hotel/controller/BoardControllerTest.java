@@ -1,11 +1,12 @@
 package com.nimoh.hotel.controller;
 import com.google.gson.Gson;
 
-import com.nimoh.hotel.dto.board.BoardDetailResponse;
-import com.nimoh.hotel.dto.board.BoardRequest;
-import com.nimoh.hotel.errors.board.BoardErrorResult;
-import com.nimoh.hotel.errors.board.BoardException;
-import com.nimoh.hotel.errors.GlobalExceptionHandler;
+import com.nimoh.hotel.data.dto.board.BoardResponse;
+import com.nimoh.hotel.data.dto.board.BoardRequest;
+import com.nimoh.hotel.commons.board.BoardErrorResult;
+import com.nimoh.hotel.commons.board.BoardException;
+import com.nimoh.hotel.commons.GlobalExceptionHandler;
+import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,9 +80,9 @@ public class BoardControllerTest {
         //given
         final String url = "/api/v1/board";
         doReturn(Arrays.asList(
-                BoardDetailResponse.builder().build(),
-                BoardDetailResponse.builder().build(),
-                BoardDetailResponse.builder().build()
+                BoardResponse.builder().build(),
+                BoardResponse.builder().build(),
+                BoardResponse.builder().build()
         )).when(boardService).findAll();
         //when
         final ResultActions resultActions = mockMvc.perform(
@@ -216,12 +217,12 @@ public class BoardControllerTest {
         resultActions.andExpect(status().isCreated());
     }
 
-    private BoardDetailResponse boardDetailResponse() throws ParseException {
+    private BoardResponse boardDetailResponse() throws ParseException {
 
-        return BoardDetailResponse.builder()
+        return BoardResponse.builder()
                 .id(1L)
                 .title("test")
-                .writer(1L)
+                .user(User.builder().build())
                 .content("hello")
                 .category("free")
                 .regDate(new Date())
