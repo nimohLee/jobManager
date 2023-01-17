@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,8 @@ public class ReservationRepositoryTest {
                 .id(1L)
                 .user(User.builder().build())
                 .room(Room.builder().build())
-                .date(new Date())
+                .checkIn(LocalDate.now())
+                .checkOut(LocalDate.now())
                 .build();
         //when
         final Reservation result = reservationRepository.save(reservation);
@@ -63,7 +65,8 @@ public class ReservationRepositoryTest {
                 .id(1L)
                 .user(User.builder().build())
                 .room(Room.builder().build())
-                .date(new Date())
+                .checkIn(LocalDate.now())
+                .checkOut(LocalDate.now())
                 .build();
         //when
         reservationRepository.save(reservation);
@@ -94,7 +97,8 @@ public class ReservationRepositoryTest {
         final Reservation reservation = Reservation.builder()
                 .user(user)
                 .room(room)
-                .date(new Date())
+                .checkIn(LocalDate.now())
+                .checkOut(LocalDate.now())
                 .build();
         //when
         reservationRepository.save(reservation);
@@ -126,17 +130,20 @@ public class ReservationRepositoryTest {
         reservationRepository.save(Reservation.builder()
                 .user(user)
                 .room(room)
-                .date(new Date())
+                .checkIn(LocalDate.now())
+                .checkOut(LocalDate.now())
                 .build());
         reservationRepository.save(Reservation.builder()
                 .user(user)
                 .room(room)
-                .date(new Date())
+                .checkIn(LocalDate.now())
+                .checkOut(LocalDate.now())
                 .build());
         reservationRepository.save(Reservation.builder()
                 .user(user)
                 .room(room)
-                .date(new Date())
+                .checkIn(LocalDate.now())
+                .checkOut(LocalDate.now())
                 .build());
 
         Integer result = reservationRepository.countByRoom(Optional.of(room));

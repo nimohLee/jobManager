@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -28,7 +29,9 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Date date;
+    private LocalDate checkIn;
+
+    private LocalDate checkOut;
 
     public Long getId() {
         return id;

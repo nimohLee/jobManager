@@ -49,7 +49,8 @@ public class ReservationServiceImpl implements ReservationService {
                         .id(v.getId())
                         .room(v.getRoom())
                         .user(v.getUser())
-                        .date(v.getDate())
+                        .checkIn(v.getCheckIn())
+                        .checkOut(v.getCheckOut())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -72,7 +73,8 @@ public class ReservationServiceImpl implements ReservationService {
         final Reservation reservation = Reservation.builder()
                 .user(user.get())
                 .room(room.get())
-                .date(new Date())
+                .checkIn(reservationRequest.getCheckIn())
+                .checkOut(reservationRequest.getCheckOut())
                 .build();
         final Reservation result = reservationRepository.save(reservation);
 
@@ -80,7 +82,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .id(result.getId())
                 .user(result.getUser())
                 .room(result.getRoom())
-                .date(result.getDate())
+                .checkIn(result.getCheckIn())
+                .checkOut(result.getCheckOut())
                 .build();
     }
 
@@ -98,7 +101,8 @@ public class ReservationServiceImpl implements ReservationService {
                 .id(targetReservation.get().getId())
                 .user(targetReservation.get().getUser())
                 .room(targetReservation.get().getRoom())
-                .date(targetReservation.get().getDate())
+                .checkIn(targetReservation.get().getCheckIn())
+                .checkOut(targetReservation.get().getCheckOut())
                 .build();
     }
 }

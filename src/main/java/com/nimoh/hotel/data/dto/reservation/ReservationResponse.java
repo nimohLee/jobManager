@@ -5,6 +5,7 @@ import com.nimoh.hotel.data.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -16,5 +17,7 @@ public class ReservationResponse {
 
     private Room room;
 
-    private Date date;
+    private LocalDate checkIn;
+
+    private LocalDate checkOut;
 }

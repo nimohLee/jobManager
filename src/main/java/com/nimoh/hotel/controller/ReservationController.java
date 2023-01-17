@@ -26,8 +26,6 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ReservationController.class);
-
     @Autowired
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
@@ -38,12 +36,8 @@ public class ReservationController {
             @RequestHeader(USER_ID_HEADER) final Long userId
             )
     {
-        try{
             List<ReservationResponse> result = reservationService.findByUserId(userId);
             return ResponseEntity.ok().body(result);
-        }catch (ReservationException e){
-            return ResponseEntity.noContent().build();
-        }
     }
 
     @PostMapping("")
@@ -51,10 +45,7 @@ public class ReservationController {
             @RequestHeader(USER_ID_HEADER) final Long userId,
             @RequestBody final ReservationRequest reservationRequest
             ){
-            LOGGER.info("User Header : " + userId);
-            LOGGER.info("reservationRequest : " + reservationRequest.toString());
             ReservationResponse result = reservationService.create(reservationRequest, userId);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
-
 }
