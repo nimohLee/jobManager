@@ -7,7 +7,6 @@ import com.nimoh.hotel.data.dto.user.UserSignUpRequest;
 import com.nimoh.hotel.commons.user.UserErrorResult;
 import com.nimoh.hotel.commons.user.UserException;
 import com.nimoh.hotel.repository.UserRepository;
-import com.nimoh.hotel.session.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

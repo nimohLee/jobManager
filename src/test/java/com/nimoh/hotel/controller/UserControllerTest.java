@@ -9,8 +9,6 @@ import com.nimoh.hotel.commons.user.UserErrorResult;
 import com.nimoh.hotel.commons.user.UserException;
 import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.service.user.UserServiceImpl;
-import com.nimoh.hotel.session.SessionManager;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -44,9 +41,6 @@ public class UserControllerTest {
 
     @Mock
     private UserServiceImpl userService;
-
-    @Mock
-    private SessionManager sessionManager;
 
     @InjectMocks
     private UserController userController;

@@ -3,10 +3,8 @@ package com.nimoh.hotel.controller;
 import com.nimoh.hotel.data.dto.user.UserLogInRequest;
 import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.data.dto.user.UserSignUpRequest;
-import com.nimoh.hotel.commons.user.UserException;
 import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.service.user.UserService;
-import com.nimoh.hotel.session.SessionManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,10 +23,8 @@ import static com.nimoh.hotel.constants.Headers.*;
 public class UserController {
 
     private UserService userService;
-    private SessionManager sessionManager;
-    public UserController(UserService userService, SessionManager sessionManager){
+    public UserController(UserService userService){
         this.userService = userService;
-        this.sessionManager = sessionManager;
     }
 
     @Operation(summary = "회원가입", description = "회원가입")
