@@ -6,6 +6,7 @@ import com.nimoh.hotel.commons.GlobalExceptionHandler;
 import com.nimoh.hotel.commons.reservation.ReservationErrorResult;
 import com.nimoh.hotel.commons.reservation.ReservationException;
 import com.nimoh.hotel.data.dto.reservation.ReservationRequest;
+import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.data.entity.Reservation;
 import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.service.reservation.ReservationServiceImpl;
@@ -69,7 +70,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
         );
         //then
         resultActions.andExpect(status().isNoContent());
@@ -83,7 +84,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
         );
         //then
         resultActions.andExpect(status().isOk());
@@ -108,7 +109,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
         );
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -121,7 +122,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
                         .content("{\"roomId\":\"1\",\"checkIn\":\"2022-11-13\",\"checkOut\":\"2022-12-30\"}")
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -148,7 +149,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
         );
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -162,7 +163,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
                         .param("reservationId","1")
         );
         //then
@@ -176,7 +177,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .sessionAttr("sid", User.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
                         .param("reservationId","1")
         );
         //then

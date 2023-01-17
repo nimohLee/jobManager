@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -127,7 +128,7 @@ public class BoardRepositoryTest {
                         .title("updated")
                                 .content("hello")
                                         .category("free")
-                                                .regDate(new Date())
+                                                .regDate(LocalDateTime.now())
                                                         .build();
 
         //when
@@ -156,7 +157,7 @@ public class BoardRepositoryTest {
                 .title("test")
                 .content("hello")
                 .category("free")
-                .regDate(new Date())
+                .regDate(LocalDateTime.now())
                 .user(user)
                 .build();
     }

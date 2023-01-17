@@ -11,12 +11,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static com.nimoh.hotel.constants.Headers.*;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -69,11 +67,11 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<UserResponse> login(
             @RequestBody UserLogInRequest userLogInRequest,
-            HttpServletResponse response,
             HttpServletRequest request
             ) {
         UserResponse result = userService.login(userLogInRequest);
-        request.getSession(true);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("sid",result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
             }
 

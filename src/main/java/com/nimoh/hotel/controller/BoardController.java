@@ -2,7 +2,7 @@ package com.nimoh.hotel.controller;
 
 import com.nimoh.hotel.data.dto.board.BoardResponse;
 import com.nimoh.hotel.data.dto.board.BoardRequest;
-import com.nimoh.hotel.data.entity.User;
+import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.service.board.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
 
 
 /**
@@ -69,12 +68,12 @@ public class BoardController {
      */
     @Operation(summary = "게시글 등록",description = "게시글을 작성합니다.")
     @PostMapping("")
-    public ResponseEntity<BoardResponse> save(
+    public ResponseEntity<Void> save(
             @RequestBody final BoardRequest boardRequest,
-            @SessionAttribute(name = "sid", required = false) User loginUser
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-            BoardResponse result = boardService.save(boardRequest,loginUser.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        boardService.save(boardRequest, loginUser.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     /**
@@ -86,7 +85,7 @@ public class BoardController {
     public ResponseEntity<BoardResponse> update(
             @PathVariable Long boardId,
             @RequestBody BoardRequest boardRequest,
-            @SessionAttribute(name = "sid", required = false) User loginUser
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
         BoardResponse result = boardService.update(boardRequest,loginUser.getId(),boardId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -99,7 +98,7 @@ public class BoardController {
     @Operation(summary = "게시글 삭제",description = "게시글 id로 게시글을 삭제합니다")
     @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> delete(
-            @SessionAttribute(name = "sid", required = false) User loginUser,
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
             @PathVariable Long boardId
     ) {
         boardService.delete(boardId,loginUser.getId());

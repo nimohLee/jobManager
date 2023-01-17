@@ -1,26 +1,17 @@
 package com.nimoh.hotel.controller;
-
-import com.nimoh.hotel.commons.reservation.ReservationErrorResult;
-import com.nimoh.hotel.commons.reservation.ReservationException;
 import com.nimoh.hotel.data.dto.reservation.ReservationRequest;
 import com.nimoh.hotel.data.dto.reservation.ReservationResponse;
-import com.nimoh.hotel.data.entity.User;
+import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.service.reservation.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
-import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
 
 
 @Slf4j
@@ -43,7 +34,7 @@ public class ReservationController {
     })
     @GetMapping("")
     public ResponseEntity<List<ReservationResponse>> getReservations(
-            @SessionAttribute(name = "sid", required = false) User loginUser
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
             )
     {
             List<ReservationResponse> result = reservationService.findByUserId(loginUser.getId());
@@ -58,7 +49,7 @@ public class ReservationController {
     })
     @PostMapping("")
     public ResponseEntity<ReservationResponse> postReservation(
-            @SessionAttribute(name = "sid", required = false) User loginUser,
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
             @RequestBody final ReservationRequest reservationRequest
             ){
             ReservationResponse result = reservationService.create(reservationRequest, loginUser.getId());
@@ -73,7 +64,7 @@ public class ReservationController {
     })
     @DeleteMapping("")
     public ResponseEntity<ReservationResponse> deleteReservation(
-            @SessionAttribute(name = "sid", required = false) User loginUser,
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
             @RequestParam final Long reservationId
     ) {
         ReservationResponse result = reservationService.delete(loginUser.getId(), reservationId);
