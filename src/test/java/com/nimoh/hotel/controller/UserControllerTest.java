@@ -2,11 +2,13 @@ package com.nimoh.hotel.controller;
 
 import com.google.gson.Gson;
 import com.nimoh.hotel.constants.Headers;
+import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.data.dto.user.UserSignUpRequest;
 import com.nimoh.hotel.commons.GlobalExceptionHandler;
 import com.nimoh.hotel.commons.user.UserErrorResult;
 import com.nimoh.hotel.commons.user.UserException;
 import com.nimoh.hotel.service.user.UserServiceImpl;
+import com.nimoh.hotel.session.SessionManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +21,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,9 @@ public class UserControllerTest {
     private Gson gson;
     @Mock
     private UserServiceImpl userService;
+
+    @Mock
+    private SessionManager sessionManager;
 
     @InjectMocks
     private UserController userController;
@@ -209,6 +214,52 @@ public class UserControllerTest {
         //then
         resultActions.andExpect(status().isNoContent());
     }
+
+    @Test
+    public void 로그인실패_요청값없음() throws Exception {
+        //given
+        String url = "/api/v1/user/login";
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 로그인실패_세션이미있음() {
+//        //given
+//        String url = "/api/v1/user/login";
+//        doReturn(UserResponse.builder().build()).when(userService).login(any());
+//        //when
+//        ResultActions resultActions = mockMvc.perform(
+//                MockMvcRequestBuilders.post(url)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{\"uid\": \"nimoh123\",\"password\": \"password123\"}")
+//
+//        );
+//        //then
+//        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 로그인성공() throws Exception{
+        //given
+        String url = "/api/v1/user/login";
+        doReturn(UserResponse.builder().build()).when(userService).login(any());
+        doNothing().when(sessionManager).createSession(any(),any());
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"uid\": \"nimoh123\",\"password\": \"password123\"}")
+
+        );
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
 
     private UserSignUpRequest request(){
         return UserSignUpRequest.builder()
