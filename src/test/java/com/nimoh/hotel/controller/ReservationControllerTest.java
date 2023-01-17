@@ -7,6 +7,7 @@ import com.nimoh.hotel.commons.reservation.ReservationErrorResult;
 import com.nimoh.hotel.commons.reservation.ReservationException;
 import com.nimoh.hotel.data.dto.reservation.ReservationRequest;
 import com.nimoh.hotel.data.entity.Reservation;
+import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.service.reservation.ReservationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ public class ReservationControllerTest {
     }
 
     @Test
-    public void 예약조회실패_유저헤더없음() throws Exception {
+    public void 예약조회실패_유저세션없음() throws Exception {
         //given
         final String url = "/api/v1/reservation";
         //when
@@ -58,7 +59,7 @@ public class ReservationControllerTest {
                 MockMvcRequestBuilders.get(url)
         );
         //then
-        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isInternalServerError());
     }
     @Test
     public void 예약조회실패_예약내역없음() throws Exception {
@@ -68,7 +69,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
-                        .header(USER_ID_HEADER,"1234")
+                        .sessionAttr("sid", User.builder().build())
         );
         //then
         resultActions.andExpect(status().isNoContent());
@@ -82,7 +83,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
-                        .header(USER_ID_HEADER,"1234")
+                        .sessionAttr("sid", User.builder().build())
         );
         //then
         resultActions.andExpect(status().isOk());
@@ -107,7 +108,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid", User.builder().build())
         );
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -120,7 +121,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid", User.builder().build())
                         .content("{\"roomId\":\"1\",\"checkIn\":\"2022-11-13\",\"checkOut\":\"2022-12-30\"}")
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -147,7 +148,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid", User.builder().build())
         );
         //then
         resultActions.andExpect(status().isBadRequest());
@@ -161,7 +162,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid", User.builder().build())
                         .param("reservationId","1")
         );
         //then
@@ -175,7 +176,7 @@ public class ReservationControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid", User.builder().build())
                         .param("reservationId","1")
         );
         //then

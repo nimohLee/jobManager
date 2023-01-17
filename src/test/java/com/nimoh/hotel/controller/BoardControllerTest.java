@@ -114,7 +114,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid",User.builder().build())
                         .content(gson.toJson(boardRequest))
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -124,7 +124,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글삭제실패_유저헤더없음() throws Exception{
+    public void 게시글삭제실패_유저세션없음() throws Exception{
         //given
         final String url = "/api/v1/board/1";
 
@@ -133,7 +133,7 @@ public class BoardControllerTest {
                 MockMvcRequestBuilders.delete(url)
         );
         //then
-        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isInternalServerError());
     }
 
     @Test
@@ -148,7 +148,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER, 1L)
+                        .sessionAttr("sid",User.builder().id(1L).build())
         );
         //then
         resultActions.andExpect(status().isForbidden());
@@ -162,7 +162,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER,1L)
+                        .sessionAttr("sid",User.builder().id(1L).build())
 
         );
         //then
@@ -192,7 +192,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
-                        .header(USER_ID_HEADER, 1L)
+                        .sessionAttr("sid",User.builder().id(1L).build())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(BoardRequest.builder().build()))
         );
@@ -209,7 +209,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
-                        .header(USER_ID_HEADER,userId)
+                        .sessionAttr("sid",User.builder().id(userId).build())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(boardRequest))
         );

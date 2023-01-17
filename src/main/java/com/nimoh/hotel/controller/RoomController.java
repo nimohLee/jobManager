@@ -62,9 +62,4 @@ public class RoomController {
             return ResponseEntity.internalServerError().build();
         }
     }
-//
-////    @GetMapping("")
-////    public List<Room> getList() {
-////        return roomService.getList();
-////    }
 }
