@@ -144,7 +144,7 @@ public class BoardServiceTest {
                 .id(boardId)
                 .title("test")
                 .content("hello")
-                .writer(user(1L))
+                .user(user(1L))
                 .category("free")
                 .regDate(new Date())
                 .build();

@@ -9,6 +9,6 @@ import org.springframework.http.HttpStatus;
 public enum UserErrorResult {
     DUPLICATED_USER_ID(HttpStatus.CONFLICT,"duplicated user id"),
     ;
-    private final HttpStatus status;
+    private final HttpStatus httpStatus;
     private final String message;
 }

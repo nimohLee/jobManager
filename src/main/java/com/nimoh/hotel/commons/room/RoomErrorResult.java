@@ -11,6 +11,6 @@ public enum RoomErrorResult {
     ROOM_NOT_FOUND(HttpStatus.NO_CONTENT,"ROOM_NOT_FOUND")
     ;
 
-    private final HttpStatus status;
+    private final HttpStatus httpStatus;
     private final String message;
 }

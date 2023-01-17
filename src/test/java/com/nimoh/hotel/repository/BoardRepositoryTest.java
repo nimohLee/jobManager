@@ -94,7 +94,7 @@ public class BoardRepositoryTest {
         boardRepository.save(board2);
 
         //when
-        final List<Board> findBoardResult = boardRepository.findAllByWriter(User.builder().id(1L).build());
+        final List<Board> findBoardResult = boardRepository.findAllByUser(User.builder().id(1L).build());
 
         //then
         assertThat(findBoardResult.size()).isEqualTo(2);
@@ -150,14 +150,14 @@ public class BoardRepositoryTest {
         assertThat(resultBoard).isEmpty();
     }
 
-    private Board board(Long boardId, User writer){
+    private Board board(Long boardId, User user){
         return Board.builder()
                 .id(boardId)
                 .title("test")
                 .content("hello")
                 .category("free")
                 .regDate(new Date())
-                .writer(writer)
+                .user(user)
                 .build();
     }
 

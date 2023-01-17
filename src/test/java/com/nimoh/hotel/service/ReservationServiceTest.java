@@ -2,6 +2,7 @@ package com.nimoh.hotel.service;
 
 import com.nimoh.hotel.commons.reservation.ReservationErrorResult;
 import com.nimoh.hotel.commons.reservation.ReservationException;
+import com.nimoh.hotel.data.dto.reservation.ReservationRequest;
 import com.nimoh.hotel.data.dto.reservation.ReservationResponse;
 import com.nimoh.hotel.data.entity.Reservation;
 import com.nimoh.hotel.data.entity.Room;
@@ -16,6 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -104,10 +107,12 @@ public class ReservationServiceTest {
         //given
         final Long roomId = 1L;
         final Long userId = 1L;
+        doReturn(Optional.of(Room.builder().build())).when(roomRepository).findById(any());
+        doReturn(Optional.of(User.builder().build())).when(userRepository).findById(any());
         doReturn(3).when(reservationRepository).countByRoom(any());
         doReturn(3).when(roomRepository).findCountOfRoomsById(any());
         //when
-        ReservationException result = assertThrows(ReservationException.class, ()->reservationService.create(roomId,userId));
+        ReservationException result = assertThrows(ReservationException.class, ()->reservationService.create(ReservationRequest.builder().roomId(roomId).checkIn(LocalDate.now()).checkOut(LocalDate.now()).build(), userId));
         //then
         assertThat(result.getErrorResult()).isEqualTo(ReservationErrorResult.NO_EMPTY_ROOM);
     }
@@ -123,7 +128,7 @@ public class ReservationServiceTest {
         doReturn(3).when(roomRepository).findCountOfRoomsById(any());
         doReturn(Reservation.builder().id(1L).build()).when(reservationRepository).save(any());
         //when
-        ReservationResponse result = reservationService.create(roomId,userId);
+        ReservationResponse result = reservationService.create(ReservationRequest.builder().build(), userId);
         //then
         assertThat(result.getId()).isEqualTo(1L);
     }

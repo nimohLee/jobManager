@@ -2,6 +2,7 @@ package com.nimoh.hotel.service.reservation;
 
 import com.nimoh.hotel.commons.reservation.ReservationErrorResult;
 import com.nimoh.hotel.commons.reservation.ReservationException;
+import com.nimoh.hotel.data.dto.reservation.ReservationRequest;
 import com.nimoh.hotel.data.dto.reservation.ReservationResponse;
 import com.nimoh.hotel.data.entity.Reservation;
 import com.nimoh.hotel.data.entity.Room;
@@ -54,7 +55,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationResponse create(Long roomId, Long userId) {
+    public ReservationResponse create(ReservationRequest reservationRequest, Long userId) {
+        final Long roomId = reservationRequest.getRoomId();
         final Optional<Room> room = roomRepository.findById(roomId);
         final Optional<User> user = userRepository.findById(userId);
         final Integer reservationedRoomCount = reservationRepository.countByRoom(room);

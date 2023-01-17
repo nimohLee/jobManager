@@ -24,7 +24,7 @@ public class Board {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User writer;
+    User user;
 
     @Column(name = "content",nullable = false)
     private String content;

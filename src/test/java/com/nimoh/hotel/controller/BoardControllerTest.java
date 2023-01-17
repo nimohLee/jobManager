@@ -222,7 +222,7 @@ public class BoardControllerTest {
         return BoardResponse.builder()
                 .id(1L)
                 .title("test")
-                .writer(User.builder().build())
+                .user(User.builder().build())
                 .content("hello")
                 .category("free")
                 .regDate(new Date())

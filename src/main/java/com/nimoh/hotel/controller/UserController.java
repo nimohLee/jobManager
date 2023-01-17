@@ -27,7 +27,7 @@ public class UserController {
         try{
             userService.signUp(userSignUpRequest);
         }catch (UserException ue){
-            return ResponseEntity.status(ue.getErrorResult().getStatus()).build();
+            return ResponseEntity.status(ue.getErrorResult().getHttpStatus()).build();
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userSignUpRequest.toString());

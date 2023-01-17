@@ -39,7 +39,7 @@ public class BoardServiceImpl implements BoardService{
         return findResult.stream().map(v -> BoardResponse.builder()
                         .id(v.getId())
                         .title(v.getTitle())
-                        .writer(v.getWriter())
+                        .user(v.getUser())
                         .content(v.getContent())
                         .regDate(v.getRegDate())
                         .category(v.getCategory())
@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService{
                 .id(result.get().getId())
                 .title(result.get().getTitle())
                 .content(result.get().getContent())
-                .writer(result.get().getWriter())
+                .user(result.get().getUser())
                 .category(result.get().getCategory())
                 .regDate(result.get().getRegDate())
                 .build();
@@ -77,7 +77,7 @@ public class BoardServiceImpl implements BoardService{
         final Board board = Board.builder()
                 .title(boardRequest.getTitle())
                 .content(boardRequest.getContent())
-                .writer(user.get())
+                .user(user.get())
                 .category(boardRequest.getCategory())
                 .regDate(new Date())
                 .build();
@@ -88,7 +88,7 @@ public class BoardServiceImpl implements BoardService{
             .id(savedBoard.getId())
             .title(savedBoard.getTitle())
             .content(savedBoard.getContent())
-            .writer(savedBoard.getWriter())
+            .user(savedBoard.getUser())
             .category(savedBoard.getCategory())
             .build();
     }
@@ -99,13 +99,13 @@ public class BoardServiceImpl implements BoardService{
             throw new BoardException(BoardErrorResult.BOARD_NOT_FOUND);
         }
         Optional<User> user = userRepository.findById(userId);
-        if(!targetBoard.get().getWriter().equals(user.get())){
+        if(!targetBoard.get().getUser().equals(user.get())){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
 
         Board board = Board.builder()
                         .id(boardId)
-                                .writer(user.get())
+                                .user(user.get())
                 .title(boardRequest.getTitle())
                                         .content(boardRequest.getContent())
                                                 .build();
@@ -115,7 +115,7 @@ public class BoardServiceImpl implements BoardService{
                 .id(result.getId())
                 .title(result.getTitle())
                 .content(result.getContent())
-                .writer(result.getWriter())
+                .user(result.getUser())
                 .category(result.getCategory())
                 .build();
 
@@ -130,7 +130,7 @@ public class BoardServiceImpl implements BoardService{
         if (user.isEmpty()){
             throw new BoardException(BoardErrorResult.REQUEST_VALUE_INVALID);
         }
-        if(!targetBoard.get().getWriter().equals(user.get())){
+        if(!targetBoard.get().getUser().equals(user.get())){
             throw new BoardException(BoardErrorResult.NO_PERMISSION);
         }
         boardRepository.deleteById(boardId);
