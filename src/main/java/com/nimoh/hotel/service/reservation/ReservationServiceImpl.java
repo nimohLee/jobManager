@@ -13,7 +13,7 @@ import com.nimoh.hotel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +51,7 @@ public class ReservationServiceImpl implements ReservationService {
                         .user(v.getUser())
                         .checkIn(v.getCheckIn())
                         .checkOut(v.getCheckOut())
+                        .totalPrice(v.getTotalPrice())
                         .build()
         ).collect(Collectors.toList());
     }
@@ -70,12 +71,17 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservationedRoomCount >= roomCount) {
             throw new ReservationException(ReservationErrorResult.NO_EMPTY_ROOM);
         }
+
+        final long period = ChronoUnit.DAYS.between(reservationRequest.getCheckIn(), reservationRequest.getCheckOut());
+        final int totalPrice = (int) period * room.get().getPrice();
         final Reservation reservation = Reservation.builder()
                 .user(user.get())
                 .room(room.get())
                 .checkIn(reservationRequest.getCheckIn())
                 .checkOut(reservationRequest.getCheckOut())
+                .totalPrice(totalPrice)
                 .build();
+
         final Reservation result = reservationRepository.save(reservation);
 
         return ReservationResponse.builder()
@@ -84,6 +90,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .room(result.getRoom())
                 .checkIn(result.getCheckIn())
                 .checkOut(result.getCheckOut())
+                .totalPrice(result.getTotalPrice())
                 .build();
     }
 

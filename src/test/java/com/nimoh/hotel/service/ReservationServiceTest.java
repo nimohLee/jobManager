@@ -126,11 +126,12 @@ public class ReservationServiceTest {
         doReturn(Optional.of(user(userId))).when(userRepository).findById(any());
         doReturn(2).when(reservationRepository).countByRoom(any());
         doReturn(3).when(roomRepository).findCountOfRoomsById(any());
-        doReturn(Reservation.builder().id(1L).build()).when(reservationRepository).save(any());
+        doReturn(Reservation.builder().id(1L).totalPrice(2000).build()).when(reservationRepository).save(any());
         //when
-        ReservationResponse result = reservationService.create(ReservationRequest.builder().build(), userId);
+        ReservationResponse result = reservationService.create(ReservationRequest.builder().checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(2)).build(), userId);
         //then
         assertThat(result.getId()).isEqualTo(1L);
+        assertThat(result.getTotalPrice()).isEqualTo(2000);
     }
 
     private Room room(Long roomId){
@@ -141,6 +142,7 @@ public class ReservationServiceTest {
                 .standardPeople(2)
                 .maxPeople(4)
                 .description("hello")
+                .price(1000)
                 .build();
     }
 

@@ -20,4 +20,6 @@ public class ReservationResponse {
     private LocalDate checkIn;
 
     private LocalDate checkOut;
+
+    private int totalPrice;
 }

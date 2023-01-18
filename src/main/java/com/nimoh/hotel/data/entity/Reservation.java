@@ -33,6 +33,8 @@ public class Reservation {
 
     private LocalDate checkOut;
 
+    private int totalPrice;
+
     public Long getId() {
         return id;
     }
