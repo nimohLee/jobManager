@@ -1,28 +1,30 @@
 import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap';
-import logo from '../../hotel_logo.png';
+import logo from '../../static/image/hotel_logo.png';
 
 function Header() {
     return (
-        <Navbar bg="white" expand="lg" className="border-b-gray-700">
+        <header className='border-b-gray-700 h-200'>
+            <Navbar bg="white" expand="lg">
             <Container>
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href="/">
                     <img src={logo} alt="Logo Image" className="w-40"/>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Reservation</Nav.Link>
-                        <Nav.Link href="#link">MyBooking</Nav.Link>
+                        <Nav.Link href="/reservation">Reservation</Nav.Link>
+                        <Nav.Link href="/myBook">MyBooking</Nav.Link>
                         <NavDropdown title="Member" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Log in</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Sign Up
+                            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                            <NavDropdown.Item href="/signUp">
+                                SignUp
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+        </header>
     );
 }
 
