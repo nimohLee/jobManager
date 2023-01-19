@@ -8,9 +8,10 @@ function ReservationSection() {
   useEffect(()=>{
     if (checkInDate > checkOutDate ) setCheckOutDate(checkInDate);
   },[checkInDate]);
+
   
   return (
-    <section className="text-center">
+    <section className="text-center" id='reservation-section'>
          <h2>Reservation</h2>
          <div className='flex justify-around'>
            <div>

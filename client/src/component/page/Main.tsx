@@ -1,6 +1,7 @@
 import ReservationSection from '../main/ReservationSection';
 import FacilitiesSection from '../main/FacilitiesSection';
 import WayToCome from '../main/WayToComeSection';
+
 function Main() {
     return (
         <main className=''>
