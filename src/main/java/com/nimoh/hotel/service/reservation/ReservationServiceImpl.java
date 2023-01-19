@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * 예약 서비스 구현체
+ * @author nimoh
+ */
 @Service
 public class ReservationServiceImpl implements ReservationService {
 

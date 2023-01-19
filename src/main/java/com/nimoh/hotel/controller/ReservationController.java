@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+/**
+ * 예약 컨트롤러
+ * @author nimoh
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/reservation")

@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 게시판 서비스
+ * 게시판 서비스 구현체
  * @author nimoh
  * */
 @Service

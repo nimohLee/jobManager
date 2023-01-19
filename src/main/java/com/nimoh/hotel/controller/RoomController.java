@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 방 컨트롤러
+ * @author nimoh
+ */
 @RestController
 @RequestMapping("/api/v1/room")
 public class RoomController {

@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-
+/**
+ * 사용자 컨트롤러
+ * @author nimoh
+ */
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {

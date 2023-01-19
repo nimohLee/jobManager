@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * 유저 서비스 구현체
+ * @author nimoh
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
