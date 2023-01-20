@@ -38,7 +38,7 @@
 
 |테이블명|필드명|데이터타입|필드설명|
 |---|---|---|---|
-|Board|id|bigint|게시판 테이블 기본키|
+|board|id|bigint|게시판 테이블 기본키|
 ||category|varchar|게시글 카테고리|
 ||content|varchar|게시글 내용|
 ||title|varchar|게시글 제목|
