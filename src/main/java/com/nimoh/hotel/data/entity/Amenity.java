@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Table
-public class Amenity {
+public class Amenity extends BaseEntity{
     @Getter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

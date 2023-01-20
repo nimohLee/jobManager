@@ -42,11 +42,9 @@ public class BoardServiceImpl implements BoardService{
                         .title(v.getTitle())
                         .user(v.getUser())
                         .content(v.getContent())
-                        .regDate(v.getRegDate())
                         .category(v.getCategory())
                         .build())
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -62,7 +60,6 @@ public class BoardServiceImpl implements BoardService{
                 .content(result.get().getContent())
                 .user(result.get().getUser())
                 .category(result.get().getCategory())
-                .regDate(result.get().getRegDate())
                 .build();
     }
 
@@ -80,7 +77,6 @@ public class BoardServiceImpl implements BoardService{
                 .content(boardRequest.getContent())
                 .user(user.get())
                 .category(boardRequest.getCategory())
-                .regDate(LocalDateTime.now())
                 .build();
 
         final Board savedBoard = boardRepository.save(board);

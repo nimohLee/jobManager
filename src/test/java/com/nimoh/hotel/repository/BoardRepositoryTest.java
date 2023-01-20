@@ -122,14 +122,7 @@ public class BoardRepositoryTest {
     public void 게시글수정하기() {
         //given
         final Board board = board(1L, user);
-
-        final Board updateBoard = Board.builder()
-                .id(1L)
-                        .title("updated")
-                                .content("hello")
-                                        .category("free")
-                                                .regDate(LocalDateTime.now())
-                                                        .build();
+        final Board updateBoard = Board.builder().id(1L).title("updated").build();
 
         //when
         boardRepository.save(board);
@@ -157,9 +150,7 @@ public class BoardRepositoryTest {
                 .title("test")
                 .content("hello")
                 .category("free")
-                .regDate(LocalDateTime.now())
                 .user(user)
                 .build();
     }
-
 }

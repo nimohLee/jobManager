@@ -15,4 +15,5 @@ public class RoomDetailResponse {
     private int standardPeople;
     private int countOfRooms;
     private String description;
+    private String image;
 }

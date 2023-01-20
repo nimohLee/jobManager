@@ -147,7 +147,6 @@ public class BoardServiceTest {
                 .content("hello")
                 .user(user(1L))
                 .category("free")
-                .regDate(LocalDateTime.now())
                 .build();
     }
     public User user(Long userId){

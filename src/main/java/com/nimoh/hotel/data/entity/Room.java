@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "room")
-public class Room {
+public class Room extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,8 +26,9 @@ public class Room {
     private int countOfRooms;
     private String description;
     private int price;
+    private String image;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id", nullable = true)
     private List<Amenity> amenities = new ArrayList<>();
 }

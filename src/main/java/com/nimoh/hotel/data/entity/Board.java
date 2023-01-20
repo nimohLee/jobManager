@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Table
 @DynamicUpdate
-public class Board {
+public class Board extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +32,6 @@ public class Board {
 
     @Column(name = "category",nullable = false)
     private String category;
-
-    @Column(name = "reg_date")
-    private LocalDateTime regDate;
-
 
     public Long getId() {
         return id;

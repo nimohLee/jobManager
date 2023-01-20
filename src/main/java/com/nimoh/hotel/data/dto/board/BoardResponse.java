@@ -17,5 +17,4 @@ public class BoardResponse {
     private final User user;
     private final String content;
     private final String category;
-    private final LocalDateTime regDate;
 }

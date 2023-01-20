@@ -226,7 +226,6 @@ public class BoardControllerTest {
                 .user(User.builder().build())
                 .content("hello")
                 .category("free")
-                .regDate(LocalDateTime.now())
                 .build();
     }
 

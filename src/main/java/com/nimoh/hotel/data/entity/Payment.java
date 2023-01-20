@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Table
-public class Payment {
+public class Payment extends BaseEntity {
     @Getter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
