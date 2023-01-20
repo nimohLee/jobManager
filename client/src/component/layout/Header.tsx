@@ -12,7 +12,7 @@ function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                                <Link
+                            {/* <Link
                                     activeClass="active"
                                     to="reservation-section"
                                     spy={true}
@@ -21,8 +21,8 @@ function Header() {
                                     style={{cursor:'pointer'}}
                                 >
                                     Reservation
-                                </Link>
-                            {/* <Nav.Link href="/reservation">Reservation</Nav.Link> */}
+                                </Link> */}
+                            <Nav.Link href="/reservation">Reservation</Nav.Link>
                             <Nav.Link href="/myBook">MyBooking</Nav.Link>
                             <NavDropdown title="Member" id="basic-nav-dropdown">
                                 <NavDropdown.Item href="/login">
