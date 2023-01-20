@@ -13,8 +13,7 @@
 
 ## 데이터베이스
 ### ERD
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/106662308/213617631-c33a6b80-1f66-4a09-948a-ee0b3b04fa46.png">
-
+![image](https://user-images.githubusercontent.com/106662308/213626879-51723dfd-b1f5-4c1a-be77-ece532188c97.png)
 
 ### 테이블 명세서
 ***모든 테이블 공통 속성***
