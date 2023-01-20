@@ -6,6 +6,7 @@ import com.nimoh.hotel.data.dto.board.BoardRequest;
 import com.nimoh.hotel.commons.board.BoardErrorResult;
 import com.nimoh.hotel.commons.board.BoardException;
 import com.nimoh.hotel.commons.GlobalExceptionHandler;
+import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.data.entity.User;
 import com.nimoh.hotel.service.board.BoardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -114,17 +116,16 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .header(USER_ID_HEADER, "1234")
+                        .sessionAttr("sid",UserResponse.builder().build())
                         .content(gson.toJson(boardRequest))
                         .contentType(MediaType.APPLICATION_JSON)
         );
         //then
         resultActions.andExpect(status().isCreated());
-
     }
 
     @Test
-    public void 게시글삭제실패_유저헤더없음() throws Exception{
+    public void 게시글삭제실패_유저세션없음() throws Exception{
         //given
         final String url = "/api/v1/board/1";
 
@@ -133,7 +134,7 @@ public class BoardControllerTest {
                 MockMvcRequestBuilders.delete(url)
         );
         //then
-        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isInternalServerError());
     }
 
     @Test
@@ -148,7 +149,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER, 1L)
+                        .sessionAttr("sid",UserResponse.builder().id(1L).build())
         );
         //then
         resultActions.andExpect(status().isForbidden());
@@ -162,7 +163,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .header(USER_ID_HEADER,1L)
+                        .sessionAttr("sid", UserResponse.builder().id(1L).build())
 
         );
         //then
@@ -192,7 +193,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
-                        .header(USER_ID_HEADER, 1L)
+                        .sessionAttr("sid",UserResponse.builder().id(1L).build())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(BoardRequest.builder().build()))
         );
@@ -209,7 +210,7 @@ public class BoardControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
-                        .header(USER_ID_HEADER,userId)
+                        .sessionAttr("sid",UserResponse.builder().id(userId).build())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(boardRequest))
         );
@@ -225,7 +226,7 @@ public class BoardControllerTest {
                 .user(User.builder().build())
                 .content("hello")
                 .category("free")
-                .regDate(new Date())
+                .regDate(LocalDateTime.now())
                 .build();
     }
 

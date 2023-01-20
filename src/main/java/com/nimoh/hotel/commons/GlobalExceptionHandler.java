@@ -39,7 +39,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         final List<String> errorList = ex.getBindingResult()
                 .getAllErrors()
-                // 이해가 안됨. 자바 문법 공부 필요 (람다식)
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());

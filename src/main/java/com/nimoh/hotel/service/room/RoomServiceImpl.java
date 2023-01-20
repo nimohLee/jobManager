@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * 방 서비스 구현체
+ * @author nimoh
+ */
 @Service
 public class RoomServiceImpl implements RoomService{
 

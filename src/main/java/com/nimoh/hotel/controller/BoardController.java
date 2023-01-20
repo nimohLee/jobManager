@@ -2,6 +2,7 @@ package com.nimoh.hotel.controller;
 
 import com.nimoh.hotel.data.dto.board.BoardResponse;
 import com.nimoh.hotel.data.dto.board.BoardRequest;
+import com.nimoh.hotel.data.dto.user.UserResponse;
 import com.nimoh.hotel.service.board.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
 
 
 /**
@@ -24,10 +24,8 @@ import static com.nimoh.hotel.constants.Headers.USER_ID_HEADER;
 @RestController
 @RequestMapping("/api/v1/board")
 public class BoardController {
-
     private final BoardService boardService;
     private final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
-
     @Autowired
     public BoardController(BoardService boardService){
         this.boardService = boardService;
@@ -70,13 +68,12 @@ public class BoardController {
      */
     @Operation(summary = "게시글 등록",description = "게시글을 작성합니다.")
     @PostMapping("")
-    public ResponseEntity<BoardResponse> save(
-            @RequestHeader(USER_ID_HEADER) final Long userId,
-            @RequestBody final BoardRequest boardRequest
-
+    public ResponseEntity<Void> save(
+            @RequestBody final BoardRequest boardRequest,
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-            BoardResponse result = boardService.save(boardRequest,userId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        boardService.save(boardRequest, loginUser.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     /**
@@ -86,11 +83,11 @@ public class BoardController {
     @Operation(summary = "게시글 수정",description = "게시글 id로 게시글을 수정합니다")
     @PutMapping("/{boardId}")
     public ResponseEntity<BoardResponse> update(
-            @RequestHeader(USER_ID_HEADER) Long userId,
             @PathVariable Long boardId,
-            @RequestBody BoardRequest boardRequest
+            @RequestBody BoardRequest boardRequest,
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-        BoardResponse result = boardService.update(boardRequest,userId,boardId);
+        BoardResponse result = boardService.update(boardRequest,loginUser.getId(),boardId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -101,10 +98,10 @@ public class BoardController {
     @Operation(summary = "게시글 삭제",description = "게시글 id로 게시글을 삭제합니다")
     @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> delete(
-            @RequestHeader(USER_ID_HEADER) final Long userId,
+            @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
             @PathVariable Long boardId
     ) {
-        boardService.delete(boardId,userId);
+        boardService.delete(boardId,loginUser.getId());
         return ResponseEntity.noContent().build();
     }
 }

@@ -3,6 +3,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -33,7 +34,7 @@ public class Board {
     private String category;
 
     @Column(name = "reg_date")
-    private Date regDate;
+    private LocalDateTime regDate;
 
 
     public Long getId() {

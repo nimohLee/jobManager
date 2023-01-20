@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -146,7 +147,7 @@ public class BoardServiceTest {
                 .content("hello")
                 .user(user(1L))
                 .category("free")
-                .regDate(new Date())
+                .regDate(LocalDateTime.now())
                 .build();
     }
     public User user(Long userId){

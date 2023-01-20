@@ -25,6 +25,7 @@ public class Room {
     private int standardPeople;
     private int countOfRooms;
     private String description;
+    private int price;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id", nullable = true)

@@ -13,8 +13,8 @@ import javax.validation.constraints.NotBlank;
 @ToString
 @Builder
 public class UserResponse {
-
-    String uid;
-    String name;
-    String email;
+    private Long id;
+    private String uid;
+    private String name;
+    private String email;
 }
