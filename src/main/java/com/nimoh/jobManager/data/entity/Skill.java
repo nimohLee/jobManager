@@ -5,12 +5,12 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Getter
 @Table
-public class Amenity extends BaseEntity{
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Skill {
     @Getter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

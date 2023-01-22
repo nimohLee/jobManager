@@ -1,11 +1,7 @@
 package com.nimoh.jobManager.commons;
 
-import com.nimoh.jobManager.commons.board.BoardErrorResult;
-import com.nimoh.jobManager.commons.board.BoardException;
-import com.nimoh.jobManager.commons.reservation.ReservationErrorResult;
-import com.nimoh.jobManager.commons.reservation.ReservationException;
-import com.nimoh.jobManager.commons.room.RoomErrorResult;
-import com.nimoh.jobManager.commons.room.RoomException;
+import com.nimoh.jobManager.commons.job.JobErrorResult;
+import com.nimoh.jobManager.commons.job.JobException;
 import com.nimoh.jobManager.commons.user.UserErrorResult;
 import com.nimoh.jobManager.commons.user.UserException;
 import lombok.Getter;
@@ -46,21 +42,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return this.makeErrorResponseEntity(errorList.toString());
     }
 
-    @ExceptionHandler({BoardException.class})
-    public ResponseEntity<ErrorResponse> handleRestApiException(final BoardException exception){
+    @ExceptionHandler({JobException.class})
+    public ResponseEntity<ErrorResponse> handleRestApiException(final JobException exception){
         log.warn("BoardException occur:", exception);
-        return this.makeErrorResponseEntity(exception.getErrorResult());
-    }
-
-    @ExceptionHandler({ReservationException.class})
-    public ResponseEntity<ErrorResponse> handleRestApiException(final ReservationException exception){
-        log.warn("ReservationException occur:", exception);
-        return this.makeErrorResponseEntity(exception.getErrorResult());
-    }
-
-    @ExceptionHandler({RoomException.class})
-    public ResponseEntity<ErrorResponse> handleRestApiException(final RoomException exception){
-        log.warn("RoomException occur:", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
@@ -73,7 +57,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({Exception.class})
     public ResponseEntity<ErrorResponse> handleException(final Exception exception) {
         log.warn("Exception occur: ", exception);
-        return this.makeErrorResponseEntity(BoardErrorResult.UNKNOWN_EXCEPTION);
+        return this.makeErrorResponseEntity(JobErrorResult.UNKNOWN_EXCEPTION);
     }
 
     private ResponseEntity<Object> makeErrorResponseEntity(final String errorDescription){
@@ -81,25 +65,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorDescription));
     }
 
-    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final BoardErrorResult errorResult) {
+    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final JobErrorResult errorResult) {
         return ResponseEntity.status(errorResult.getHttpStatus())
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
     }
-
-    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final ReservationErrorResult errorResult) {
-        return ResponseEntity.status(errorResult.getHttpStatus())
-                .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
-    }
-
     private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final UserErrorResult errorResult) {
         return ResponseEntity.status(errorResult.getHttpStatus())
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
     }
 
-    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final RoomErrorResult errorResult) {
-        return ResponseEntity.status(errorResult.getHttpStatus())
-                .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
-    }
 
     @Getter
     @RequiredArgsConstructor

@@ -1,9 +1,9 @@
 package com.nimoh.jobManager.controller;
 
-import com.nimoh.jobManager.data.dto.board.BoardResponse;
-import com.nimoh.jobManager.data.dto.board.BoardRequest;
+import com.nimoh.jobManager.data.dto.job.JobResponse;
+import com.nimoh.jobManager.data.dto.job.JobRequest;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
-import com.nimoh.jobManager.service.board.BoardService;
+import com.nimoh.jobManager.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,12 +23,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v1/board")
-public class BoardController {
-    private final BoardService boardService;
-    private final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
+public class JobController {
+    private final JobService jobService;
+    private final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
     @Autowired
-    public BoardController(BoardService boardService){
-        this.boardService = boardService;
+    public JobController(JobService jobService){
+        this.jobService = jobService;
     }
 
     /**
@@ -42,25 +42,11 @@ public class BoardController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다")
     })
     @GetMapping("")
-    public ResponseEntity<List<BoardResponse>> getList() {
+    public ResponseEntity<List<JobResponse>> getList() {
         LOGGER.info("getList 메서드가 호출되었습니다");
-        return ResponseEntity.status(HttpStatus.OK).body(boardService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(jobService.findAll());
     }
 
-    /**
-     * 게시판 상세정보 리턴
-     *
-     * @param boardIdx
-     * @return
-     */
-    @Operation(summary = "게시글 하나 조회",description = "게시글 id로 게시글 하나 조회합니다")
-    @GetMapping("/{boardIdx}")
-    public ResponseEntity<BoardResponse> get(
-            @PathVariable Long boardIdx
-    ) {
-        return ResponseEntity.status(HttpStatus.OK)
-                    .body(boardService.findById(boardIdx));
-    }
 
     /**
      * 게시글 등록
@@ -69,10 +55,10 @@ public class BoardController {
     @Operation(summary = "게시글 등록",description = "게시글을 작성합니다.")
     @PostMapping("")
     public ResponseEntity<Void> save(
-            @RequestBody final BoardRequest boardRequest,
+            @RequestBody final JobRequest boardRequest,
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-        boardService.save(boardRequest, loginUser.getId());
+        jobService.save(boardRequest, loginUser.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -82,12 +68,12 @@ public class BoardController {
      */
     @Operation(summary = "게시글 수정",description = "게시글 id로 게시글을 수정합니다")
     @PutMapping("/{boardId}")
-    public ResponseEntity<BoardResponse> update(
+    public ResponseEntity<JobResponse> update(
             @PathVariable Long boardId,
-            @RequestBody BoardRequest boardRequest,
+            @RequestBody JobRequest boardRequest,
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-        BoardResponse result = boardService.update(boardRequest,loginUser.getId(),boardId);
+        JobResponse result = jobService.update(boardRequest,loginUser.getId(),boardId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -101,7 +87,7 @@ public class BoardController {
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
             @PathVariable Long boardId
     ) {
-        boardService.delete(boardId,loginUser.getId());
+        jobService.delete(boardId,loginUser.getId());
         return ResponseEntity.noContent().build();
     }
 }

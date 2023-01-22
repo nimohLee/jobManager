@@ -1,14 +1,15 @@
 package com.nimoh.jobManager.controller;
 import com.google.gson.Gson;
 
-import com.nimoh.jobManager.data.dto.board.BoardResponse;
-import com.nimoh.jobManager.data.dto.board.BoardRequest;
-import com.nimoh.jobManager.commons.board.BoardErrorResult;
-import com.nimoh.jobManager.commons.board.BoardException;
+import com.nimoh.jobManager.data.dto.job.JobResponse;
+import com.nimoh.jobManager.data.dto.job.JobRequest;
+import com.nimoh.jobManager.commons.job.JobErrorResult;
+import com.nimoh.jobManager.commons.job.JobException;
 import com.nimoh.jobManager.commons.GlobalExceptionHandler;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
+import com.nimoh.jobManager.data.entity.Skill;
 import com.nimoh.jobManager.data.entity.User;
-import com.nimoh.jobManager.service.board.BoardServiceImpl;
+import com.nimoh.jobManager.service.job.JobServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import static com.nimoh.jobManager.constants.Headers.USER_ID_HEADER;
@@ -31,59 +33,31 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class BoardControllerTest {
+public class JobControllerTest {
 
     private MockMvc mockMvc;
     private Gson gson;
 
     @InjectMocks
-    private BoardController boardController;
+    private JobController jobController;
     @Mock
-    private BoardServiceImpl boardService;
+    private JobServiceImpl jobService;
 
     @BeforeEach
     public void init() {
         gson = new Gson();
-        mockMvc = MockMvcBuilders.standaloneSetup(boardController).setControllerAdvice(new GlobalExceptionHandler()).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(jobController).setControllerAdvice(new GlobalExceptionHandler()).build();
     }
 
     @Test
-    public void 게시글하나조회실패_해당게시글없음() throws Exception {
-        //given
-        final String url = "/api/v1/board/-1";
-
-        doThrow(new BoardException(BoardErrorResult.BOARD_NOT_FOUND)).when(boardService).findById(-1L);
-        //when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get(url)
-                        .header(USER_ID_HEADER,"123")
-        );
-        //then
-        resultActions.andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void 게시글하나조회성공() throws Exception{
-        //given
-        final String url = "/api/v1/board/1";
-        doReturn(boardDetailResponse()).when(boardService).findById(1L);
-        //when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get(url)
-        );
-        //then
-        resultActions.andExpect(status().isOk());
-    }
-
-    @Test
-    public void 게시글모두조회성공() throws Exception {
+    public void 지원모두조회성공() throws Exception {
         //given
         final String url = "/api/v1/board";
         doReturn(Arrays.asList(
-                BoardResponse.builder().build(),
-                BoardResponse.builder().build(),
-                BoardResponse.builder().build()
-        )).when(boardService).findAll();
+                JobResponse.builder().build(),
+                JobResponse.builder().build(),
+                JobResponse.builder().build()
+        )).when(jobService).findAll();
         //when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
@@ -93,7 +67,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글등록실패_유저헤더없음() throws Exception {
+    public void 지원등록실패_유저헤더없음() throws Exception {
         //given
         final String url = "/api/v1/board/";
 
@@ -106,16 +80,18 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글등록성공() throws Exception{
+    public void 지원등록성공() throws Exception{
         //given
         final String url = "/api/v1/board";
-        BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
-        given(boardService.save(any(),any())).willReturn(boardDetailResponse());
+        JobRequest jobRequest = jobRequest();
+        String content = gson.toJson(jobRequest);
+
+        given(jobService.save(any(),any())).willReturn(jobResponse());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
                         .sessionAttr("sid",UserResponse.builder().build())
-                        .content(gson.toJson(boardRequest))
+                        .content(jobRequestJson())
                         .contentType(MediaType.APPLICATION_JSON)
         );
         //then
@@ -123,7 +99,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글삭제실패_유저세션없음() throws Exception{
+    public void 지원삭제실패_유저세션없음() throws Exception{
         //given
         final String url = "/api/v1/board/1";
 
@@ -136,13 +112,13 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글삭제실패_삭제권한없음() throws Exception{
+    public void 지원삭제실패_삭제권한없음() throws Exception{
         //given
         final String url = "/api/v1/board/1";
         final Long boardId = 1L;
         final Long userId = 1L;
-        lenient().doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
-                .when(boardService)
+        lenient().doThrow(new JobException(JobErrorResult.NO_PERMISSION))
+                .when(jobService)
                 .delete(boardId,userId);
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -154,10 +130,10 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글삭제성공() throws Exception {
+    public void 지원삭제성공() throws Exception {
         //given
         String url = "/api/v1/board/1";
-        doReturn(true).when(boardService).delete(1L,1L);
+        doReturn(true).when(jobService).delete(1L,1L);
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
@@ -169,7 +145,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글수정실패_유저헤더없음() throws Exception {
+    public void 지원수정실패_유저헤더없음() throws Exception {
         //given
         final String url = "/api/v1/board/1";
 
@@ -182,57 +158,87 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void 게시글수정실패_수정권한없음() throws Exception {
+    public void 지원수정실패_수정권한없음() throws Exception {
         //given
         final String url = "/api/v1/board/1";
-        doThrow(new BoardException(BoardErrorResult.NO_PERMISSION))
-                .when(boardService)
-                .update(any(BoardRequest.class),any(),any());
+        doThrow(new JobException(JobErrorResult.NO_PERMISSION))
+                .when(jobService)
+                .update(any(JobRequest.class),any(),any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
                         .sessionAttr("sid",UserResponse.builder().id(1L).build())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(BoardRequest.builder().build()))
+                        .content(gson.toJson(JobRequest.builder().build()))
         );
         //then
         resultActions.andExpect(status().isForbidden());
     }
 
     @Test
-    public void 게시글수정성공() throws Exception{
+    public void 지원수정성공() throws Exception{
         //given
         final String url = "/api/v1/board/1";
         final Long userId = 1L;
-        final BoardRequest boardRequest = boardRequest("test",1L,"hello","free");
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
                         .sessionAttr("sid",UserResponse.builder().id(userId).build())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(gson.toJson(boardRequest))
+                        .content(jobRequestJson())
         );
         //then
         resultActions.andExpect(status().isCreated());
     }
 
-    private BoardResponse boardDetailResponse() throws ParseException {
+    private JobResponse jobResponse() throws ParseException {
 
-        return BoardResponse.builder()
+        return JobResponse.builder()
                 .id(1L)
-                .title("test")
-                .user(User.builder().build())
-                .content("hello")
-                .category("free")
+                .companyName("test")
+                .huntingSite("test site")
+                .employeesNumber(100)
+                .location("서울특별시")
+                .position("백엔드")
+                .requiredCareer("신입")
+                .primarySkill(Arrays.asList(Skill.builder().build()))
+                .applyDate(LocalDate.now())
+                .result("합격")
+                .note("좋은 회사")
                 .build();
     }
 
-    private BoardRequest boardRequest(final String title, final Long writer, final String content, final String category) {
-        return BoardRequest.builder()
-                .title(title)
-                .content(content)
-                .writer(writer)
-                .category(category)
+    private JobRequest jobRequest() {
+        return JobRequest.builder()
+                .companyName("test")
+                .huntingSite("test site")
+                .employeesNumber(100)
+                .location("서울특별시")
+                .position("백엔드")
+                .requiredCareer("신입")
+                .primarySkill(Arrays.asList(Skill.builder().build()))
+                .applyDate(LocalDate.now())
+                .result("합격")
+                .note("좋은 회사")
                 .build();
+    }
+
+    private String jobRequestJson() {
+        return "{ " +
+                "\"companyName\" : \"test\"," +
+                "\"huntingSite\" : \"test site\"," +
+                "\"employeesNumber\" : 100," +
+                "\"location\" : \"서울특별시\"," +
+                "\"position\" : \"백엔드\"," +
+                "\"requiredCareer\" : \"신입\"," +
+                "\"primarySkill\" : [ " +
+                "{" +
+                "\"name\" : \"Java\"" +
+                "}" +
+                "], " +
+                "\"applyDate\" : \"2022-11-30T12:10:11\"," +
+                "\"result\" : \"합격\"," +
+                "\"note\" : \"좋은 회사\"" +
+                "}";
     }
 }
