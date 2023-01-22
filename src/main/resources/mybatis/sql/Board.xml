@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nimoh.hotel.repository.BoardRepository">
-    <select id="getList" parameterType="com.nimoh.hotel.data.entity.Board" resultType="com.nimoh.hotel.data.entity.Board">
+<mapper namespace="com.nimoh.jobManager.repository.BoardRepository">
+    <select id="getList" parameterType="com.nimoh.jobManager.data.entity.Board" resultType="com.nimoh.jobManager.data.entity.Board">
         SELECT
             *
         FROM Board
     </select>
 
-    <select id="get" parameterType="int" resultType="com.nimoh.hotel.data.entity.Board">
+    <select id="get" parameterType="int" resultType="com.nimoh.jobManager.data.entity.Board">
         SELECT
         *
         FROM Board
         WHERE id = #{boardIdx}
     </select>
 
-    <insert id="save" parameterType="com.nimoh.hotel.data.entity.Board">
+    <insert id="save" parameterType="com.nimoh.jobManager.data.entity.Board">
         INSERT INTO Board VALUES
         (
             null,
@@ -26,7 +26,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.nimoh.hotel.data.entity.Board">
+    <update id="update" parameterType="com.nimoh.jobManager.data.entity.Board">
         UPDATE Board
         SET
             title = #{title},

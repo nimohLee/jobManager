@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nimoh</groupId>
-	<artifactId>hotel</artifactId>
+	<artifactId>jobManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hotel</name>
-	<description>hotel</description>
+	<name>jobManager</name>
+	<description>jobManager</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
