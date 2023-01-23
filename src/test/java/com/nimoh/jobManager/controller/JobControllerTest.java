@@ -52,7 +52,7 @@ public class JobControllerTest {
     @Test
     public void 지원모두조회성공() throws Exception {
         //given
-        final String url = "/api/v1/board";
+        final String url = "/api/v1/job";
         doReturn(Arrays.asList(
                 JobResponse.builder().build(),
                 JobResponse.builder().build(),
@@ -69,7 +69,7 @@ public class JobControllerTest {
     @Test
     public void 지원등록실패_유저헤더없음() throws Exception {
         //given
-        final String url = "/api/v1/board/";
+        final String url = "/api/v1/job";
 
         //when
         final ResultActions resultActions = mockMvc.perform(
@@ -82,7 +82,7 @@ public class JobControllerTest {
     @Test
     public void 지원등록성공() throws Exception{
         //given
-        final String url = "/api/v1/board";
+        final String url = "/api/v1/job";
         JobRequest jobRequest = jobRequest();
         String content = gson.toJson(jobRequest);
 
@@ -101,7 +101,7 @@ public class JobControllerTest {
     @Test
     public void 지원삭제실패_유저세션없음() throws Exception{
         //given
-        final String url = "/api/v1/board/1";
+        final String url = "/api/v1/job/1";
 
         //when
         final ResultActions resultActions = mockMvc.perform(
@@ -114,7 +114,7 @@ public class JobControllerTest {
     @Test
     public void 지원삭제실패_삭제권한없음() throws Exception{
         //given
-        final String url = "/api/v1/board/1";
+        final String url = "/api/v1/job/1";
         final Long boardId = 1L;
         final Long userId = 1L;
         lenient().doThrow(new JobException(JobErrorResult.NO_PERMISSION))
@@ -132,7 +132,7 @@ public class JobControllerTest {
     @Test
     public void 지원삭제성공() throws Exception {
         //given
-        String url = "/api/v1/board/1";
+        String url = "/api/v1/job/1";
         doReturn(true).when(jobService).delete(1L,1L);
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -147,7 +147,7 @@ public class JobControllerTest {
     @Test
     public void 지원수정실패_유저헤더없음() throws Exception {
         //given
-        final String url = "/api/v1/board/1";
+        final String url = "/api/v1/job/1";
 
         //when
         final ResultActions resultActions = mockMvc.perform(
@@ -160,7 +160,7 @@ public class JobControllerTest {
     @Test
     public void 지원수정실패_수정권한없음() throws Exception {
         //given
-        final String url = "/api/v1/board/1";
+        final String url = "/api/v1/job/1";
         doThrow(new JobException(JobErrorResult.NO_PERMISSION))
                 .when(jobService)
                 .update(any(JobRequest.class),any(),any());
@@ -178,7 +178,7 @@ public class JobControllerTest {
     @Test
     public void 지원수정성공() throws Exception{
         //given
-        final String url = "/api/v1/board/1";
+        final String url = "/api/v1/job/1";
         final Long userId = 1L;
         //when
         ResultActions resultActions = mockMvc.perform(

@@ -22,7 +22,7 @@ import java.util.List;
  * @author nimoh
  */
 @RestController
-@RequestMapping("/api/v1/board")
+@RequestMapping("/api/v1/job")
 public class JobController {
     private final JobService jobService;
     private final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
@@ -67,13 +67,13 @@ public class JobController {
      * @param board
      */
     @Operation(summary = "게시글 수정",description = "게시글 id로 게시글을 수정합니다")
-    @PutMapping("/{boardId}")
+    @PutMapping("/{jobId}")
     public ResponseEntity<JobResponse> update(
-            @PathVariable Long boardId,
-            @RequestBody JobRequest boardRequest,
+            @PathVariable Long jobId,
+            @RequestBody JobRequest jobRequest,
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-        JobResponse result = jobService.update(boardRequest,loginUser.getId(),boardId);
+        JobResponse result = jobService.update(jobRequest,loginUser.getId(),jobId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -82,12 +82,12 @@ public class JobController {
      * @param boardIdx
      */
     @Operation(summary = "게시글 삭제",description = "게시글 id로 게시글을 삭제합니다")
-    @DeleteMapping("/{boardId}")
+    @DeleteMapping("/{jobId}")
     public ResponseEntity<Void> delete(
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
-            @PathVariable Long boardId
+            @PathVariable Long jobId
     ) {
-        jobService.delete(boardId,loginUser.getId());
+        jobService.delete(jobId,loginUser.getId());
         return ResponseEntity.noContent().build();
     }
 }
