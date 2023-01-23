@@ -13,15 +13,27 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class JobResponse {
+
     private Long id;
+
     private String companyName;
+
     private Integer employeesNumber;
+
     private String huntingSite;
+
     private String location;
+
     private String position;
+
     private String requiredCareer;
+
     private List<Skill> primarySkill = new ArrayList<>();
+
     private LocalDate applyDate;
+
     private String result;
+
     private String note;
+
 }

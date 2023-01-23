@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * 게시판 레퍼지토리
+ * 직무 지원 레퍼지토리
  * @author nimoh
  * */
-@Repository
+
 public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findAllByUser(User user);
 

@@ -10,9 +10,11 @@ import lombok.*;
 @ToString
 @Builder
 public class UserLogInRequest {
+
     @UserId
     private String uid;
 
     @Password
     private String password;
+
 }

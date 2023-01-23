@@ -105,7 +105,6 @@ public class JobRepositoryTest {
     public void 회사명으로지원조회() {
         //given
         final Job job = job(2L, user);
-
         final Job job2 = job(3L, user);
 
         jobRepository.save(job);

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 /**
- * 게시판 컨트롤러
+ * 직무 지원 컨트롤러
  * @author nimoh
  */
 @RestController
@@ -32,13 +32,13 @@ public class JobController {
     }
 
     /**
-     * 게시판 목록 리턴
+     * 직무 지원 목록 리턴
      * @return
      */
-    @Operation(summary = "게시글 목록 조회", description = "게시글 목록을 모두 조회합니다")
+    @Operation(summary = "직무 지원 목록 조회", description = "직무 지원 목록을 모두 조회합니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "게시글 목록 조회 성공"),
-            @ApiResponse(responseCode = "204", description = "게시글이 없습니다"),
+            @ApiResponse(responseCode = "200", description = "직무 지원 목록 조회 성공"),
+            @ApiResponse(responseCode = "204", description = "직무 지원내역이 없습니다"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다")
     })
     @GetMapping("")
@@ -49,24 +49,24 @@ public class JobController {
 
 
     /**
-     * 게시글 등록
-     * @param boardDto
+     * 직무 지원 등록
+     * @param jobRequest
      */
-    @Operation(summary = "게시글 등록",description = "게시글을 작성합니다.")
+    @Operation(summary = "직무 지원 등록",description = "직무 지원을 작성합니다.")
     @PostMapping("")
     public ResponseEntity<Void> save(
-            @RequestBody final JobRequest boardRequest,
+            @RequestBody final JobRequest jobRequest,
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
-        jobService.save(boardRequest, loginUser.getId());
+        jobService.save(jobRequest, loginUser.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     /**
-     * 게시글 수정
-     * @param board
+     * 직무 지원 수정
+     * @param jobId
      */
-    @Operation(summary = "게시글 수정",description = "게시글 id로 게시글을 수정합니다")
+    @Operation(summary = "직무 지원 수정",description = "직무 지원 id로 직무 지원을 수정합니다")
     @PutMapping("/{jobId}")
     public ResponseEntity<JobResponse> update(
             @PathVariable Long jobId,
@@ -78,10 +78,10 @@ public class JobController {
     }
 
     /**
-     * 게시글 삭제
-     * @param boardIdx
+     * 직무 지원 삭제
+     * @param jobId
      */
-    @Operation(summary = "게시글 삭제",description = "게시글 id로 게시글을 삭제합니다")
+    @Operation(summary = "직무 지원 삭제",description = "직무 지원 id로 직무 지원을 삭제합니다")
     @DeleteMapping("/{jobId}")
     public ResponseEntity<Void> delete(
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser,

@@ -69,7 +69,7 @@ public class JobServiceTest {
         //when
         final JobException result = assertThrows(JobException.class,()->jobService.delete(jobId,userId));
         //then
-        assertThat(result.getErrorResult()).isEqualTo(JobErrorResult.BOARD_NOT_FOUND);
+        assertThat(result.getErrorResult()).isEqualTo(JobErrorResult.APPLY_NOT_FOUND);
     }
 
     @Test

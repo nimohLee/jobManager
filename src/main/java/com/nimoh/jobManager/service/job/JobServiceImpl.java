@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 게시판 서비스 구현체
+ * 직무 지원 서비스 구현체
  * @author nimoh
  * */
 @Service
@@ -30,7 +30,6 @@ public class JobServiceImpl implements JobService {
         this.jobRepository = jobRepository;
         this.userRepository = userRepository;
     }
-
 
     @Override
     public List<JobResponse> findAll() {
@@ -55,7 +54,7 @@ public class JobServiceImpl implements JobService {
     public JobResponse update(JobRequest jobRequest, Long userId, Long jobId){
         final Optional<Job> targetJob = jobRepository.findById(jobId);
         if(targetJob.isEmpty()){
-            throw new JobException(JobErrorResult.BOARD_NOT_FOUND);
+            throw new JobException(JobErrorResult.APPLY_NOT_FOUND);
         }
         Optional<User> user = userRepository.findById(userId);
         if(!targetJob.get().getUser().equals(user.get())){
@@ -72,7 +71,7 @@ public class JobServiceImpl implements JobService {
         final Optional<Job> targetJob = jobRepository.findById(jobId);
         final Optional<User> user = userRepository.findById(userId);
         if (targetJob.isEmpty()){
-            throw new JobException(JobErrorResult.BOARD_NOT_FOUND);
+            throw new JobException(JobErrorResult.APPLY_NOT_FOUND);
         }
         if (user.isEmpty()){
             throw new JobException(JobErrorResult.REQUEST_VALUE_INVALID);
@@ -99,6 +98,7 @@ public class JobServiceImpl implements JobService {
                 .user(user)
                 .build();
     }
+
     private JobResponse makeJobResponse(Job job) {
         return JobResponse.builder()
                 .id(job.getId())
