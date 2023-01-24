@@ -7,6 +7,7 @@ import Main from "./component/page/Main";
 import Login from "./component/page/Login";
 import SignUp from "./component/page/SignUp";
 import Application from "./component/page/Application";
+import { useState } from 'react';
 function App() {
   return (
     <div className="App">

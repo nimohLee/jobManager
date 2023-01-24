@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
 import { FormEvent, useState } from 'react';
+
 function Login() {
     const [id, setId] = useState<string>();
     const [password, setPassword] = useState<string>();
@@ -14,22 +15,28 @@ function Login() {
         }
     }
 
-    const postLogin = (e:FormEvent<HTMLFormElement>) =>{
+    const postLogin = async (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        const url = "http://localhost:8000/api/v1/user/login";
+        const url = "/api/v1/user/login";
         const data = {
             uid : id?.trim(),
             password : password?.trim()
         }
-        console.log(data);
-        axios({
-            method: "post",
-            url: url,
-            data: data,
-            headers : {
-                "Content-Type" : 'application/json'
-            }
-        });
+        try{
+            await axios({
+                method: "post",
+                url: url,
+                data: data,
+                headers : {
+                    "Content-Type" : 'application/json'
+                }
+            });
+            localStorage.setItem("isLogin","true");
+            window.location.href="/";
+        }catch(err){
+            console.error(err);
+        }
+        
     }
 
     return (
@@ -37,17 +44,17 @@ function Login() {
             <section className='py-16 px-32 top-20 relative border border-b'>
             <form onSubmit={postLogin}>
                 <div className="mb-3 flex flex-column">
-                    <label className='mb-2'>User ID</label>
+                    <label className='mb-2'>아이디</label>
                     <input type="ID" placeholder="Enter ID"  className='px-3 py-2 border border-solid' onChange={onChange}/>
                 </div>
 
                 <div className="mb-3 flex flex-column">
-                    <label className='mb-2'>Password</label>
+                    <label className='mb-2'>비밀번호</label>
                     <input type="Password" placeholder="Password"  className='px-3 py-2 border border-solid' onChange={onChange}/>
                 </div>
 
                 <Button variant="secondary" type="submit" className='float-right'>
-                    Login
+                    로그인
                 </Button>
             </form>
             </section>
