@@ -17,6 +17,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { UpdateInfo } from '../../common/types/propType';
 import ApplicationDetail from './ApplcationDetail';
+import { Button, Modal } from 'react-bootstrap';
+import { useEffect } from 'react';
 
 
 function classNames(...classes:any) {
@@ -25,6 +27,7 @@ function classNames(...classes:any) {
 
 function Application({info}:UpdateInfo) {
   const [show, setShow] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [detail, setDetail] = useState(false);
   const [updateData, setUpdateData] = useState(info);
 
@@ -39,12 +42,13 @@ function Application({info}:UpdateInfo) {
       await axios({
         method:"delete",
         url: url
-      })
+      });
+      setDeleteModal(false);
+      window.location.reload();
     }catch(err){
-      console.error(err);
+      alert("알 수 없는 에러가 발생했습니다. 잠시 후에 다시 시도해주세요");
     }
   }
-
 
   return (
     <div className="lg:flex lg:items-center lg:justify-between">
@@ -108,13 +112,25 @@ function Application({info}:UpdateInfo) {
             <button
               type="button"
               className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              onClick={deleteApplication}
+              onClick={()=>setDeleteModal(true)}
             >
               <CheckIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
               지원종료
             </button>
           </span>
-        
+          <Modal show={deleteModal} onHide={()=>setDeleteModal(false)}>
+                    <Modal.Header closeButton>
+            <Modal.Title>지원 삭제</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+            <p>지원내역을 삭제하시겠습니까?</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+            <Button variant="secondary" onClick={()=>setDeleteModal(false)}>닫기</Button>
+            <Button variant="primary" onClick={deleteApplication}>삭제</Button>
+                    </Modal.Footer>
+          </Modal>
+          
           {/* Dropdown */}
           <Menu as="div" className="relative ml-3 sm:hidden">
             <Menu.Button className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
