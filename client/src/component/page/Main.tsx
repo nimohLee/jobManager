@@ -1,6 +1,4 @@
-import ReservationSection from '../main/ReservationSection';
-import FacilitiesSection from '../main/FacilitiesSection';
-import WayToCome from '../main/WayToComeSection';
+
 
 function Main() {
     return (
@@ -12,9 +10,6 @@ function Main() {
                     <p className='text-xl'>Manage your application efficiently</p>
                 </div>
             </section>
-            <ReservationSection/>
-            <FacilitiesSection/>
-            <WayToCome/>
         </main>
     );
 }

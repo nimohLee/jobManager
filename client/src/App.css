@@ -1,18 +1,18 @@
 .bg{
-    background-image: url(./static//image/main_image.jpg);
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: -1;
-    width: 100vw;
-    height: 100vh;
+  background-image: url(./static//image/main_image.jpg);
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
 }
 .intro-section{
-    position: absolute;
-    top: 45vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
+  position: absolute;
+  top: 45vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }

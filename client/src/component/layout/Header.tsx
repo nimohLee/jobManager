@@ -15,7 +15,7 @@ function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/application">지원관리</Nav.Link>
+                            <Nav.Link href="/manager" className='text-26'>지원관리</Nav.Link>
                             <Nav.Link href="/diary">다이어리</Nav.Link>
                             {
                             localStorage.getItem("isLogin") ? 

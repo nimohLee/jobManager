@@ -73,13 +73,13 @@ function SignUp() {
                     "Content-Type" : 'application/json'
                 }
             });
-            console.log(result);
+            alert("회원가입이 완료되었습니다.");
+            window.location.href="/";
         }catch(err){
             // AxiosError에서 data에 접근할 수 없어 커스텀 에러 참조
             const error = err as CustomError;
             if(error.response?.status === 409){
                 alert("이미 존재하는 아이디 입니다.");
-                
             }
             else if(error.response?.data.message.match('id')){
                 setId({error:true});

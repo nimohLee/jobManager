@@ -6,7 +6,7 @@ import Header from "./component/layout/Header";
 import Main from "./component/page/Main";
 import Login from "./component/page/Login";
 import SignUp from "./component/page/SignUp";
-import Application from "./component/page/Application";
+import Manager from './component/page/Manager';
 import { useState } from 'react';
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
               <Route path="/" element={<Main/>}></Route>
               <Route path="/login" element={<Login/>}></Route>
               <Route path="/signUp" element={<SignUp/>}></Route>
-              <Route path="/application" element={<Application/>}></Route>
+              <Route path="/manager" element={<Manager/>}></Route>
           </Routes>
         </BrowserRouter>
     </div>

@@ -34,7 +34,7 @@ function Login() {
             localStorage.setItem("isLogin","true");
             window.location.href="/";
         }catch(err){
-            console.error(err);
+            alert("아이디 또는 비밀번호가 잘못되었습니다");
         }
         
     }
