@@ -9,6 +9,7 @@ import SignUp from "./component/page/SignUp";
 import Manager from './component/page/Manager';
 import NotFound from './component/page/NotFound';
 import SubHeader from './component/layout/SubHeader';
+import AddApply from './component/page/AddApply';
 function App() {
   return (
     <div className="App">
@@ -19,6 +20,7 @@ function App() {
               <Route path="/login" element={<SubHeader children={<Login/>} title="로그인"/>}></Route>
               <Route path="/signUp" element={<SubHeader children={<SignUp/>} title="회원가입"/>}></Route>
               <Route path="/manager" element={<SubHeader children={<Manager/>} title="지원내역"/>}></Route>
+              <Route path="/addApply" element={<SubHeader children={<AddApply/>} title="지원 등록"/>}></Route>
               <Route path='*' element={<NotFound/>}></Route>
           </Routes>
         </BrowserRouter>

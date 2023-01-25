@@ -1,10 +1,12 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import userImage from '../../static/image/user.png';
 import axios from 'axios';
+import logo from '../../static/image/jm_logo.png';
 const navigation = [
-  { name: '지원내역', href: '/manager', current: true },
+  { name: '지원내역', href: '/manager', current: false },
+  { name: '지원등록', href: '/addApply', current: false }
 ]
 
 function classNames(...classes:any) {
@@ -20,7 +22,7 @@ export default function Header() {
                     url: "/api/v1/user/logout"
                 });
                 localStorage.removeItem("isLogin");
-                window.location.reload();
+                window.location.href = "/";
             }catch(err){
                 alert("로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요");
             }
@@ -45,16 +47,20 @@ export default function Header() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+                  <a href="/">
+                      <img
+                        className="block h-8 w-auto lg:hidden"
+                        src={logo}
+                        alt="Your Company"
+                      />
+                  </a>
+                  <a href="/">
+                      <img
+                        className="hidden h-8 w-auto lg:block"
+                        src={logo}
+                        alt="Your Company"
+                      />
+                  </a>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -63,8 +69,8 @@ export default function Header() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
+                          item.current ? 'bg-gray-900 text-white no-underline' : 'text-gray-300 hover:bg-gray-700 hover:text-white no-underline',
+                          'px-3 py-2 rounded-md text-sm font-medium no-underline'
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -114,7 +120,7 @@ export default function Header() {
                       {({ active }) => (
                         <a
                           onClick={postLogout}
-                          className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline')}
+                          className={classNames(active ? 'bg-gray-100 no-underline cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline cursor-pointer')}
                         >
                           로그아웃
                         </a>
@@ -160,8 +166,8 @@ export default function Header() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium'
+                    item.current ? 'bg-gray-900 text-white no-underline' : 'text-gray-300 hover:bg-gray-700 hover:text-white no-underline',
+                    'block px-3 py-2 rounded-md text-base font-medium no-underline'
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >
