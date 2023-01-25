@@ -7,17 +7,19 @@ import Main from "./component/page/Main";
 import Login from "./component/page/Login";
 import SignUp from "./component/page/SignUp";
 import Manager from './component/page/Manager';
-import { useState } from 'react';
+import NotFound from './component/page/NotFound';
+import SubHeader from './component/layout/SubHeader';
 function App() {
   return (
     <div className="App">
         <BrowserRouter>
           <Header/>
           <Routes>
-              <Route path="/" element={<Main/>}></Route>
-              <Route path="/login" element={<Login/>}></Route>
-              <Route path="/signUp" element={<SignUp/>}></Route>
-              <Route path="/manager" element={<Manager/>}></Route>
+              <Route path="/" element={<SubHeader children={<Main/>} title="메인"/>}></Route>
+              <Route path="/login" element={<SubHeader children={<Login/>} title="로그인"/>}></Route>
+              <Route path="/signUp" element={<SubHeader children={<SignUp/>} title="회원가입"/>}></Route>
+              <Route path="/manager" element={<SubHeader children={<Manager/>} title="지원내역"/>}></Route>
+              <Route path='*' element={<NotFound/>}></Route>
           </Routes>
         </BrowserRouter>
     </div>
