@@ -29,29 +29,32 @@ public class Job extends BaseEntity{
 
     private String huntingSite;
 
+    private String position;
+
     @Column(name = "employees_number")
     private Integer employeesNumber;
 
     private String location;
 
-    private String position;
-
-    @Column(name = "required_career")
-    private String requiredCareer;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "primary_skill_id")
-    private List<Skill> primarySkill = new ArrayList<>();
+    private String salary;
 
     @Column(name = "apply_date")
     private LocalDate applyDate;
 
+    private String link;
+
+    @Column(name = "required_career")
+    private String requiredCareer;
+
     private String result;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "primary_skill_id")
+    private List<Skill> primarySkill = new ArrayList<>();
 
     private String note;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }

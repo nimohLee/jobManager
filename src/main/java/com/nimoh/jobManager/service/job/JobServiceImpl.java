@@ -1,5 +1,7 @@
 package com.nimoh.jobManager.service.job;
 
+import com.nimoh.jobManager.commons.user.UserErrorResult;
+import com.nimoh.jobManager.commons.user.UserException;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
 import com.nimoh.jobManager.commons.job.JobErrorResult;
@@ -32,9 +34,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<JobResponse> findAll() {
-        final List<Job> findResult = jobRepository.findAll();
-
+    public List<JobResponse> findByUser(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isEmpty()){
+            throw new UserException(UserErrorResult.USER_NOT_FOUND);
+        }
+        final List<Job> findResult = jobRepository.findAllByUser(user.get());
         return findResult.stream().map(this::makeJobResponse)
                 .collect(Collectors.toList());
     }
@@ -87,13 +92,15 @@ public class JobServiceImpl implements JobService {
         return Job.builder()
                 .companyName(jobRequest.getCompanyName())
                 .huntingSite(jobRequest.getHuntingSite())
+                .salary(jobRequest.getSalary())
+                .link(jobRequest.getLink())
                 .employeesNumber(jobRequest.getEmployeesNumber())
                 .location(jobRequest.getLocation())
                 .position(jobRequest.getPosition())
                 .requiredCareer(jobRequest.getRequiredCareer())
                 .primarySkill(jobRequest.getPrimarySkill())
                 .applyDate(jobRequest.getApplyDate())
-                .result(jobRequest.getResult())
+                .result("지원완료")
                 .note(jobRequest.getNote())
                 .user(user)
                 .build();
@@ -104,6 +111,8 @@ public class JobServiceImpl implements JobService {
                 .id(job.getId())
                 .companyName(job.getCompanyName())
                 .huntingSite(job.getHuntingSite())
+                .salary(job.getSalary())
+                .link(job.getLink())
                 .employeesNumber(job.getEmployeesNumber())
                 .location(job.getLocation())
                 .position(job.getPosition())

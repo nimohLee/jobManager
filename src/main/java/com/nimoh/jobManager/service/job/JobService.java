@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface JobService {
 
-    List<JobResponse> findAll();
+    List<JobResponse> findByUser(Long userId);
     JobResponse save(JobRequest boardRequest, Long userId);
     JobResponse update(JobRequest boardRequest, Long userId, Long boardId);
 

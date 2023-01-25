@@ -18,21 +18,25 @@ public class JobResponse {
 
     private String companyName;
 
-    private Integer employeesNumber;
-
     private String huntingSite;
-
-    private String location;
 
     private String position;
 
-    private String requiredCareer;
+    private Integer employeesNumber;
 
-    private List<Skill> primarySkill = new ArrayList<>();
+    private String location;
+
+    private String salary;
 
     private LocalDate applyDate;
 
+    private String link;
+
+    private String requiredCareer;
+
     private String result;
+
+    private List<Skill> primarySkill;
 
     private String note;
 

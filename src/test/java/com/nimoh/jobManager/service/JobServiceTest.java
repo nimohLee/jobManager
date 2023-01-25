@@ -101,14 +101,14 @@ public class JobServiceTest {
     }
 
     @Test
-    public void 지원전체조회성공(){
+    public void 유저id지원전체조회성공(){
         //given
         List<Job> jobs = new ArrayList<>();
         Job job = Job.builder().build();
         Job job1 = Job.builder().build();
         jobs.add(job);
         jobs.add(job1);
-        doReturn(jobs).when(jobRepository).findAll();
+        doReturn(jobs).when(jobRepository).findAllById(any());
         //when
         List<JobResponse> result = jobService.findAll();
         //then

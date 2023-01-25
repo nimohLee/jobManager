@@ -10,12 +10,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
-
-
 
 /**
  * 직무 지원 컨트롤러
@@ -42,11 +44,13 @@ public class JobController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다")
     })
     @GetMapping("")
-    public ResponseEntity<List<JobResponse>> getList() {
-        LOGGER.info("getList 메서드가 호출되었습니다");
-        return ResponseEntity.status(HttpStatus.OK).body(jobService.findAll());
+    public ResponseEntity<List<JobResponse>> getList(
+            HttpServletRequest request
+    ) {
+        Long userId = getCurrentUserId(request);
+        List<JobResponse> result = jobService.findByUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-
 
     /**
      * 직무 지원 등록
@@ -84,10 +88,18 @@ public class JobController {
     @Operation(summary = "직무 지원 삭제",description = "직무 지원 id로 직무 지원을 삭제합니다")
     @DeleteMapping("/{jobId}")
     public ResponseEntity<Void> delete(
-            @SessionAttribute(name = "sid", required = false) UserResponse loginUser,
+            HttpServletRequest request,
             @PathVariable Long jobId
     ) {
+        HttpSession session = request.getSession();
+        UserResponse loginUser = (UserResponse) session.getAttribute("sid");
         jobService.delete(jobId,loginUser.getId());
         return ResponseEntity.noContent().build();
+    }
+
+    private Long getCurrentUserId(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        UserResponse loginUser =(UserResponse) session.getAttribute("sid");
+        return loginUser.getId();
     }
 }
