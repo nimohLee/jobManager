@@ -1,19 +1,45 @@
 import { Button, FormControlProps, Modal } from "react-bootstrap";
-import InputGroup from "react-bootstrap/InputGroup";
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { UpdateInfo } from "../../common/types/propType";
+import { Address, UpdateInfo } from "../../common/types/propType";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import DaumPost from '../module/DaumPost';
 
 function AddApply() {
     const [data, setData] = useState<UpdateInfo["info"]>();
     const [validated, setValidated] = useState(false);
-
+    const [address, setAddress] = useState<string>();
     useEffect(()=>{
         setData({...data,huntingSite:"사람인",requiredCareer:"경력무관"});
     },[]);
+
+    const CURRENT_URL =
+    'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+const open = useDaumPostcodePopup(CURRENT_URL);
+
+const handleComplete = (data:any) => {
+let fullAddress = data.address;
+let extraAddress = '';
+
+if (data.addressType === 'R') {
+  if (data.bname !== '') {
+    extraAddress += data.bname;
+  }
+  if (data.buildingName !== '') {
+    extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+  }
+  fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+}
+setAddress(fullAddress);
+};
+
+const handleClick = () => {
+open({ onComplete: handleComplete });
+};
+
 
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         const form = e.currentTarget;
@@ -242,6 +268,9 @@ function AddApply() {
                                 placeholder="근무지 주소"
                                 aria-label="Location"
                                 onChange={onChange}
+                                value={address}
+                                onClick={handleClick}
+                                className='cursor-pointer'
                                 required
                             />
                             <Form.Control.Feedback type='invalid'>근무지의 주소를 입력하세요</Form.Control.Feedback>

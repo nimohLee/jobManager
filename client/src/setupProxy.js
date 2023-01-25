@@ -9,5 +9,11 @@ module.exports = function(app){
             '^/api' : '/'
         }
       })
-  )
+  );
+  app.use(
+    createProxyMiddleware('/openapi/v3', {
+      target: 'https://openapi.map.naver.com',
+      changeOrigin: true,
+    }),
+  );
 };

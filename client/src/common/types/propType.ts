@@ -17,3 +17,7 @@ export interface UpdateInfo {
         note?: string;
     }
 };
+export interface Address {
+    address: string;
+    zonecode: string;
+  }
