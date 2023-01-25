@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface Password {
-    String message() default "영문자, 숫자를 조합하여 8자 이상 12자 이하로 비밀번호를 입력해주세요";
+    String message() default "password";
     Class[] groups() default {};
     Class[] payload() default {};
 }

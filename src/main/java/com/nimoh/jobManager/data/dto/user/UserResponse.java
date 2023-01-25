@@ -8,8 +8,13 @@ import lombok.*;
 @ToString
 @Builder
 public class UserResponse {
+
     private Long id;
+
     private String uid;
+
     private String name;
+
     private String email;
+
 }
