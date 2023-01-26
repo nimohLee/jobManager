@@ -10,7 +10,6 @@ import Row from "react-bootstrap/Row";
 function AddApply() {
     const [data, setData] = useState<UpdateInfo["info"]>();
     const [validated, setValidated] = useState(false);
-    const [address, setAddress] = useState<string>();
     useEffect(()=>{
         setData({...data,huntingSite:"사람인",requiredCareer:"경력무관"});
     },[]);
@@ -45,7 +44,6 @@ open({ onComplete: handleComplete });
             e.preventDefault();
             e.stopPropagation();
         };
-        
         setValidated(true);
         const url = "/api/v1/job";
         try {

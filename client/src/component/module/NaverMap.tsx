@@ -1,22 +1,34 @@
+import { Props } from '@headlessui/react/dist/types';
 import { useEffect, useRef,useState } from 'react';
 
+interface PropsInfo{
+  x: string,
+  y: string,
+  location: string|undefined
+}
 
-function NaverMap() {
+function NaverMap(props:PropsInfo) {
     useEffect(() => {
         let map = null;
         const initMap = () => {
           const map = new naver.maps.Map("map", {
-            center: new naver.maps.LatLng(37.511337, 127.012084),
-            zoom: 13,
+            center: new naver.maps.LatLng(+props.y, +props.x),
+            zoom: 18,
           });
+          const marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(+props.y, +props.x),
+            map: map
+        });
         };
         initMap();
       }, []);
+
+      
     
       //지도 사이즈 관련 스타일
       const mapStyle = {
-        width: "90%",
-        height: "600px",
+        width: "100%",
+        height: "400px",
       };
     
       return (

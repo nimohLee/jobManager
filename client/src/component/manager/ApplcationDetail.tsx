@@ -1,8 +1,9 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid'
-import { UpdateInfo } from '../../common/types/propType';
+import { ResponseInfo, UpdateInfo } from '../../common/types/propType';
+import NaverMap from '../module/NaverMap';
 
 interface InfoProps{
-    info : UpdateInfo["info"];
+    info : ResponseInfo["info"];
   }
 
 function ApplicationDetail({info}:InfoProps) {
@@ -41,6 +42,7 @@ function ApplicationDetail({info}:InfoProps) {
             <dt className="text-sm font-medium text-gray-500">근무지 위치</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{info.location}</dd>
           </div>
+          <NaverMap x={info.x} y={info.y} location={info.location}/>
           <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">지원 일자</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{info.applyDate}</dd>

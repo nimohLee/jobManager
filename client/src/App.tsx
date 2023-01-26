@@ -11,7 +11,6 @@ import NotFound from './component/page/NotFound';
 import SubHeader from './component/layout/SubHeader';
 import AddApply from './component/page/AddApply';
 import Profile from './component/page/Profile';
-import NaverMap from './component/module/NaverMap';
 function App() {
   return (
     <div className="App">
@@ -19,7 +18,6 @@ function App() {
           <Header/>
           <Routes>
               <Route path="/" element={<SubHeader children={<Main/>} title="메인"/>}></Route>
-              <Route path="/map" element={<SubHeader children={<NaverMap/>} title="지도"/>}></Route>
               <Route path="/profile" element={<SubHeader children={<Profile/>} title="프로필 설정"/>}></Route>
               <Route path="/login" element={<SubHeader children={<Login/>} title="로그인"/>}></Route>
               <Route path="/signUp" element={<SubHeader children={<SignUp/>} title="회원가입"/>}></Route>

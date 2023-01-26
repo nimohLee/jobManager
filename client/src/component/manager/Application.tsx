@@ -15,7 +15,7 @@ import { Menu, Transition } from '@headlessui/react';
 import Editor from './Editor';
 import { useState } from 'react';
 import axios from 'axios';
-import { UpdateInfo } from '../../common/types/propType';
+import { ResponseInfo, UpdateInfo } from '../../common/types/propType';
 import ApplicationDetail from './ApplcationDetail';
 import { Button, Modal } from 'react-bootstrap';
 import { useEffect } from 'react';
@@ -25,7 +25,7 @@ function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Application({info}:UpdateInfo) {
+function Application({info}:ResponseInfo) {
   const [show, setShow] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [detail, setDetail] = useState(false);
