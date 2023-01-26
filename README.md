@@ -24,12 +24,13 @@
 |테이블명|필드명|데이터타입|필드설명|
 |---|---|---|---|
 |user|id|bigint|유저 테이블 기본키|
+||created_at|datetime|유저 가입 날짜 및 시간|
+||updated_at|datetime|유저 정보 수정 날짜 및 시간|
 ||name|varchar|유저 이름|
 ||uid|varchar|유저 로그인 ID|
 ||password|varchar|유저 패스워드|
 ||email|varchar|유저 이메일|
-||created_at|datetime|유저 가입 날짜 및 시간|
-||updated_at|datetime|유저 정보 수정 날짜 및 시간|
+
 
 
 ***job 테이블***
