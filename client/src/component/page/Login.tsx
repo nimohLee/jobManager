@@ -2,10 +2,18 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
 import { FormEvent, useState } from 'react';
+import { useEffect } from 'react';
 
 function Login() {
     const [id, setId] = useState<string>();
     const [password, setPassword] = useState<string>();
+
+    useEffect(()=>{
+        if(localStorage.getItem("isLogin")){
+            alert("이미 로그인된 상태입니다");
+            window.location.href = "/";
+        }
+    },[])
 
     const onChange = (e: React.FormEvent<HTMLInputElement>): void => {
         if(e.currentTarget.type === "text"){

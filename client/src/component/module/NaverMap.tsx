@@ -22,8 +22,6 @@ function NaverMap(props:PropsInfo) {
         };
         initMap();
       }, []);
-
-      
     
       //지도 사이즈 관련 스타일
       const mapStyle = {
