@@ -1,5 +1,5 @@
 import { Button, FormControlProps, Modal } from "react-bootstrap";
-import InputGroup from "react-bootstrap/InputGroup";
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { UpdateInfo } from "../../common/types/propType";
@@ -10,18 +10,40 @@ import Row from "react-bootstrap/Row";
 function AddApply() {
     const [data, setData] = useState<UpdateInfo["info"]>();
     const [validated, setValidated] = useState(false);
-
     useEffect(()=>{
         setData({...data,huntingSite:"사람인",requiredCareer:"경력무관"});
     },[]);
 
+    const CURRENT_URL =
+    'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+const open = useDaumPostcodePopup(CURRENT_URL);
+
+const handleComplete = (result:any) => {
+let fullAddress = result.address;
+let extraAddress = '';
+
+if (result.addressType === 'R') {
+  if (result.bname !== '') {
+    extraAddress += result.bname;
+  }
+  if (result.buildingName !== '') {
+    extraAddress += extraAddress !== '' ? `, ${result.buildingName}` : result.buildingName;
+  }
+  fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+}
+setData({...data,location:fullAddress});
+};
+
+const handleClick = () => {
+open({ onComplete: handleComplete });
+};
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         const form = e.currentTarget;
+        e.preventDefault();
         if(form.checkValidity()===false){
             e.preventDefault();
             e.stopPropagation();
         };
-        
         setValidated(true);
         const url = "/api/v1/job";
         try {
@@ -33,6 +55,8 @@ function AddApply() {
                     "Content-Type": "application/json",
                 },
             });
+            alert("등록이 완료되었습니다.");
+            window.location.href= "/";
         } catch (err) {
             console.error("에러발생");
         }
@@ -196,7 +220,6 @@ function AddApply() {
                                 defaultChecked
                                 defaultValue="경력무관"
                                 onChange={onSelectChange}
-                                name='requiredCareer'
                                 required
                             >
                                 <option value="경력무관">경력무관</option>
@@ -239,9 +262,13 @@ function AddApply() {
                         <Col sm="7">
                             <Form.Control
                                 type="text"
-                                placeholder="근무지 주소"
+                                placeholder="근무지 주소 ( 클릭 시 우편번호 검색 )"
                                 aria-label="Location"
                                 onChange={onChange}
+                                value={data?.location}
+                                onClick={handleClick}
+                                readOnly
+                                className='cursor-pointer'
                                 required
                             />
                             <Form.Control.Feedback type='invalid'>근무지의 주소를 입력하세요</Form.Control.Feedback>
@@ -258,7 +285,7 @@ function AddApply() {
                         <Col sm="7">
                             <Form.Control
                                 type="text"
-                                placeholder="지원 일자"
+                                placeholder="지원 일자 (ex. 2022-01-26 )"
                                 aria-label="ApplyDate"
                                 onChange={onChange}
                                 required

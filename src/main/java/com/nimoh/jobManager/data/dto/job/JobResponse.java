@@ -26,6 +26,10 @@ public class JobResponse {
 
     private String location;
 
+    private String x;
+
+    private String y;
+
     private String salary;
 
     private LocalDate applyDate;

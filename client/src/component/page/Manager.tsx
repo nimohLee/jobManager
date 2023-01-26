@@ -1,12 +1,12 @@
 import React from 'react'
-import { PrimarySkill} from '../../common/types/literalType';
 import Application from '../manager/Application';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { UpdateInfo } from '../../common/types/propType';
+import { ResponseInfo, UpdateInfo } from '../../common/types/propType';
+import NaverMap from '../module/NaverMap';
 
 type JobData = [
-  UpdateInfo["info"]
+  ResponseInfo["info"]
 ];
 
 function Manager() {
@@ -19,7 +19,6 @@ function Manager() {
         method : "get",
         url: url
       });
-      console.log(result.data);
       setJobDatas(result.data);
     }catch(err){
       console.error(err);
@@ -34,10 +33,10 @@ function Manager() {
     <div>
           { jobDatas?.map((jobData)=>{
          return(
-          <>
+          <div key={jobData.id}>
             <Application info={jobData}/>
             <hr/>
-          </>
+          </div>
          )
           })
           }

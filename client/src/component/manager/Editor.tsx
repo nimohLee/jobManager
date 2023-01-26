@@ -162,7 +162,7 @@ function Editor({ info, setInfo, show, setShow, onHide }: InfoProps) {
 
       <InputGroup>
         <InputGroup.Text>비고</InputGroup.Text>
-        <Form.Control as="textarea" aria-label="Note" />
+        <Form.Control as="textarea" aria-label="Note"/>
       </InputGroup>
         </Modal.Body>
         <Modal.Footer>

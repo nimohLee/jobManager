@@ -3,6 +3,7 @@ package com.nimoh.jobManager.controller;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
+import com.nimoh.jobManager.service.api.RestTemplateService;
 import com.nimoh.jobManager.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 직무 지원 컨트롤러
@@ -27,10 +28,11 @@ import java.util.List;
 @RequestMapping("/api/v1/job")
 public class JobController {
     private final JobService jobService;
-    private final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
+    private final RestTemplateService restTemplateService;
     @Autowired
-    public JobController(JobService jobService){
+    public JobController(JobService jobService, RestTemplateService restTemplateService){
         this.jobService = jobService;
+        this.restTemplateService = restTemplateService;
     }
 
     /**
@@ -62,6 +64,9 @@ public class JobController {
             @RequestBody final JobRequest jobRequest,
             @SessionAttribute(name = "sid", required = false) UserResponse loginUser
     ) {
+        Map<String,String> geocode = restTemplateService.getGeocode(jobRequest.getLocation());
+        jobRequest.setX(geocode.get("x"));
+        jobRequest.setY(geocode.get("y"));
         jobService.save(jobRequest, loginUser.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

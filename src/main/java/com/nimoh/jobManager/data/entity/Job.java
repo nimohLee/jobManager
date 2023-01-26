@@ -36,6 +36,10 @@ public class Job extends BaseEntity{
 
     private String location;
 
+    private String x;
+
+    private String y;
+
     private String salary;
 
     @Column(name = "apply_date")
