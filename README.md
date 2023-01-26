@@ -55,3 +55,11 @@
 ||y|varchar|맵 api를 사용하기 위한 회사 주소의 Y 좌표|
 ||user_id|bigint|user 테이블의 idx|
 
+## 사이트 이미지
+### 지원 내역 목록
+![image](https://user-images.githubusercontent.com/106662308/214839239-1a91ed92-a435-4d6e-925a-15cb91295028.png)
+
+### 지원 내역 상세보기
+![image](https://user-images.githubusercontent.com/106662308/214839451-9be7874a-8d65-4c2b-a3e7-d4040ae6ab24.png)
+
+
