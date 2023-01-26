@@ -21,6 +21,10 @@ public class JobRequest {
 
     private String location;
 
+    private String x;
+
+    private String y;
+
     private String salary;
 
     private LocalDate applyDate;
@@ -34,4 +38,12 @@ public class JobRequest {
     private List<Skill> primarySkill;
 
     private String note;
+
+    public void setX(String x){
+        this.x = x;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
 }

@@ -2,11 +2,10 @@ import { Button, FormControlProps, Modal } from "react-bootstrap";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Address, UpdateInfo } from "../../common/types/propType";
+import { UpdateInfo } from "../../common/types/propType";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import DaumPost from '../module/DaumPost';
 
 function AddApply() {
     const [data, setData] = useState<UpdateInfo["info"]>();
@@ -20,29 +19,28 @@ function AddApply() {
     'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
 const open = useDaumPostcodePopup(CURRENT_URL);
 
-const handleComplete = (data:any) => {
-let fullAddress = data.address;
+const handleComplete = (result:any) => {
+let fullAddress = result.address;
 let extraAddress = '';
 
-if (data.addressType === 'R') {
-  if (data.bname !== '') {
-    extraAddress += data.bname;
+if (result.addressType === 'R') {
+  if (result.bname !== '') {
+    extraAddress += result.bname;
   }
-  if (data.buildingName !== '') {
-    extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+  if (result.buildingName !== '') {
+    extraAddress += extraAddress !== '' ? `, ${result.buildingName}` : result.buildingName;
   }
   fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
 }
-setAddress(fullAddress);
+setData({...data,location:fullAddress});
 };
 
 const handleClick = () => {
 open({ onComplete: handleComplete });
 };
-
-
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         const form = e.currentTarget;
+        e.preventDefault();
         if(form.checkValidity()===false){
             e.preventDefault();
             e.stopPropagation();
@@ -59,6 +57,8 @@ open({ onComplete: handleComplete });
                     "Content-Type": "application/json",
                 },
             });
+            alert("등록이 완료되었습니다.");
+            window.location.href= "/";
         } catch (err) {
             console.error("에러발생");
         }
@@ -222,7 +222,6 @@ open({ onComplete: handleComplete });
                                 defaultChecked
                                 defaultValue="경력무관"
                                 onChange={onSelectChange}
-                                name='requiredCareer'
                                 required
                             >
                                 <option value="경력무관">경력무관</option>
@@ -265,11 +264,12 @@ open({ onComplete: handleComplete });
                         <Col sm="7">
                             <Form.Control
                                 type="text"
-                                placeholder="근무지 주소"
+                                placeholder="근무지 주소 ( 클릭 시 우편번호 검색 )"
                                 aria-label="Location"
                                 onChange={onChange}
-                                value={address}
+                                value={data?.location}
                                 onClick={handleClick}
+                                readOnly
                                 className='cursor-pointer'
                                 required
                             />
@@ -287,7 +287,7 @@ open({ onComplete: handleComplete });
                         <Col sm="7">
                             <Form.Control
                                 type="text"
-                                placeholder="지원 일자"
+                                placeholder="지원 일자 (ex. 2022-01-26 )"
                                 aria-label="ApplyDate"
                                 onChange={onChange}
                                 required

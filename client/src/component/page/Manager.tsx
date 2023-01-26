@@ -1,5 +1,4 @@
 import React from 'react'
-import { PrimarySkill} from '../../common/types/literalType';
 import Application from '../manager/Application';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -34,10 +33,10 @@ function Manager() {
     <div>
           { jobDatas?.map((jobData)=>{
          return(
-          <>
+          <div key={jobData.id}>
             <Application info={jobData}/>
             <hr/>
-          </>
+          </div>
          )
           })
           }

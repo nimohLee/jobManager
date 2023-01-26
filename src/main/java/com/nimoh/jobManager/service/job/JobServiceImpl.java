@@ -46,6 +46,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobResponse save(JobRequest jobRequest, Long userId) {
+        System.out.println(jobRequest);
         final Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()){
             throw new JobException(JobErrorResult.REQUEST_VALUE_INVALID);
@@ -96,6 +97,8 @@ public class JobServiceImpl implements JobService {
                 .link(jobRequest.getLink())
                 .employeesNumber(jobRequest.getEmployeesNumber())
                 .location(jobRequest.getLocation())
+                .x(jobRequest.getX())
+                .y(jobRequest.getY())
                 .position(jobRequest.getPosition())
                 .requiredCareer(jobRequest.getRequiredCareer())
                 .primarySkill(jobRequest.getPrimarySkill())
@@ -115,6 +118,8 @@ public class JobServiceImpl implements JobService {
                 .link(job.getLink())
                 .employeesNumber(job.getEmployeesNumber())
                 .location(job.getLocation())
+                .x(job.getX())
+                .y(job.getY())
                 .position(job.getPosition())
                 .requiredCareer(job.getRequiredCareer())
                 .primarySkill(job.getPrimarySkill())
