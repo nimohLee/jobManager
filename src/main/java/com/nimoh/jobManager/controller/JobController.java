@@ -29,7 +29,6 @@ import java.util.Map;
 public class JobController {
     private final JobService jobService;
     private final RestTemplateService restTemplateService;
-    private final Logger LOGGER = LoggerFactory.getLogger(JobController.class);
     @Autowired
     public JobController(JobService jobService, RestTemplateService restTemplateService){
         this.jobService = jobService;
