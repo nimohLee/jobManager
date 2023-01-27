@@ -1,5 +1,4 @@
-import { PaperClipIcon } from '@heroicons/react/20/solid'
-import { ResponseInfo, UpdateInfo } from '../../common/types/propType';
+import { ResponseInfo } from '../../common/types/propType';
 import NaverMap from '../module/NaverMap';
 
 interface InfoProps{

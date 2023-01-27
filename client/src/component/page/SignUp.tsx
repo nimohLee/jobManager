@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
-import axios, { AxiosError } from 'axios';
-import { FormEvent, useLayoutEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
 interface CustomError extends Error {
@@ -9,13 +9,6 @@ interface CustomError extends Error {
        status: number;
        headers: string;
     };
- }
-
- interface RequestData {
-    uid : string,
-    name : string,
-    email : string,
-    password : string
  }
 
  interface InputValue{
@@ -65,7 +58,7 @@ function SignUp() {
             name: name?.value?.trim()
         }
         try{
-            const result = await axios({
+            await axios({
                 method: "post",
                 url: url,
                 data: data,

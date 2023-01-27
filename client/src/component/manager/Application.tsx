@@ -15,10 +15,9 @@ import { Menu, Transition } from '@headlessui/react';
 import Editor from './Editor';
 import { useState } from 'react';
 import axios from 'axios';
-import { ResponseInfo, UpdateInfo } from '../../common/types/propType';
+import { ResponseInfo } from '../../common/types/propType';
 import ApplicationDetail from './ApplcationDetail';
 import { Button, Modal } from 'react-bootstrap';
-import { useEffect } from 'react';
 
 
 function classNames(...classes:any) {
