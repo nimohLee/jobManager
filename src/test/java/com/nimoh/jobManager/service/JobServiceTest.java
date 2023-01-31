@@ -101,18 +101,20 @@ public class JobServiceTest {
     }
 
     @Test
-    public void 유저id지원전체조회성공(){
+    public void 유저id로지원전체조회성공(){
         //given
         List<Job> jobs = new ArrayList<>();
         Job job = Job.builder().build();
         Job job1 = Job.builder().build();
         jobs.add(job);
         jobs.add(job1);
-        doReturn(jobs).when(jobRepository).findAllById(any());
+        doReturn(Optional.of(user(1L))).when(userRepository).findById(any());
+        doReturn(jobs).when(jobRepository).findAllByUser(any());
         //when
-        List<JobResponse> result = jobService.findAll();
+        List<JobResponse> result = jobService.findByUser(1L);
         //then
-        assertThat(result.size()).isEqualTo(2);    }
+        assertThat(result.size()).isEqualTo(2);
+    }
 
     public JobRequest jobRequest(){
         return JobRequest.builder()

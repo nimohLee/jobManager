@@ -8,7 +8,7 @@ import com.nimoh.jobManager.commons.job.JobException;
 import com.nimoh.jobManager.commons.GlobalExceptionHandler;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
 import com.nimoh.jobManager.data.entity.Skill;
-import com.nimoh.jobManager.data.entity.User;
+import com.nimoh.jobManager.service.api.RestTemplateService;
 import com.nimoh.jobManager.service.job.JobServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,16 +18,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-import static com.nimoh.jobManager.constants.Headers.USER_ID_HEADER;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,7 +44,8 @@ public class JobControllerTest {
     private JobController jobController;
     @Mock
     private JobServiceImpl jobService;
-
+    @Mock
+    private RestTemplateService restTemplateService;
     @BeforeEach
     public void init() {
         gson = new Gson();
@@ -50,17 +53,18 @@ public class JobControllerTest {
     }
 
     @Test
-    public void 지원모두조회성공() throws Exception {
+    public void 유저별지원조회성공() throws Exception {
         //given
         final String url = "/api/v1/job";
         doReturn(Arrays.asList(
                 JobResponse.builder().build(),
                 JobResponse.builder().build(),
                 JobResponse.builder().build()
-        )).when(jobService).findAll();
+        )).when(jobService).findByUser(any());
         //when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
+                        .sessionAttr("sid",UserResponse.builder().id(1L).build())
         );
         //then
         resultActions.andExpect(status().isOk());
@@ -85,8 +89,11 @@ public class JobControllerTest {
         final String url = "/api/v1/job";
         JobRequest jobRequest = jobRequest();
         String content = gson.toJson(jobRequest);
-
+        Map<String, String> geoCode = new HashMap<>();
+        geoCode.put("x","127.1233");
+        geoCode.put("y","35.1233");
         given(jobService.save(any(),any())).willReturn(jobResponse());
+        given(restTemplateService.getGeocode(any())).willReturn(geoCode);
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
