@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,7 +103,7 @@ public class JobController {
         return ResponseEntity.noContent().build();
     }
 
-    private Long getCurrentUserId(HttpServletRequest request){
+    protected Long getCurrentUserId(HttpServletRequest request){
         HttpSession session = request.getSession();
         UserResponse loginUser =(UserResponse) session.getAttribute("sid");
         return loginUser.getId();

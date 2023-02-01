@@ -1,10 +1,9 @@
-import { Button, FormControlProps, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { UpdateInfo } from '../../common/types/propType';
-import { setDate } from 'date-fns';
 
 interface InfoProps{
   info : UpdateInfo["info"];

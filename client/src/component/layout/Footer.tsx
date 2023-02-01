@@ -2,8 +2,20 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer>
-        Footer
+    <footer className='ml-5'>   
+        <div>
+          <hr />
+          <nav>
+            <a href='https://velog.io/@nimoh' target='_blank' className='no-underline font-black'>Blog</a>
+            |
+            <a href='https://github.com/nimohLee' target='_blank' className='no-underline font-black'>Github</a>
+          </nav>
+          <p>
+            <span>저자 : nimoh</span><br/>
+            <span>이메일 : spakers38@gmail.com</span><br/>
+            <span>Copyright 2022. nimoh. All Rights Reserved.</span>
+          </p>
+        </div>
     </footer>
   )
 }

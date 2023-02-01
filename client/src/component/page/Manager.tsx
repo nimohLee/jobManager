@@ -2,8 +2,7 @@ import React from 'react'
 import Application from '../manager/Application';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ResponseInfo, UpdateInfo } from '../../common/types/propType';
-import NaverMap from '../module/NaverMap';
+import { ResponseInfo } from '../../common/types/propType';
 
 type JobData = [
   ResponseInfo["info"]
