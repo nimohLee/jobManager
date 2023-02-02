@@ -10,12 +10,13 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Skill {
-    @Getter(AccessLevel.NONE)
+@Getter(AccessLevel.NONE)
+public class Skill{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     private String name;
+
 }
