@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer className='ml-5 absolute bottom-0 border-t w-screen pt-2'>   
+    <footer className='ml-5 h-10 relative -translate-y-full border-t w-screen pt-2'>   
         <div>
           <nav>
             <a href='https://velog.io/@nimoh' target='_blank' className='no-underline font-black'>Blog</a>

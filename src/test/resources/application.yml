@@ -1,17 +1,15 @@
+# Test
 spring:
-  datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+  profiles:
+    active: local # 기본 환경 선택
+
+# local 환경
+---
+spring:
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-  sql:
-    init:
-      mode: always
-logging.level:
-  org.hibernate.SQL: debug
+  config:
+    activate:
+      on-profile: local
