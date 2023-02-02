@@ -48,7 +48,7 @@ function Login() {
 
     return (
         <main className='flex justify-center'>
-            <section className='py-16 px-32 top-20 relative border border-b'>
+            <section className='py-16 px-32 top-0 relative border border-b flex flex-column'>
             <form onSubmit={postLogin}>
                 <div className="mb-3 flex flex-column">
                     <label className='mb-2'>아이디</label>
@@ -64,6 +64,7 @@ function Login() {
                     로그인
                 </Button>
             </form>
+            <a href="/signUp" className='text-neutral-400 mt-3'>아직 회원이 아니신가요?</a>
             </section>
         </main>
     );
