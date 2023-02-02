@@ -64,8 +64,7 @@ public class UserController {
     )
     @DeleteMapping("")
     public ResponseEntity<Void> withdrawal(
-            @SessionAttribute(name = "sid", required = false) User loginUser,
-            HttpServletRequest request
+            @SessionAttribute(name = "sid", required = false) User loginUser
     ) {
             userService.deleteById(loginUser.getId());
             return ResponseEntity.noContent().build();
@@ -106,6 +105,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Operation(summary = "세션유무", description = "현재 로그인 세션이 있는 지 유무를 반환합니다")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200",description = "현재 세션이 있습니다 (true) "),
+                    @ApiResponse(responseCode = "204", description = "현재 세션이 없습니다 (false) "),
+            }
+    )
     @GetMapping("session")
     public ResponseEntity<Boolean> getSession(
             HttpServletRequest request

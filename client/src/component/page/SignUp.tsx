@@ -85,7 +85,7 @@ function SignUp() {
 
     return (
         <main className='flex justify-center'>
-            <section className='py-16 px-32 top-20 relative border border-b'>
+            <section className='py-16 px-32 top-0 relative border border-b'>
             <form onSubmit={postSignUp}>
                 <div className="mb-3 flex flex-column">
                     <label className='mb-2'>이름</label>
