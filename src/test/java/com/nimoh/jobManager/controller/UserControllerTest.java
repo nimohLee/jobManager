@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,6 +25,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
 
 import java.util.UUID;
 
@@ -36,6 +39,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
     private Gson gson;
     protected MockHttpServletRequest request;
+    protected MockHttpSession session;
 
     @Mock
     private UserServiceImpl userService;
@@ -48,10 +52,34 @@ public class UserControllerTest {
         gson = new Gson();
         mockMvc = MockMvcBuilders.standaloneSetup(userController).setControllerAdvice(new GlobalExceptionHandler()).build();
         request = new MockHttpServletRequest();
-        String sessionId = UUID.randomUUID().toString();
-        Cookie cookie = new Cookie("sid",sessionId);
-        request.setCookies(cookie);
+        session = new MockHttpSession();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+    }
+
+    @Test
+    public void 현재세션가져오기실패_세션없음() throws Exception {
+        //given
+        String url = "/api/v1/user/session";
+        //when
+        ResultActions resultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get(url)
+        );
+        //then
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void 현재세션가져오기성공() throws Exception {
+        //given
+        String url = "/api/v1/user/session";
+        session.setAttribute("sid",UserResponse.builder().build());
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .session(session)
+        );
+        //then
+        resultActions.andExpect(status().isOk());
     }
 
     @Test

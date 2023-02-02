@@ -38,6 +38,8 @@ public class UserController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+
+
     @Operation(summary = "회원가입", description = "회원가입")
     @ApiResponses(
             value = {
@@ -102,5 +104,15 @@ public class UserController {
     ) {
         request.getSession().invalidate();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("session")
+    public ResponseEntity<Boolean> getSession(
+            HttpServletRequest request
+    ){
+        HttpSession session = request.getSession();
+        Object attribute = session.getAttribute("sid");
+        if (attribute==null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(false);
+        else return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 }
