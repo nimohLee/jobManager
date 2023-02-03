@@ -5,16 +5,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SpringBootTest
+@Transactional
 public class UserRepositoryTest {
 
     @Autowired
@@ -35,9 +39,9 @@ public class UserRepositoryTest {
     public void 회원탈퇴성공() {
         //given
         User user = user(); // id = 1L
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
         //when
-        userRepository.deleteById(1L);
+        userRepository.deleteById(savedUser.getId());
         Optional<User> result = userRepository.findById(1L);
         //then
         assertThat(result).isEmpty();

@@ -38,6 +38,8 @@ public class UserController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+
+
     @Operation(summary = "회원가입", description = "회원가입")
     @ApiResponses(
             value = {
@@ -57,16 +59,23 @@ public class UserController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204",description = "회원탈퇴에 성공하였습니다"),
-                    @ApiResponse(responseCode = "400",description = "요청값이 잘못되었습니다")
+                    @ApiResponse(responseCode = "400",description = "로그인 되어있지 않습니다 (세션 없음)")
             }
     )
     @DeleteMapping("")
     public ResponseEntity<Void> withdrawal(
-            @SessionAttribute(name = "sid", required = false) User loginUser,
-            HttpServletRequest request
+            @SessionAttribute(name = "sid", required = false) User loginUser
     ) {
-            userService.deleteById(loginUser.getId());
-            return ResponseEntity.noContent().build();
+            if(loginUser != null){
+                userService.deleteById(loginUser.getId());
+                return ResponseEntity.noContent().build();
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+
+
+
+
     }
 
     @Operation(summary = "로그인", description = "로그인을 시도합니다")
@@ -102,5 +111,22 @@ public class UserController {
     ) {
         request.getSession().invalidate();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "세션유무", description = "현재 로그인 세션이 있는 지 유무를 반환합니다")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200",description = "현재 세션이 있습니다 (true) "),
+                    @ApiResponse(responseCode = "204", description = "현재 세션이 없습니다 (false) "),
+            }
+    )
+    @GetMapping("session")
+    public ResponseEntity<Boolean> getSession(
+            HttpServletRequest request
+    ){
+        HttpSession session = request.getSession();
+        Object attribute = session.getAttribute("sid");
+        if (attribute==null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(false);
+        else return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 }

@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -18,9 +20,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 //DataJpaTest에 Transactional 어노테이션이 DB 사용 후 자동 롤백해줌
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
+@Transactional
 public class JobRepositoryTest {
 
     @Autowired
@@ -31,11 +34,11 @@ public class JobRepositoryTest {
 
     private User user;
 
-    @BeforeEach
-    public void init(){
-        // 연관관계를 위해 유저 미리 하나 생성
-        user = saveUser(1L);
-    }
+//    @BeforeEach
+//    public void init(){
+//        // 연관관계를 위해 유저 미리 하나 생성
+//        user = saveUser(1L);
+//    }
 
     private User saveUser(Long userId){
         User user = User.builder()
@@ -52,7 +55,7 @@ public class JobRepositoryTest {
     @Test
     public void 지원내역작성하기() {
         //given
-        final Job job = job(2L,user);
+        final Job job = job(user);
         //when
         Job result = jobRepository.save(job);
         //then
@@ -62,8 +65,8 @@ public class JobRepositoryTest {
     @Test
     public void 지원모두조회() {
         //given
-         final Job job = job(2L,user);
-         final Job job2 = job(3L,user);
+         final Job job = job(user);
+         final Job job2 = job(user);
 
         jobRepository.save(job);
         jobRepository.save(job2);
@@ -77,25 +80,26 @@ public class JobRepositoryTest {
     @Test
     public void 지원하나조회성공() {
         //given
-        final Job job = job(1L,user);
-        jobRepository.save(job);
+        final Job job = job(user);
+        Job savedJob = jobRepository.save(job);
         //when
-        final Optional<Job> findJobResult = jobRepository.findById(1L);
+        final Optional<Job> findJobResult = jobRepository.findById(savedJob.getId());
 
         //then
-        assertThat(findJobResult.get().getId()).isEqualTo(1L);
+        assertThat(findJobResult.isPresent()).isTrue();
     }
     @Test
     public void 유저아이디로지원내역모두조회() {
         //given
-        final Job job = job(2L,user);
-        final Job job2 = job(3L, user);
+        user = saveUser(1L);
+        final Job job = job(user);
+        final Job job2 = job(user);
 
         jobRepository.save(job);
         jobRepository.save(job2);
 
         //when
-        final List<Job> findJobResult = jobRepository.findAllByUser(User.builder().id(1L).build());
+        final List<Job> findJobResult = jobRepository.findAllByUser(User.builder().id(user.getId()).build());
 
         //then
         assertThat(findJobResult.size()).isEqualTo(2);
@@ -104,8 +108,8 @@ public class JobRepositoryTest {
     @Test
     public void 회사명으로지원조회() {
         //given
-        final Job job = job(2L, user);
-        final Job job2 = job(3L, user);
+        final Job job = job( user);
+        final Job job2 = job( user);
 
         jobRepository.save(job);
         jobRepository.save(job2);
@@ -120,32 +124,30 @@ public class JobRepositoryTest {
     @Test
     public void 지원정보수정하기() {
         //given
-        final Job job = job(1L, user);
-        final Job updateJob = Job.builder().id(1L).companyName("updated").build();
+        final Job job = job(user);
 
         //when
-        jobRepository.save(job);
-        jobRepository.save(updateJob);
+        Job savedJob = jobRepository.save(job);
+        Job updatedJob = jobRepository.save(Job.builder().id(savedJob.getId()).companyName("updated").build());
         //then
-        Optional<Job> resultJob = jobRepository.findById(1L);
+        Optional<Job> resultJob = jobRepository.findById(savedJob.getId());
         assertThat(resultJob.get().getCompanyName()).isEqualTo("updated");
     }
 
     @Test
     public void 지원삭제하기() {
         //given
-        final Job job =job(1L, user);
-        jobRepository.save(job);
+        final Job job =job(user);
+        Job savedJob = jobRepository.save(job);
         //when
-        jobRepository.deleteById(1L);
+        jobRepository.deleteById(savedJob.getId());
         //then
         Optional<Job> resultJob = jobRepository.findById(1L);
         assertThat(resultJob).isEmpty();
     }
 
-    private Job job(Long jobId, User user){
+    private Job job(User user){
         return Job.builder()
-                .id(jobId)
                 .companyName("nimoh company")
                 .employeesNumber(25)
                 .huntingSite("사람인")
