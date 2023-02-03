@@ -222,7 +222,7 @@ public class UserControllerTest {
                 MockMvcRequestBuilders.delete(url)
         );
         //then
-        resultActions.andExpect(status().isInternalServerError());
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test

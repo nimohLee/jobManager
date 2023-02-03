@@ -59,15 +59,23 @@ public class UserController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204",description = "회원탈퇴에 성공하였습니다"),
-                    @ApiResponse(responseCode = "400",description = "요청값이 잘못되었습니다")
+                    @ApiResponse(responseCode = "400",description = "로그인 되어있지 않습니다 (세션 없음)")
             }
     )
     @DeleteMapping("")
     public ResponseEntity<Void> withdrawal(
             @SessionAttribute(name = "sid", required = false) User loginUser
     ) {
-            userService.deleteById(loginUser.getId());
-            return ResponseEntity.noContent().build();
+            if(loginUser != null){
+                userService.deleteById(loginUser.getId());
+                return ResponseEntity.noContent().build();
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+
+
+
+
     }
 
     @Operation(summary = "로그인", description = "로그인을 시도합니다")
