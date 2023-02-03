@@ -40,3 +40,13 @@ description = 'jobManager'
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar {
+    mainClassName = 'com.nimoh.jobManager.JobManagerApplication'
+}
+
+bootRun {
+    String activeProfile =
+            System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
+}
