@@ -1,15 +1,4 @@
-# Test
-spring:
-  profiles:
-    active: local # 기본 환경 선택
-
-# local 환경
----
 spring:
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: create
-  config:
-    activate:
-      on-profile: local
