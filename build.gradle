@@ -42,7 +42,7 @@ tasks.named('test') {
 }
 
 bootJar {
-    mainClassName = 'com.nimoh.jobManager.JobManagerApplication'
+    mainClass = 'com.nimoh.jobManager.JobManagerApplication'
 }
 
 bootRun {
