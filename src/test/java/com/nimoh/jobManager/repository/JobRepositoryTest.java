@@ -21,11 +21,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 //DataJpaTest에 Transactional 어노테이션이 DB 사용 후 자동 롤백해줌
-//@DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-@Transactional
 public class JobRepositoryTest {
 
     @Autowired
@@ -94,6 +92,7 @@ public class JobRepositoryTest {
     public void 유저아이디로지원내역모두조회() {
         //given
         user = saveUser(1L);
+        userRepository.save(user);
         final Job job = job(user);
         final Job job2 = job(user);
 

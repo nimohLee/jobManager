@@ -15,12 +15,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-//@DataJpaTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-@Transactional
 public class UserRepositoryTest {
 
     @Autowired
