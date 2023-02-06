@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.controller;
 
+import com.nimoh.jobManager.commons.crawler.StrategyName;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import com.nimoh.jobManager.service.crawler.CrawlerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +49,7 @@ public class CrawlerController {
     ) throws IOException
     {
         logger.info("get /saramin Query :" + params);
-        List<JobCrawlerDto> result = crawlerService.getSearchList(params);
+        List<JobCrawlerDto> result = crawlerService.getSearchList(params, StrategyName.SARAMIN);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
