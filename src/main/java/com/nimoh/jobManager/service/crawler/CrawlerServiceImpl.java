@@ -46,8 +46,11 @@ public class CrawlerServiceImpl implements CrawlerService{
     }
     private List<JobCrawlerDto> getJobInfo(Document document) {
         Elements itemRecruit = document.select(".item_recruit");
-        logger.info(String.valueOf(itemRecruit));
-        logger.info("itemRecruit size = "+String.valueOf(itemRecruit.size()));
+        int resultCount = Integer.parseInt(document.select(".cnt_result").text().replaceAll("[^0-9]",""));
+        return extracted(itemRecruit, resultCount);
+    }
+
+    private List<JobCrawlerDto> extracted(Elements itemRecruit, int resultCount) {
         List<JobCrawlerDto> jobInfo = new ArrayList<>();
         for (Element element : itemRecruit) {
             String title = element.select(".area_job .job_tit a").attr("title");
@@ -56,9 +59,7 @@ public class CrawlerServiceImpl implements CrawlerService{
             String companyName = element.select(".area_corp .corp_name a").text();
             String companyUrl = element.select(".area_corp .corp_name a").attr("href");
             List<String> jobCondition = element.select(".area_job .job_condition span").eachText();
-
             JobCrawlerDto extractedJobs =
-
                     JobCrawlerDto.builder()
                             .title(title)
                             .url(SARAMIN_URL + url)
@@ -66,19 +67,10 @@ public class CrawlerServiceImpl implements CrawlerService{
                             .companyUrl(SARAMIN_URL + companyUrl)
                             .jobDate(jobDate)
                             .jobCondition(jobCondition)
+                            .resultCount(resultCount)
                             .build();
-
             jobInfo.add(extractedJobs);
         }
         return jobInfo;
-    }
-
-    private JobCrawlerDto extractInfo(String title, String url, String jobDate, List<String> jobCondition){
-        return JobCrawlerDto.builder()
-                .title(title)
-                .url("www.saramin.co.kr"+url)
-                .jobDate(jobDate)
-                .jobCondition(jobCondition)
-                .build();
     }
 }

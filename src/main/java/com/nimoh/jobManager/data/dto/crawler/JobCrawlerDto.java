@@ -23,4 +23,6 @@ public class JobCrawlerDto {
     private String jobDate;
 
     private List<String> jobCondition;
+
+    private int resultCount;
 }
