@@ -1,14 +1,13 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import React, {
-    SelectHTMLAttributes,
-    useEffect,
     useRef,
     useState,
 } from "react";
-import { Form, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import Pagination from "react-js-pagination";
 import { SearchResultData } from "../../common/types/propType";
 import SearchResult from "./SearchResult";
+import { useSyncState } from '../hook/useSyncState';
 
 function JobSearch() {
     const [jobPostSite, setJobPostSite] = useState<string>();
@@ -17,9 +16,8 @@ function JobSearch() {
     const [searchResult, setSearchResult] = useState<SearchResultData>();
     const [recruitPage, setRecruitPage] = useState(1);
     const [loading, setLoding] = useState(false);
-    const [page, setPage] = useState(1);
 
-    const fetch = async () => {
+    const fetch = async (page:number) => {
         setLoding(true);
         const url = `/api/v1/crawler/${jobPostSite}`;
         const result = await axios({
@@ -27,7 +25,7 @@ function JobSearch() {
             url,
             params: {
                 searchWord,
-                recruitPage: recruitPage,
+                recruitPage: page,
                 recruitSort,
             },
         });
@@ -53,13 +51,14 @@ function JobSearch() {
             alert("구직사이트를 선택해주세요");
         } else if (!recruitSort) {
             alert("정렬옵션을 선택해주세요");
-        } else fetch();
+        } else fetch(1);
     };
 
     const handlePageChange = (page: number) => {
-        setPage(page);
-        fetch();
+        setRecruitPage(page);
+        fetch(page);
     };
+    
     return (
         <div>
             <form action="" onSubmit={onSubmit}>
@@ -124,8 +123,8 @@ function JobSearch() {
                 <div>
                     <SearchResult searchResult={searchResult} />
                     <Pagination
-                        activePage={page}
-                        itemsCountPerPage={10}
+                        activePage={recruitPage}
+                        itemsCountPerPage={20}
                         totalItemsCount={searchResult[0].resultCount}
                         pageRangeDisplayed={5}
                         prevPageText={"‹"}
