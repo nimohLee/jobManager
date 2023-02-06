@@ -1,5 +1,5 @@
-import React from "react";
-import { Badge, ListGroup } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { SearchResultData } from "../../common/types/propType";
 
 interface PropsInfo {
@@ -11,24 +11,37 @@ function SearchResult(props: PropsInfo) {
         <div>
             {props.searchResult.map((post, i) => {
                 return (
-                    <ListGroup as="ol" key={i} >
+                    <ListGroup as="ol" key={i} className='my-3'>
                         <ListGroup.Item
                             as="li"
                             className="d-flex justify-content-between align-items-start"
                         >
                             <div className="ms-2 me-auto">
-                                <div className="fw-bold">{post.title}</div>
-                                {post.jobCondition.map((condition,index)=>{
-                                  return <span className='text-sm' key={index}>{condition}
-                                   {
-                                    index < post.jobCondition.length-1 && ' / '
-                                }
-                                   </span>
+                                <div className="fw-bold">
+                                    <Link
+                                        to={"//" + post.url}
+                                        className="no-underline text-black"
+                                        target="_blank"
+                                    >
+                                        {post.title}
+                                    </Link>
+                                </div>
+                                {post.jobCondition.map((condition, index) => {
+                                    return (
+                                        <span className="text-sm" key={index}>
+                                            {condition}
+                                            {index <
+                                                post.jobCondition.length - 1 &&
+                                                " / "}
+                                        </span>
+                                    );
                                 })}
                             </div>
-                            <Badge bg="primary" pill>
-                                14
-                            </Badge>
+                            <Link to={"//" + post.companyUrl} target="_blank" className='no-underline'>
+                                <div className='py-2 px-3 '>
+                                    {post.companyName}
+                                </div>
+                            </Link>
                         </ListGroup.Item>
                     </ListGroup>
                 );
