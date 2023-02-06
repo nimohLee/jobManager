@@ -3,6 +3,8 @@ package com.nimoh.jobManager.data.dto.crawler;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -10,12 +12,11 @@ import javax.validation.constraints.NotBlank;
 @ToString
 @Builder
 public class JobCrawlerDto {
-    @NotBlank(message = "검색어를 입력해주세요")
-    private String searchWord;
-    @NotBlank(message = "페이지를 입력해주세요")
-    private String recruitPage;
-    @NotBlank(message = "페이지 당 출력 개수를 입력해주세요")
-    private String recruitPageCount;
-    @NotBlank(message = "결과 정렬 방법을 입력해주세요")
-    private String recruitSort;
+    private String title;
+
+    private String url;
+
+    private String jobDate;
+
+    private List<String> jobCondition;
 }
