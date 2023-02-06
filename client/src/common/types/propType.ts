@@ -42,3 +42,12 @@ export interface Address {
     address: string;
     zonecode: string;
 }
+
+export type SearchResultData = [
+    {
+      title: string,
+      url: string,
+      jobDate: string,
+      jobCondition: string[],
+    }
+  ];

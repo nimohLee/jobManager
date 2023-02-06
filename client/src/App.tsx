@@ -14,6 +14,7 @@ import AddApply from "./component/page/AddApply";
 import Profile from "./component/page/Profile";
 import { useEffect } from "react";
 import axios from "axios";
+import JobPosting from './component/page/JobPosting';
 function App() {
     const checkLogin = async () => {
         const url = "/api/v1/user/session";
@@ -75,6 +76,15 @@ function App() {
                         element={
                             <SubHeader
                                 children={<AddApply />}
+                                title="지원 등록"
+                            />
+                        }
+                    ></Route>
+                    <Route
+                        path="/jobPost"
+                        element={
+                            <SubHeader
+                                children={<JobPosting />}
                                 title="지원 등록"
                             />
                         }

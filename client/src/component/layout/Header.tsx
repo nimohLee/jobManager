@@ -5,8 +5,9 @@ import userImage from '../../static/image/user.png';
 import axios from 'axios';
 import logo from '../../static/image/jm_logo.png';
 const navigation = [
+  { name: '지원공고', href: '/jobPost', current: false },
   { name: '지원내역', href: '/manager', current: false },
-  { name: '지원등록', href: '/addApply', current: false }
+  { name: '지원등록', href: '/addApply', current: false },
 ]
 
 function classNames(...classes:any) {
