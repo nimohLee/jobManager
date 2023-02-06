@@ -1,5 +1,7 @@
 package com.nimoh.jobManager.commons;
 
+import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
+import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.job.JobErrorResult;
 import com.nimoh.jobManager.commons.job.JobException;
 import com.nimoh.jobManager.commons.user.UserErrorResult;
@@ -42,6 +44,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return this.makeErrorResponseEntity(errorList.toString());
     }
 
+    @ExceptionHandler({CrawlerException.class})
+    public ResponseEntity<ErrorResponse> handleRestApiException(final CrawlerException exception){
+        log.warn("BoardException occur:", exception);
+        return this.makeErrorResponseEntity(exception.getErrorResult());
+    }
+
+
     @ExceptionHandler({JobException.class})
     public ResponseEntity<ErrorResponse> handleRestApiException(final JobException exception){
         log.warn("BoardException occur:", exception);
@@ -74,6 +83,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
     }
 
+    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final CrawlerErrorResult errorResult) {
+        return ResponseEntity.status(errorResult.getHttpStatus())
+                .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
+    }
 
     @Getter
     @RequiredArgsConstructor
