@@ -14,6 +14,10 @@ import java.util.List;
 public class JobCrawlerDto {
     private String title;
 
+    private String companyName;
+
+    private String companyUrl;
+
     private String url;
 
     private String jobDate;

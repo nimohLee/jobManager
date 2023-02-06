@@ -5,11 +5,7 @@ import com.nimoh.jobManager.commons.GlobalExceptionHandler;
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.crawler.RecruitSort;
-import com.nimoh.jobManager.commons.job.JobErrorResult;
-import com.nimoh.jobManager.commons.job.JobException;
-import com.nimoh.jobManager.crawler.Crawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import com.nimoh.jobManager.service.crawler.CralwerServiceImpl;
 import com.nimoh.jobManager.service.crawler.CrawlerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -31,7 +25,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -48,10 +41,7 @@ public class CrawlerControllerTest {
     Gson gson;
 
     @Mock
-    Crawler crawler;
-
-    @Mock
-    CralwerServiceImpl crawlerService;
+    CrawlerService crawlerService;
 
     @InjectMocks
     CrawlerController controller;

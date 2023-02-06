@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import java.util.Map;
 public class CrawlerServiceImpl implements CrawlerService{
 
     Logger logger = LoggerFactory.getLogger(CrawlerServiceImpl.class);
-
+    final private String SARAMIN_URL = "www.saramin.co.kr";
     public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption) throws IOException {
         if(searchOption.get("searchWord")==null||searchOption.get("recruitPage")==null||searchOption.get("recruitSort")==null){
             throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
@@ -52,9 +53,21 @@ public class CrawlerServiceImpl implements CrawlerService{
             String title = element.select(".area_job .job_tit a").attr("title");
             String url = element.select(".area_job .job_tit a").attr("href");
             String jobDate = element.select(".area_job .job_date span").text();
+            String companyName = element.select(".area_corp .corp_name a").text();
+            String companyUrl = element.select(".area_corp .corp_name a").attr("href");
             List<String> jobCondition = element.select(".area_job .job_condition span").eachText();
 
-            JobCrawlerDto extractedJobs = extractInfo(title, url, jobDate, jobCondition);
+            JobCrawlerDto extractedJobs =
+
+                    JobCrawlerDto.builder()
+                            .title(title)
+                            .url(SARAMIN_URL + url)
+                            .companyName(companyName)
+                            .companyUrl(SARAMIN_URL + companyUrl)
+                            .jobDate(jobDate)
+                            .jobCondition(jobCondition)
+                            .build();
+
             jobInfo.add(extractedJobs);
         }
         return jobInfo;
