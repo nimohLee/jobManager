@@ -1,10 +1,9 @@
-package com.nimoh.jobManager.strategy.crawler;
+package com.nimoh.jobManager.service.crawler.impl;
 
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
-import com.nimoh.jobManager.commons.crawler.StrategyName;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import lombok.extern.java.Log;
+import com.nimoh.jobManager.service.crawler.CrawlerService;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,20 +11,20 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component
-public class SaraminCrawler implements Crawler{
+@Service("SaraminCrawler")
+public class SaraminCrawler implements CrawlerService {
     Logger logger = LoggerFactory.getLogger(SaraminCrawler.class);
     final private String SARAMIN_URL = "www.saramin.co.kr";
 
     @Override
-    public List<JobCrawlerDto> getList(Map<String, String> searchOption) throws IOException {
+    public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption) throws IOException {
         if(searchOption.get("searchWord")==null||searchOption.get("recruitPage")==null||searchOption.get("recruitSort")==null){
             throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
         }
@@ -75,10 +74,5 @@ public class SaraminCrawler implements Crawler{
             jobInfo.add(extractedJobs);
         }
         return jobInfo;
-    }
-
-    @Override
-    public StrategyName getStrategyName() {
-        return StrategyName.SARAMIN;
     }
 }

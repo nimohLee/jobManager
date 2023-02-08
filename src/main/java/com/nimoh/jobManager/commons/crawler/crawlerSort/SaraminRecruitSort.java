@@ -1,11 +1,11 @@
-package com.nimoh.jobManager.commons.crawler;
+package com.nimoh.jobManager.commons.crawler.crawlerSort;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum RecruitSort {
+public enum SaraminRecruitSort {
     RELATION("relation"),
     ACCURACY("accuracy"),
     REG_DATE("reg_dt"),

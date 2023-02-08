@@ -1,13 +1,9 @@
 import axios from "axios";
-import React, {
-    useRef,
-    useState,
-} from "react";
+import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import Pagination from "react-js-pagination";
 import { SearchResultData } from "../../common/types/propType";
 import SearchResult from "./SearchResult";
-import { useSyncState } from '../hook/useSyncState';
 
 function JobSearch() {
     const [jobPostSite, setJobPostSite] = useState<string>();
@@ -17,7 +13,7 @@ function JobSearch() {
     const [recruitPage, setRecruitPage] = useState(1);
     const [loading, setLoding] = useState(false);
 
-    const fetch = async (page:number) => {
+    const fetch = async (page: number) => {
         setLoding(true);
         const url = `/api/v1/crawler/${jobPostSite}`;
         const result = await axios({
@@ -58,7 +54,7 @@ function JobSearch() {
         setRecruitPage(page);
         fetch(page);
     };
-    
+
     return (
         <div>
             <form action="" onSubmit={onSubmit}>

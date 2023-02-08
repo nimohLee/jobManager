@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.nimoh.jobManager.commons.GlobalExceptionHandler;
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
-import com.nimoh.jobManager.commons.crawler.RecruitSort;
+import com.nimoh.jobManager.commons.crawler.crawlerSort.SaraminRecruitSort;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import com.nimoh.jobManager.service.crawler.CrawlerService;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class CrawlerControllerTest {
     public void 사람인지원조회성공() throws Exception {
         //given
         final String url = "/api/v1/crawler/saramin";
-        doReturn(Arrays.asList(JobCrawlerDto.builder().build(),JobCrawlerDto.builder().build())).when(crawlerService).getSearchList(any());
+        doReturn(Arrays.asList(JobCrawlerDto.builder().build(),JobCrawlerDto.builder().build())).when(crawlerService).getSearchList(any(),any());
         //when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
@@ -73,7 +73,7 @@ public class CrawlerControllerTest {
         //given
         final String url = "/api/v1/crawler/saramin";
         doThrow(new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION))
-                .when(crawlerService).getSearchList(any());
+                .when(crawlerService).getSearchList(any(),any());
         //when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
@@ -88,7 +88,7 @@ public class CrawlerControllerTest {
         requestParam.add("searchWord","백엔드");
         requestParam.add("recruitPage","1");
         requestParam.add("recruitPageCount","40");
-        requestParam.add("recruitSort",RecruitSort.ACCURACY.getResultSort());
+        requestParam.add("recruitSort", SaraminRecruitSort.ACCURACY.getResultSort());
         return requestParam;
     }
 }

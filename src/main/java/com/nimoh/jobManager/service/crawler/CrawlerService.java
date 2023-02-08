@@ -10,5 +10,6 @@ import java.util.Map;
 
 
 public interface CrawlerService {
-    public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption,  StrategyName strategyName) throws IOException;
+    public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption) throws IOException;
+
 }

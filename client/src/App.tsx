@@ -85,7 +85,7 @@ function App() {
                         element={
                             <SubHeader
                                 children={<JobPosting />}
-                                title="지원 등록"
+                                title="지원 공고"
                             />
                         }
                     ></Route>
