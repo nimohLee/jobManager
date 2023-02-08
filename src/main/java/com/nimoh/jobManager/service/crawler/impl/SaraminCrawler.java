@@ -3,7 +3,7 @@ package com.nimoh.jobManager.service.crawler.impl;
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import com.nimoh.jobManager.service.crawler.CrawlerService;
+import com.nimoh.jobManager.service.crawler.JobSearchService;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("SaraminCrawler")
-public class SaraminCrawler implements CrawlerService {
+public class SaraminCrawler implements JobSearchService {
     Logger logger = LoggerFactory.getLogger(SaraminCrawler.class);
     final private String SARAMIN_URL = "www.saramin.co.kr";
 

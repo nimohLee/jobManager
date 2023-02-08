@@ -1,8 +1,9 @@
 package com.nimoh.jobManager.controller;
 
-import com.nimoh.jobManager.commons.crawler.StrategyName;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import com.nimoh.jobManager.service.crawler.CrawlerService;
+import com.nimoh.jobManager.data.dto.crawler.JobPlanetDto;
+import com.nimoh.jobManager.service.crawler.JobPlanetService;
+import com.nimoh.jobManager.service.crawler.JobSearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,10 +25,11 @@ public class CrawlerController {
 
     Logger logger = LoggerFactory.getLogger(CrawlerController.class);
 
-    private final Map<String, CrawlerService> crawlerServiceMap;
-
-    public CrawlerController(Map<String, CrawlerService> crawlerServiceMap) {
+    private final Map<String, JobSearchService> crawlerServiceMap;
+    private final JobPlanetService jobPlanetService;
+    public CrawlerController(Map<String, JobSearchService> crawlerServiceMap, JobPlanetService jobPlanetService) {
         this.crawlerServiceMap = crawlerServiceMap;
+        this.jobPlanetService = jobPlanetService;
     }
 
 
@@ -88,6 +90,16 @@ public class CrawlerController {
     {
         logger.info("get /incruit Query :" + params);
         List<JobCrawlerDto> result = crawlerServiceMap.get("IncruitCrawler").getSearchList(params);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("jobplanet")
+    public ResponseEntity<JobPlanetDto> getJobPlanet(
+            @RequestParam String companyName
+    ) throws IOException
+    {
+        logger.info("get /jobplanet Query :" + companyName);
+        JobPlanetDto result = jobPlanetService.getCompanyRate(companyName);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

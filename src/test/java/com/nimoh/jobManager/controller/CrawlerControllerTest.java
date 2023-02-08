@@ -6,7 +6,7 @@ import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.crawler.crawlerSort.SaraminRecruitSort;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import com.nimoh.jobManager.service.crawler.CrawlerService;
+import com.nimoh.jobManager.service.crawler.JobSearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ public class CrawlerControllerTest {
     Gson gson;
 
     @Mock
-    CrawlerService crawlerService;
+    JobSearchService crawlerService;
 
     @InjectMocks
     CrawlerController controller;

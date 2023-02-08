@@ -3,7 +3,7 @@ package com.nimoh.jobManager.service.crawler.impl;
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import com.nimoh.jobManager.service.crawler.CrawlerService;
+import com.nimoh.jobManager.service.crawler.JobSearchService;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("IncruitCrawler")
-public class IncruitCrawler implements CrawlerService {
+public class IncruitCrawler implements JobSearchService {
     Logger logger = LoggerFactory.getLogger(IncruitCrawler.class);
     final private String INCRUIT_URL = "https://search.incruit.com";
     @Override
