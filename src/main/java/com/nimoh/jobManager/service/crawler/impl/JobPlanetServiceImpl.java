@@ -18,19 +18,20 @@ import java.io.IOException;
 public class JobPlanetServiceImpl implements JobPlanetService {
     Logger logger = LoggerFactory.getLogger(IncruitCrawler.class);
     final private String JOBPLANET_URL = "https://www.jobplanet.co.kr";
+
     @Override
     public JobPlanetDto getCompanyRate(String companyName) throws IOException {
-        if(companyName==null){
+        if (companyName == null) {
             throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
         }
-        final String searchList = JOBPLANET_URL+"/search?category=search_new&search_keyword_hint_id=&_rs_con=seach&_rs_act=keyword_search"
+        final String searchList = JOBPLANET_URL + "/search?category=search_new&search_keyword_hint_id=&_rs_con=seach&_rs_act=keyword_search"
                 + "&query=" + companyName;
         logger.info(searchList);
         Connection conn = Jsoup.connect(searchList);
         try {
             Document document = conn.get();
             JobPlanetDto jobRate = parseHTML(document); // 칼럼명
-            logger.info("jobRate = "+jobRate.toString());
+            logger.info("jobRate = " + jobRate.toString());
             return jobRate;
         } catch (CrawlerException ce) {
             throw ce;
@@ -47,7 +48,7 @@ public class JobPlanetServiceImpl implements JobPlanetService {
         String rate = findCompany.select(".rate_ty02").text();
         return JobPlanetDto.builder()
                 .companyName(companyName)
-                .companyUrl(JOBPLANET_URL+companyUrl)
+                .companyUrl(JOBPLANET_URL + companyUrl)
                 .titleSub(titleSub)
                 .rate(rate)
                 .build();

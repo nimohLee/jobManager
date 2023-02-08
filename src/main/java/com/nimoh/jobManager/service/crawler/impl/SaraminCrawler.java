@@ -2,6 +2,8 @@ package com.nimoh.jobManager.service.crawler.impl;
 
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
+import com.nimoh.jobManager.commons.crawler.crawlerSort.SaraminRecruitSort;
+import com.nimoh.jobManager.commons.jsoup.JsoupConnection;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import com.nimoh.jobManager.service.crawler.JobSearchService;
 import org.jsoup.Connection;
@@ -11,10 +13,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,18 +26,33 @@ import java.util.Map;
 public class SaraminCrawler implements JobSearchService {
     Logger logger = LoggerFactory.getLogger(SaraminCrawler.class);
     final private String SARAMIN_URL = "www.saramin.co.kr";
+    private final JsoupConnection jsoupConnection;
+
+    @Autowired
+    public SaraminCrawler(JsoupConnection jsoupConnection) {
+        this.jsoupConnection = jsoupConnection;
+    }
 
     @Override
     public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption) throws IOException {
-        if(searchOption.get("searchWord")==null||searchOption.get("recruitPage")==null||searchOption.get("recruitSort")==null){
+        final String recruitSort = searchOption.get("recruitSort");
+
+        if(searchOption.get("searchWord")==null||searchOption.get("recruitPage")==null||recruitSort==null){
             throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
         }
-        final String searchList = "https://www.saramin.co.kr/zf_user/search/recruit?search_done=y&search_optional_item=n&company_cd=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C9%2C10&show_applied=&quick_apply=&except_read=&ai_head_hunting=&mainSearch=n&loc_mcd=101000&inner_com_type=&recruitPageCount=20"
+
+        // 정렬옵션에 임의의 값이 들어왔을 때 예외처리
+        SaraminRecruitSort[] saraminRecruitSorts = SaraminRecruitSort.values();
+        if(!Arrays.stream(saraminRecruitSorts).anyMatch(sort -> sort.getResultSort().equals(recruitSort))){
+            throw new CrawlerException(CrawlerErrorResult.OPTION_BAD_REQUEST);
+        }
+
+        final String searchList = "https://" + SARAMIN_URL +"/zf_user/search/recruit?search_done=y&search_optional_item=n&company_cd=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C9%2C10&show_applied=&quick_apply=&except_read=&ai_head_hunting=&mainSearch=n&loc_mcd=101000&inner_com_type=&recruitPageCount=20"
                 + "&searchword=" +searchOption.get("searchWord")
                 + "&recruitPage=" + searchOption.get("recruitPage")
                 + "&recruitSort=" + searchOption.get("recruitSort");
         logger.info(searchList);
-        Connection conn = Jsoup.connect(searchList);
+        Connection conn = jsoupConnection.connect(searchList);
         try {
             Document document = conn.get();
             List<JobCrawlerDto> jobList = parseHTML(document); // 칼럼명
@@ -48,8 +67,12 @@ public class SaraminCrawler implements JobSearchService {
 
     private List<JobCrawlerDto> parseHTML(Document document) {
         Elements itemRecruit = document.select(".item_recruit");
-        int resultCount = Integer.parseInt(document.select(".cnt_result").text().replaceAll("[^0-9]",""));
-        return extracted(itemRecruit, resultCount);
+        try {
+            int resultCount = Integer.parseInt(document.select(".cnt_result").text().replaceAll("[^0-9]",""));
+            return extracted(itemRecruit, resultCount);
+        }catch (NumberFormatException ne){
+            throw new CrawlerException(CrawlerErrorResult.RESULT_NOT_FOUND);
+        }
     }
 
     private List<JobCrawlerDto> extracted(Elements itemRecruit, int resultCount) {

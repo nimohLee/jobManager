@@ -15,6 +15,7 @@ import java.util.Optional;
 
 /**
  * 유저 서비스 구현체
+ *
  * @author nimoh
  */
 @Service
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse signUp(UserSignUpRequest request) {
         Optional<User> duplicateResult = userRepository.findByUid(request.getUid());
-        if (duplicateResult.isPresent()){
+        if (duplicateResult.isPresent()) {
             throw new UserException(UserErrorResult.DUPLICATED_USER_ID);
         }
 
@@ -66,14 +67,14 @@ public class UserServiceImpl implements UserService {
         }
         String encodedPw = findUser.get().getPassword();
 
-        if(passwordEncoder.matches(request.getPassword(), encodedPw)){
+        if (passwordEncoder.matches(request.getPassword(), encodedPw)) {
             return UserResponse.builder()
                     .id(findUser.get().getId())
                     .uid(findUser.get().getUid())
                     .email(findUser.get().getEmail())
                     .name(findUser.get().getName())
                     .build();
-        }else{
+        } else {
             throw new UserException(UserErrorResult.WRONG_PASSWORD);
         }
     }

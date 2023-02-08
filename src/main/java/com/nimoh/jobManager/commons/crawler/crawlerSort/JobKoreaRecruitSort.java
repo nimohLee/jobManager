@@ -11,8 +11,7 @@ public enum JobKoreaRecruitSort {
     EDIT_DATE("EditDtDesc"),
     CLOSING_DATE("ApplyCloseDtAsc"),
     READ_COUNT("ReadCntDesc"),
-    APPLY_COUNT("ApplicantDesc")
-    ;
+    APPLY_COUNT("ApplicantDesc");
 
     private final String resultSort;
 }

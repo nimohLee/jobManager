@@ -27,6 +27,7 @@ public class CrawlerController {
 
     private final Map<String, JobSearchService> crawlerServiceMap;
     private final JobPlanetService jobPlanetService;
+
     public CrawlerController(Map<String, JobSearchService> crawlerServiceMap, JobPlanetService jobPlanetService) {
         this.crawlerServiceMap = crawlerServiceMap;
         this.jobPlanetService = jobPlanetService;
@@ -34,70 +35,76 @@ public class CrawlerController {
 
 
     @Operation(
-            summary = "사람인 채용공고 크롤링", description = "사람인 채용공고를 크롤링하여 List로 반환",parameters = {}
+            summary = "사람인 채용공고 크롤링", description = "사람인 채용공고를 크롤링하여 List로 반환", parameters = {}
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200",description = "조회 성공"),
-                    @ApiResponse(responseCode = "400",description = "요청값이 잘못되었습니다"),
+                    @ApiResponse(responseCode = "200", description = "조회 성공"),
+                    @ApiResponse(responseCode = "400", description = "요청값이 잘못되었습니다"),
                     @ApiResponse(responseCode = "500", description = "서버 에러")
             }
     )
     @GetMapping("saramin")
     public ResponseEntity<List<JobCrawlerDto>> getSaraminList(
             @RequestParam Map<String, String> params
-    ) throws IOException
-    {
+    ) throws IOException {
         logger.info("get /saramin Query :" + params);
         List<JobCrawlerDto> result = crawlerServiceMap.get("SaraminCrawler").getSearchList(params);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @Operation(
-            summary = "잡코리아 채용공고 크롤링", description = "잡코리아 채용공고를 크롤링하여 List로 반환",parameters = {}
+            summary = "잡코리아 채용공고 크롤링", description = "잡코리아 채용공고를 크롤링하여 List로 반환", parameters = {}
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200",description = "조회 성공"),
-                    @ApiResponse(responseCode = "400",description = "요청값이 잘못되었습니다"),
+                    @ApiResponse(responseCode = "200", description = "조회 성공"),
+                    @ApiResponse(responseCode = "400", description = "요청값이 잘못되었습니다"),
                     @ApiResponse(responseCode = "500", description = "서버 에러")
             }
     )
     @GetMapping("jobkorea")
     public ResponseEntity<List<JobCrawlerDto>> getJobKoreaList(
             @RequestParam Map<String, String> params
-    ) throws IOException
-    {
+    ) throws IOException {
         logger.info("get /jobkorea Query :" + params);
         List<JobCrawlerDto> result = crawlerServiceMap.get("JobKoreaCrawler").getSearchList(params);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @Operation(
-            summary = "잡코리아 채용공고 크롤링", description = "잡코리아 채용공고를 크롤링하여 List로 반환",parameters = {}
+            summary = "잡코리아 채용공고 크롤링", description = "잡코리아 채용공고를 크롤링하여 List로 반환", parameters = {}
     )
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200",description = "조회 성공"),
-                    @ApiResponse(responseCode = "400",description = "요청값이 잘못되었습니다"),
+                    @ApiResponse(responseCode = "200", description = "조회 성공"),
+                    @ApiResponse(responseCode = "400", description = "요청값이 잘못되었습니다"),
                     @ApiResponse(responseCode = "500", description = "서버 에러")
             }
     )
     @GetMapping("incruit")
     public ResponseEntity<List<JobCrawlerDto>> getIncruitList(
             @RequestParam Map<String, String> params
-    ) throws IOException
-    {
+    ) throws IOException {
         logger.info("get /incruit Query :" + params);
         List<JobCrawlerDto> result = crawlerServiceMap.get("IncruitCrawler").getSearchList(params);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @Operation(
+            summary = "잡플래닛 기업검색 크롤링", description = "잡플래닛 기업검색를 크롤링하여 List로 반환", parameters = {}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "조회 성공"),
+                    @ApiResponse(responseCode = "400", description = "요청값이 잘못되었습니다"),
+                    @ApiResponse(responseCode = "500", description = "서버 에러")
+            }
+    )
     @GetMapping("jobplanet")
     public ResponseEntity<JobPlanetDto> getJobPlanet(
             @RequestParam String companyName
-    ) throws IOException
-    {
+    ) throws IOException {
         logger.info("get /jobplanet Query :" + companyName);
         JobPlanetDto result = jobPlanetService.getCompanyRate(companyName);
         return ResponseEntity.status(HttpStatus.OK).body(result);

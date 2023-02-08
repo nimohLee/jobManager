@@ -6,6 +6,7 @@ import com.nimoh.jobManager.data.dto.user.UserSignUpRequest;
 
 public interface UserService {
     public UserResponse signUp(UserSignUpRequest request);
+
     public boolean deleteById(Long userId);
 
     public UserResponse login(UserLogInRequest request);

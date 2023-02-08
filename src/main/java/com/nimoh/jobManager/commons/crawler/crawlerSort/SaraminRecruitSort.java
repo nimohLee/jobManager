@@ -12,8 +12,7 @@ public enum SaraminRecruitSort {
     EDIT_DATE("edit_dt"),
     CLOSING_DATE("closing_dt"),
     APPLY_COUNT("apply_cnt"),
-    EMPLOY_COUNT("employ_cnt")
-    ;
+    EMPLOY_COUNT("employ_cnt");
 
     private final String resultSort;
 }
