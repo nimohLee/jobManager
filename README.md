@@ -62,4 +62,8 @@
 ### 지원 내역 상세보기
 ![image](https://user-images.githubusercontent.com/106662308/214839451-9be7874a-8d65-4c2b-a3e7-d4040ae6ab24.png)
 
+### 채용 공고 검색결과
+![image](https://user-images.githubusercontent.com/106662308/217601782-37dcfaba-3808-4cc6-9f18-45ab46d32f66.png)
+
+
 
