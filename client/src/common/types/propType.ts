@@ -42,3 +42,23 @@ export interface Address {
     address: string;
     zonecode: string;
 }
+
+export type SearchResultData =
+    [
+          {
+              title: string;
+              url: string;
+              companyName: string;
+              companyUrl: string;
+              jobDate: string;
+              jobCondition: string[];
+              resultCount: number;
+          }
+      ];
+
+export interface JobPlanetSearchResult {
+    companyName: string;
+    companyUrl: string;
+    titleSub: string;
+    rate: string;
+}

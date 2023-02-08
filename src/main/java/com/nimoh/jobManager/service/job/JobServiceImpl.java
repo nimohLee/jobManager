@@ -18,8 +18,9 @@ import java.util.stream.Collectors;
 
 /**
  * 직무 지원 서비스 구현체
+ *
  * @author nimoh
- * */
+ */
 @Service
 public class JobServiceImpl implements JobService {
 
@@ -28,7 +29,7 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     public JobServiceImpl(JobRepository jobRepository,
-                          UserRepository userRepository){
+                          UserRepository userRepository) {
         this.jobRepository = jobRepository;
         this.userRepository = userRepository;
     }
@@ -36,7 +37,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<JobResponse> findByUser(Long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             throw new UserException(UserErrorResult.USER_NOT_FOUND);
         }
         final List<Job> findResult = jobRepository.findAllByUser(user.get());
@@ -48,7 +49,7 @@ public class JobServiceImpl implements JobService {
     public JobResponse save(JobRequest jobRequest, Long userId) {
         System.out.println(jobRequest);
         final Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             throw new JobException(JobErrorResult.REQUEST_VALUE_INVALID);
         }
         final Job job = makeJob(jobRequest, user.get());
@@ -57,13 +58,13 @@ public class JobServiceImpl implements JobService {
         return makeJobResponse(savedJob);
     }
 
-    public JobResponse update(JobRequest jobRequest, Long userId, Long jobId){
+    public JobResponse update(JobRequest jobRequest, Long userId, Long jobId) {
         final Optional<Job> targetJob = jobRepository.findById(jobId);
-        if(targetJob.isEmpty()){
+        if (targetJob.isEmpty()) {
             throw new JobException(JobErrorResult.APPLY_NOT_FOUND);
         }
         Optional<User> user = userRepository.findById(userId);
-        if(!targetJob.get().getUser().equals(user.get())){
+        if (!targetJob.get().getUser().equals(user.get())) {
             throw new JobException(JobErrorResult.NO_PERMISSION);
         }
 
@@ -73,16 +74,16 @@ public class JobServiceImpl implements JobService {
         return makeJobResponse(result);
     }
 
-    public boolean delete(Long jobId,Long userId) {
+    public boolean delete(Long jobId, Long userId) {
         final Optional<Job> targetJob = jobRepository.findById(jobId);
         final Optional<User> user = userRepository.findById(userId);
-        if (targetJob.isEmpty()){
+        if (targetJob.isEmpty()) {
             throw new JobException(JobErrorResult.APPLY_NOT_FOUND);
         }
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             throw new JobException(JobErrorResult.REQUEST_VALUE_INVALID);
         }
-        if(!targetJob.get().getUser().equals(user.get())){
+        if (!targetJob.get().getUser().equals(user.get())) {
             throw new JobException(JobErrorResult.NO_PERMISSION);
         }
         jobRepository.deleteById(jobId);

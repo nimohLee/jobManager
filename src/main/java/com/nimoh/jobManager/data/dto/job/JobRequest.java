@@ -1,6 +1,8 @@
 package com.nimoh.jobManager.data.dto.job;
+
 import com.nimoh.jobManager.data.entity.Skill;
 import lombok.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class JobRequest {
 
     private String note;
 
-    public void setX(String x){
+    public void setX(String x) {
         this.x = x;
     }
 

@@ -9,8 +9,9 @@ import java.util.List;
 
 /**
  * 직무 지원 레퍼지토리
+ *
  * @author nimoh
- * */
+ */
 
 public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findAllByUser(User user);

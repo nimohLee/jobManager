@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UserIdValidator.class)
 public @interface UserId {
     String message() default "id";
+
     Class[] groups() default {};
+
     Class[] payload() default {};
 }

@@ -32,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final MethodArgumentNotValidException ex,
             final HttpHeaders headers,
             final HttpStatus status,
-            final WebRequest request){
+            final WebRequest request) {
 
         final List<String> errorList = ex.getBindingResult()
                 .getAllErrors()
@@ -45,20 +45,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({CrawlerException.class})
-    public ResponseEntity<ErrorResponse> handleRestApiException(final CrawlerException exception){
+    public ResponseEntity<ErrorResponse> handleRestApiException(final CrawlerException exception) {
         log.warn("BoardException occur:", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
 
     @ExceptionHandler({JobException.class})
-    public ResponseEntity<ErrorResponse> handleRestApiException(final JobException exception){
+    public ResponseEntity<ErrorResponse> handleRestApiException(final JobException exception) {
         log.warn("BoardException occur:", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
     @ExceptionHandler({UserException.class})
-    public ResponseEntity<ErrorResponse> handleRestApiException(final UserException exception){
+    public ResponseEntity<ErrorResponse> handleRestApiException(final UserException exception) {
         log.warn("UserException occur:", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return this.makeErrorResponseEntity(JobErrorResult.UNKNOWN_EXCEPTION);
     }
 
-    private ResponseEntity<Object> makeErrorResponseEntity(final String errorDescription){
+    private ResponseEntity<Object> makeErrorResponseEntity(final String errorDescription) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorDescription));
     }
@@ -78,6 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(errorResult.getHttpStatus())
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
     }
+
     private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final UserErrorResult errorResult) {
         return ResponseEntity.status(errorResult.getHttpStatus())
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
