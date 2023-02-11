@@ -11,6 +11,9 @@
 - 스프링에 대한 이해
 - 테스트 주도 개발 연습
 
+## CI/CD 구축 환경
+![image](https://user-images.githubusercontent.com/106662308/218242482-b6e81544-a30e-4187-8c69-91f6178c546a.png)
+
 ## 데이터베이스
 ### ERD
 <img width="494" alt="image" src="https://user-images.githubusercontent.com/106662308/214835461-80022065-cc01-454e-9b21-ac59f79a1ca4.png">
@@ -64,6 +67,5 @@
 
 ### 채용 공고 검색결과
 ![image](https://user-images.githubusercontent.com/106662308/217601782-37dcfaba-3808-4cc6-9f18-45ab46d32f66.png)
-
 
 
