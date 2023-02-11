@@ -50,7 +50,7 @@ function SignUp() {
 
     const postSignUp = async (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        const url = "http://localhost:8000/api/v1/user";
+        const url = "/api/v1/user";
         const data = {
             uid : id?.value?.trim(),
             password : password?.value?.trim(),
