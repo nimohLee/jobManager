@@ -2,7 +2,7 @@
 
 
 ## 개요 
-구직 지원 내역을 관리할 수 
+구직 지원 내역을 등록 및 관리하고 구직 공고를 검색할 수 있는 웹 애플리케이션
 
 ## 팀 구성
 1인
@@ -12,7 +12,7 @@
 - 테스트 주도 개발 연습
 
 ## CI/CD 구축 환경 도식화
-![image](https://user-images.githubusercontent.com/106662308/218245210-0142e508-e978-4338-ae16-ee2aeaf5c4d3.png)
+<img width="1004" alt="image" src="https://user-images.githubusercontent.com/106662308/218254239-245a4bc5-80dd-48f6-ae6b-675ad9259f7b.png">
 
 ## 데이터베이스
 ### ERD
