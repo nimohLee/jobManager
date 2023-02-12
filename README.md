@@ -13,6 +13,11 @@
 - CI/CD 구축 연습
 - 여러 구직사이트의 구직 정보와 구직 내역을 하나의 사이트에서 관리하기 위함
 
+## 접속
+URL : http://nimoh.shop/
+ID : test
+PW : test
+
 ## CI/CD 구축 환경 도식화
 <img width="1004" alt="image" src="https://user-images.githubusercontent.com/106662308/218254239-245a4bc5-80dd-48f6-ae6b-675ad9259f7b.png">
 
