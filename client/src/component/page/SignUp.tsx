@@ -96,7 +96,7 @@ function SignUp() {
                     <label className='mb-2'>아이디</label>
                     <input type="ID" name ='id' placeholder="아이디를 입력하세요"  className='px-3 py-2 border border-solid' onChange={onChange}/>
                     {
-                        id?.error&&<ErrorMessage>아이디는 6자 이상, 10자 이하의 영문자로 입력해주세요</ErrorMessage>
+                        id?.error&&<ErrorMessage>아이디는 6자 이상, 10자 이하의 영문자와 숫자의 조합으로 입력해주세요</ErrorMessage>
                     }
                 </div>
 

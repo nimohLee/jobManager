@@ -65,7 +65,7 @@ function AddApply() {
             alert("등록이 완료되었습니다.");
             window.location.href = "/";
         } catch (err) {
-            console.error("에러발생");
+            console.error(err);
         }
     };
 

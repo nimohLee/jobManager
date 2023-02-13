@@ -73,7 +73,7 @@ function JobSearch() {
     };
 
     return (
-        <div>
+        <div className='mb-32'>
             <form action="" onSubmit={onSubmit}>
                 <div className="flex justify-center">
                     <select
