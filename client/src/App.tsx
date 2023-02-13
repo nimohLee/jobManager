@@ -89,7 +89,10 @@ function App() {
                             />
                         }
                     ></Route>
-                    <Route path="*" element={<NotFound />}></Route>
+                    <Route path="*" element={<SubHeader
+                                children={<NotFound />}
+                                title="존재하지 않는 페이지입니다"
+                            />}></Route>
                 </Routes>
                 <Footer />
             </BrowserRouter>
