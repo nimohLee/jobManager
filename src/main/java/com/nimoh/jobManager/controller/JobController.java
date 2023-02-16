@@ -1,8 +1,10 @@
 package com.nimoh.jobManager.controller;
 
+import com.nimoh.jobManager.config.auth.PrincipalDetails;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
+import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.service.api.RestTemplateService;
 import com.nimoh.jobManager.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,7 @@ import java.util.Map;
 public class JobController {
     private final JobService jobService;
     private final RestTemplateService restTemplateService;
-
+    Logger logger = LoggerFactory.getLogger(JobController.class);
     @Autowired
     public JobController(JobService jobService, RestTemplateService restTemplateService) {
         this.jobService = jobService;
@@ -51,9 +54,11 @@ public class JobController {
     })
     @GetMapping("")
     public ResponseEntity<List<JobResponse>> getList(
-            HttpServletRequest request
+            HttpServletRequest request,
+            Authentication authentication
     ) {
-        Long userId = getCurrentUserId(request);
+        User principal = (User) authentication.getPrincipal();
+        Long userId = principal.getId();
         List<JobResponse> result = jobService.findByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

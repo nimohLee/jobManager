@@ -9,5 +9,5 @@ public interface UserService {
 
     public boolean deleteById(Long userId);
 
-    public UserResponse login(UserLogInRequest request);
+    public String login(UserLogInRequest request);
 }

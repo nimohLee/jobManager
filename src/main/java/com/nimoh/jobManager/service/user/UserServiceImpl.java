@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.service.user;
 
+import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
 import com.nimoh.jobManager.data.dto.user.UserLogInRequest;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
@@ -22,13 +23,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-
     private PasswordEncoder passwordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(encodedPw)
+                .roles("ROLE_USER")
                 .build();
         User result = userRepository.save(signUpUser);
         return UserResponse.builder()
@@ -60,20 +63,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse login(UserLogInRequest request) {
-        Optional<User> findUser = userRepository.findByUid(request.getUid());
-        if (findUser.isEmpty()) {
-            throw new UserException(UserErrorResult.USER_NOT_FOUND);
-        }
-        String encodedPw = findUser.get().getPassword();
-
+    public String login(UserLogInRequest request) {
+        User findUser = userRepository.findByUid(request.getUid())
+                .orElseThrow(()-> new UserException((UserErrorResult.USER_NOT_FOUND)));
+        String encodedPw = findUser.getPassword();
         if (passwordEncoder.matches(request.getPassword(), encodedPw)) {
-            return UserResponse.builder()
-                    .id(findUser.get().getId())
-                    .uid(findUser.get().getUid())
-                    .email(findUser.get().getEmail())
-                    .name(findUser.get().getName())
-                    .build();
+            return jwtTokenProvider.createToken(findUser.getUsername(), findUser.getRoles());
         } else {
             throw new UserException(UserErrorResult.WRONG_PASSWORD);
         }

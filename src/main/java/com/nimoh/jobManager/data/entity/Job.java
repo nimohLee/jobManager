@@ -52,9 +52,9 @@ public class Job extends BaseEntity{
 
     private String result;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "primary_skill_id")
-    private List<Skill> primarySkill = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "primary_skill_id")
+//    private List<Skill> primarySkill = new ArrayList<>();
 
     private String note;
 
