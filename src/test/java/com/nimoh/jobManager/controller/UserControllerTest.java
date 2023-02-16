@@ -48,38 +48,12 @@ public class UserControllerTest {
     private UserController userController;
 
     @BeforeEach
-    void init(){
+    void init() {
         gson = new Gson();
         mockMvc = MockMvcBuilders.standaloneSetup(userController).setControllerAdvice(new GlobalExceptionHandler()).build();
         request = new MockHttpServletRequest();
         session = new MockHttpSession();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-    }
-
-    @Test
-    public void 현재세션가져오기실패_세션없음() throws Exception {
-        //given
-        String url = "/api/v1/user/session";
-        //when
-        ResultActions resultActions = mockMvc.perform(
-            MockMvcRequestBuilders.get(url)
-        );
-        //then
-        resultActions.andExpect(status().isNoContent());
-    }
-
-    @Test
-    public void 현재세션가져오기성공() throws Exception {
-        //given
-        String url = "/api/v1/user/session";
-        session.setAttribute("sid",UserResponse.builder().build());
-        //when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get(url)
-                        .session(session)
-        );
-        //then
-        resultActions.andExpect(status().isOk());
     }
 
     @Test
@@ -113,6 +87,7 @@ public class UserControllerTest {
         //then
         resultActions.andExpect(status().isBadRequest());
     }
+
     @Test
     public void 회원가입실패_이름유효성() throws Exception {
         //given
@@ -132,6 +107,7 @@ public class UserControllerTest {
         //then
         resultActions.andExpect(status().isBadRequest());
     }
+
     @Test
     public void 회원가입실패_비밀번호유효성() throws Exception {
         //given
@@ -233,7 +209,7 @@ public class UserControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .sessionAttr("sid",User.builder().id(1L).build())
+                        .sessionAttr("sid", User.builder().id(1L).build())
         );
         //then
         resultActions.andExpect(status().isInternalServerError());
@@ -266,39 +242,22 @@ public class UserControllerTest {
     }
 
     @Test
-    public void 로그인실패_세션이미있음() {
-//        //given
-//        String url = "/api/v1/user/login";
-//        doReturn(UserResponse.builder().build()).when(userService).login(any());
-//        //when
-//        ResultActions resultActions = mockMvc.perform(
-//                MockMvcRequestBuilders.post(url)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"uid\": \"nimoh123\",\"password\": \"password123\"}")
-//
-//        );
-//        //then
-//        resultActions.andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void 로그인성공() throws Exception{
+    public void 로그인성공_토큰발급() throws Exception {
         //given
         String url = "/api/v1/user/login";
-        doReturn(UserResponse.builder().build()).when(userService).login(any());
+        doReturn("token").when(userService).login(any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"uid\": \"nimoh123\",\"password\": \"password123\"}")
-
         );
         //then
         resultActions.andExpect(status().isOk());
     }
 
 
-    private UserSignUpRequest request(){
+    private UserSignUpRequest request() {
         return UserSignUpRequest.builder()
                 .uid("nimoh123")
                 .name("test")

@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.service;
 
+import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
 import com.nimoh.jobManager.data.dto.user.UserLogInRequest;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
@@ -31,9 +32,11 @@ public class UserServiceTest {
     @Mock
     PasswordEncoder passwordEncoder;
 
+    @Mock
+    JwtTokenProvider jwtTokenProvider;
+
     @InjectMocks
     UserServiceImpl userService;
-
 
 
     @Test
@@ -49,7 +52,6 @@ public class UserServiceTest {
         //when
         final UserException result = assertThrows(UserException.class, () -> userService.signUp(request));
         //then
-
         assertThat(result.getErrorResult()).isEqualTo(UserErrorResult.DUPLICATED_USER_ID);
     }
 
@@ -109,7 +111,7 @@ public class UserServiceTest {
                 .password("password123")
                 .build();
         doReturn(Optional.of(user())).when(userRepository).findByUid(any());
-        doReturn(false).when(passwordEncoder).matches(any(),any());
+        doReturn(false).when(passwordEncoder).matches(any(), any());
         //when
         final UserException result = assertThrows(UserException.class, () -> userService.login(request));
         //then
@@ -124,14 +126,15 @@ public class UserServiceTest {
                 .password("password123")
                 .build();
         doReturn(Optional.of(user())).when(userRepository).findByUid(any());
-        doReturn(true).when(passwordEncoder).matches(any(),any());
+        doReturn(true).when(passwordEncoder).matches(any(), any());
+        doReturn("123.442.13").when(jwtTokenProvider).createToken(any(), any());
         //when
-        UserResponse result = userService.login(request);
+        String result = userService.login(request);
         //then
-        assertThat(result.getUid()).isEqualTo("nimoh123");
+        assertThat(result).isNotEmpty();
     }
 
-    private User user(){
+    private User user() {
         return User.builder()
                 .id(1L)
                 .uid("nimoh123")
@@ -139,6 +142,5 @@ public class UserServiceTest {
                 .email("email@email.com")
                 .password("password123")
                 .build();
-
     }
 }

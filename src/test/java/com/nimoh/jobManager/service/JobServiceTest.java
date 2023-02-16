@@ -43,7 +43,7 @@ public class JobServiceTest {
         JobRequest jobRequest = JobRequest.builder().build();
         Long userId = 1L;
         //when
-        final JobException result = assertThrows(JobException.class, ()->jobService.save(jobRequest,userId));
+        final JobException result = assertThrows(JobException.class, () -> jobService.save(jobRequest, userId));
 
         //then
         assertThat(result.getErrorResult()).isEqualTo(JobErrorResult.REQUEST_VALUE_INVALID);
@@ -56,18 +56,18 @@ public class JobServiceTest {
         doReturn(Optional.of(user(1L))).when(userRepository).findById(any());
         doReturn(job(2L)).when(jobRepository).save(ArgumentMatchers.any(Job.class));
         //when
-        JobResponse result = jobService.save(jobRequest(),userId);
+        JobResponse result = jobService.save(jobRequest(), userId);
         //then
         assertThat(result.getCompanyName()).isEqualTo("test");
     }
 
     @Test
-    public void 해당지원이존재하지않는경우삭제실패(){
+    public void 해당지원이존재하지않는경우삭제실패() {
         //given
         final Long jobId = -1L;
         final Long userId = 1L;
         //when
-        final JobException result = assertThrows(JobException.class,()->jobService.delete(jobId,userId));
+        final JobException result = assertThrows(JobException.class, () -> jobService.delete(jobId, userId));
         //then
         assertThat(result.getErrorResult()).isEqualTo(JobErrorResult.APPLY_NOT_FOUND);
     }
@@ -80,7 +80,7 @@ public class JobServiceTest {
         doReturn(Optional.of(user(2L))).when(userRepository).findById(any());
         doReturn(Optional.of(job(1L))).when(jobRepository).findById(jobId);
         //when
-        final JobException result = assertThrows(JobException.class, () -> jobService.delete(jobId,userId));
+        final JobException result = assertThrows(JobException.class, () -> jobService.delete(jobId, userId));
         //then
         assertThat(result.getErrorResult()).isEqualTo(JobErrorResult.NO_PERMISSION);
     }
@@ -96,12 +96,12 @@ public class JobServiceTest {
         doReturn(Optional.of(job)).when(jobRepository).findById(jobId);
 
         //when
-        jobService.delete(jobId,userId);
+        jobService.delete(jobId, userId);
         //then
     }
 
     @Test
-    public void 유저id로지원전체조회성공(){
+    public void 유저id로지원전체조회성공() {
         //given
         List<Job> jobs = new ArrayList<>();
         Job job = Job.builder().build();
@@ -116,7 +116,7 @@ public class JobServiceTest {
         assertThat(result.size()).isEqualTo(2);
     }
 
-    public JobRequest jobRequest(){
+    public JobRequest jobRequest() {
         return JobRequest.builder()
                 .companyName("test")
                 .huntingSite("test site")
@@ -140,7 +140,7 @@ public class JobServiceTest {
                 .location("서울특별시")
                 .position("백엔드")
                 .requiredCareer("신입")
-                .primarySkill(Arrays.asList(Skill.builder().build()))
+//                .primarySkill(Arrays.asList(Skill.builder().build()))
                 .applyDate(LocalDate.now())
                 .result("합격")
                 .note("좋은 회사")
@@ -148,7 +148,7 @@ public class JobServiceTest {
                 .build();
     }
 
-    public User user(Long userId){
+    public User user(Long userId) {
         return User.builder()
                 .id(userId)
                 .uid("nimoh")

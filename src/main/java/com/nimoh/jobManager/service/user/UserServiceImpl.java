@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserLogInRequest request) {
         User findUser = userRepository.findByUid(request.getUid())
-                .orElseThrow(()-> new UserException((UserErrorResult.USER_NOT_FOUND)));
+                .orElseThrow(() -> new UserException((UserErrorResult.USER_NOT_FOUND)));
         String encodedPw = findUser.getPassword();
         if (passwordEncoder.matches(request.getPassword(), encodedPw)) {
             return jwtTokenProvider.createToken(findUser.getUsername(), findUser.getRoles());
