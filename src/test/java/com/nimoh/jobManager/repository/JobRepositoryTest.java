@@ -156,7 +156,7 @@ public class JobRepositoryTest {
                 .applyDate(LocalDate.now())
                 .position("백엔드")
                 .requiredCareer("신입")
-                .primarySkill(Arrays.asList(Skill.builder().name("Java").build()))
+//                .primarySkill(Arrays.asList(Skill.builder().name("Java").build()))
                 .result("합격")
                 .note("모르겠음")
                 .user(user)

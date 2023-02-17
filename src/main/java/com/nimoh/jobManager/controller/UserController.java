@@ -86,15 +86,13 @@ public class UserController {
             }
     )
     @PostMapping("login")
-    public ResponseEntity<UserResponse> login(
+    public ResponseEntity<String> login(
             @RequestBody UserLogInRequest userLogInRequest,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        UserResponse result = userService.login(userLogInRequest);
-        HttpSession session = request.getSession();
-        session.setAttribute("sid", result);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        String resultToken = userService.login(userLogInRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(resultToken);
     }
 
     @Operation(summary = "로그아웃", description = "로그아웃을 시도합니다")

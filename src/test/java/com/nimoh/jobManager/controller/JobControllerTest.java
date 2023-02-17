@@ -1,6 +1,6 @@
 package com.nimoh.jobManager.controller;
-import com.google.gson.Gson;
 
+import com.google.gson.Gson;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
 import com.nimoh.jobManager.commons.job.JobErrorResult;
@@ -17,13 +17,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpSession;
+import org.springframework.http.MediaType;;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -46,6 +47,9 @@ public class JobControllerTest {
     private JobServiceImpl jobService;
     @Mock
     private RestTemplateService restTemplateService;
+    @Mock
+    private Authentication authentication;
+
     @BeforeEach
     public void init() {
         gson = new Gson();
@@ -53,6 +57,7 @@ public class JobControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void 유저별지원조회성공() throws Exception {
         //given
         final String url = "/api/v1/job";
@@ -64,40 +69,27 @@ public class JobControllerTest {
         //when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url)
-                        .sessionAttr("sid",UserResponse.builder().id(1L).build())
+                        .contentType(MediaType.APPLICATION_JSON)
         );
+
         //then
         resultActions.andExpect(status().isOk());
     }
 
     @Test
-    public void 지원등록실패_유저헤더없음() throws Exception {
-        //given
-        final String url = "/api/v1/job";
-
-        //when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post(url)
-        );
-        //then
-        resultActions.andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void 지원등록성공() throws Exception{
+    public void 지원등록성공() throws Exception {
         //given
         final String url = "/api/v1/job";
         JobRequest jobRequest = jobRequest();
-        String content = gson.toJson(jobRequest);
         Map<String, String> geoCode = new HashMap<>();
-        geoCode.put("x","127.1233");
-        geoCode.put("y","35.1233");
-        given(jobService.save(any(),any())).willReturn(jobResponse());
+        geoCode.put("x", "127.1233");
+        geoCode.put("y", "35.1233");
+        given(jobService.save(any(), any())).willReturn(jobResponse());
         given(restTemplateService.getGeocode(any())).willReturn(geoCode);
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)
-                        .sessionAttr("sid",UserResponse.builder().build())
+                        .sessionAttr("sid", UserResponse.builder().build())
                         .content(jobRequestJson())
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -106,31 +98,15 @@ public class JobControllerTest {
     }
 
     @Test
-    public void 지원삭제실패_유저세션없음() throws Exception{
+    public void 지원삭제실패_삭제권한없음() throws Exception {
         //given
         final String url = "/api/v1/job/1";
-
-        //when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete(url)
-        );
-        //then
-        resultActions.andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    public void 지원삭제실패_삭제권한없음() throws Exception{
-        //given
-        final String url = "/api/v1/job/1";
-        final Long boardId = 1L;
-        final Long userId = 1L;
         lenient().doThrow(new JobException(JobErrorResult.NO_PERMISSION))
                 .when(jobService)
-                .delete(boardId,userId);
+                .delete(any(), any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .sessionAttr("sid",UserResponse.builder().id(1L).build())
         );
         //then
         resultActions.andExpect(status().isForbidden());
@@ -140,12 +116,10 @@ public class JobControllerTest {
     public void 지원삭제성공() throws Exception {
         //given
         String url = "/api/v1/job/1";
-        doReturn(true).when(jobService).delete(1L,1L);
+        doReturn(true).when(jobService).delete(any(), any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.delete(url)
-                        .sessionAttr("sid", UserResponse.builder().id(1L).build())
-
         );
         //then
         resultActions.andExpect(status().isNoContent());
@@ -170,11 +144,11 @@ public class JobControllerTest {
         final String url = "/api/v1/job/1";
         doThrow(new JobException(JobErrorResult.NO_PERMISSION))
                 .when(jobService)
-                .update(any(JobRequest.class),any(),any());
+                .update(any(JobRequest.class), any(), any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
-                        .sessionAttr("sid",UserResponse.builder().id(1L).build())
+                        .sessionAttr("sid", UserResponse.builder().id(1L).build())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(JobRequest.builder().build()))
         );
@@ -183,14 +157,14 @@ public class JobControllerTest {
     }
 
     @Test
-    public void 지원수정성공() throws Exception{
+    public void 지원수정성공() throws Exception {
         //given
         final String url = "/api/v1/job/1";
         final Long userId = 1L;
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.put(url)
-                        .sessionAttr("sid",UserResponse.builder().id(userId).build())
+                        .sessionAttr("sid", UserResponse.builder().id(userId).build())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jobRequestJson())
         );

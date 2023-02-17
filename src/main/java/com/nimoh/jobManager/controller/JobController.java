@@ -1,8 +1,10 @@
 package com.nimoh.jobManager.controller;
 
+import com.nimoh.jobManager.config.auth.PrincipalDetails;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
 import com.nimoh.jobManager.data.dto.user.UserResponse;
+import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.service.api.RestTemplateService;
 import com.nimoh.jobManager.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +35,7 @@ import java.util.Map;
 public class JobController {
     private final JobService jobService;
     private final RestTemplateService restTemplateService;
+    Logger logger = LoggerFactory.getLogger(JobController.class);
 
     @Autowired
     public JobController(JobService jobService, RestTemplateService restTemplateService) {
@@ -51,9 +56,9 @@ public class JobController {
     })
     @GetMapping("")
     public ResponseEntity<List<JobResponse>> getList(
-            HttpServletRequest request
+            @AuthenticationPrincipal User user
     ) {
-        Long userId = getCurrentUserId(request);
+        Long userId = user.getId();
         List<JobResponse> result = jobService.findByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -67,12 +72,12 @@ public class JobController {
     @PostMapping("")
     public ResponseEntity<Void> save(
             @RequestBody final JobRequest jobRequest,
-            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
+            @AuthenticationPrincipal User user
     ) {
         Map<String, String> geocode = restTemplateService.getGeocode(jobRequest.getLocation());
         jobRequest.setX(geocode.get("x"));
         jobRequest.setY(geocode.get("y"));
-        jobService.save(jobRequest, loginUser.getId());
+        jobService.save(jobRequest, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -86,9 +91,9 @@ public class JobController {
     public ResponseEntity<JobResponse> update(
             @PathVariable Long jobId,
             @RequestBody JobRequest jobRequest,
-            @SessionAttribute(name = "sid", required = false) UserResponse loginUser
+            @AuthenticationPrincipal User user
     ) {
-        JobResponse result = jobService.update(jobRequest, loginUser.getId(), jobId);
+        JobResponse result = jobService.update(jobRequest, user.getId(), jobId);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -100,18 +105,10 @@ public class JobController {
     @Operation(summary = "직무 지원 삭제", description = "직무 지원 id로 직무 지원을 삭제합니다")
     @DeleteMapping("/{jobId}")
     public ResponseEntity<Void> delete(
-            HttpServletRequest request,
+            @AuthenticationPrincipal User user,
             @PathVariable Long jobId
     ) {
-        HttpSession session = request.getSession();
-        UserResponse loginUser = (UserResponse) session.getAttribute("sid");
-        jobService.delete(jobId, loginUser.getId());
+        jobService.delete(jobId, user.getId());
         return ResponseEntity.noContent().build();
-    }
-
-    protected Long getCurrentUserId(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        UserResponse loginUser = (UserResponse) session.getAttribute("sid");
-        return loginUser.getId();
     }
 }

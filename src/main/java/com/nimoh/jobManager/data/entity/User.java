@@ -1,9 +1,17 @@
 package com.nimoh.jobManager.data.entity;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -12,7 +20,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table
-public class User extends BaseEntity{
+public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
@@ -31,7 +39,47 @@ public class User extends BaseEntity{
         return id;
     }
 
+    private String roles;
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<String> result;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        if (this.roles.length() > 0) {
+            result = Arrays.asList(this.roles.split(","));
+        } else result = new ArrayList<>();
+        result.forEach(r->{
+            authorities.add(()->r);
+        });
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return uid;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
