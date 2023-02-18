@@ -1,7 +1,11 @@
 package com.nimoh.jobManager.controller;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.nimoh.jobManager.commons.GlobalExceptionHandler;
+import com.nimoh.jobManager.commons.token.TokenErrorResult;
+import com.nimoh.jobManager.commons.token.TokenException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
+import com.nimoh.jobManager.service.token.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,15 +18,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,30 +43,53 @@ public class TokenControllerTest {
     @Mock
     private JwtTokenProvider jwtTokenProvider;
 
+    @Mock
+    private TokenService tokenService;
+
     protected MockHttpServletRequest request;
+
+    private String WRONG_REFRESH_TOKEN = "1123123";
 
 
     @BeforeEach
     public void init(){
         mockMvc = MockMvcBuilders.standaloneSetup(tokenController).setControllerAdvice(new GlobalExceptionHandler()).build();
         request = new MockHttpServletRequest();
+        request.setCookies(new Cookie("refreshToken", WRONG_REFRESH_TOKEN));
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     @Test
     void 토큰재발급실패_유효하지않은refresh토큰() throws Exception {
         //given
-            final String url = "/api/v1/token";
-            String refreshToken;
-            Cookie[] cookies = request.getCookies();
-            List<Cookie> refreshTokenList = Arrays.stream(cookies).filter(i -> i.getName().equals("refreshToken")).collect(Collectors.toList());
-            if ( refreshTokenList.size() > 0)
-                refreshToken = String.valueOf(refreshTokenList.get(0));
-            else refreshToken = null;
-            Mockito.doReturn(false).when(jwtTokenProvider).validateToken(refreshToken);
+        final String url = "/api/v1/token";
+        final String cookieValue = "some value";
+        final Cookie refreshToken = new Cookie("refreshToken", cookieValue);
+
+        Mockito.doThrow(new TokenException(TokenErrorResult.REFRESH_TOKEN_IS_NULL)).when(tokenService).refreshToken(any());
+
         //when
-            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url));
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                    .cookie(refreshToken)
+            );
         //then
             resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 토큰재발급성공() throws Exception {
+        //given
+        final String url = "/api/v1/token";
+        final String cookieValue = "some value";
+        final Cookie refreshToken = new Cookie("refreshToken", cookieValue);
+
+        Mockito.doReturn("refresh_token").when(tokenService).refreshToken(any());
+
+        //when
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .cookie(refreshToken)
+        );
+        //then
+        resultActions.andExpect(status().isOk());
     }
 }

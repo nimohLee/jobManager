@@ -129,7 +129,7 @@ public class UserServiceTest {
         doReturn(true).when(passwordEncoder).matches(any(), any());
         doReturn("123.442.13").when(jwtTokenProvider).createToken(any(), any());
         //when
-        String result = userService.login(request);
+        String result = userService.login(request).get("accessToken");
         //then
         assertThat(result).isNotEmpty();
     }
