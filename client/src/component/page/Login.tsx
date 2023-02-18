@@ -2,13 +2,16 @@ import Button from "react-bootstrap/Button";
 import axios from 'axios';
 import { FormEvent, useState } from 'react';
 import { useEffect } from 'react';
+import { Cookies } from 'react-cookie';
 
 function Login() {
     const [id, setId] = useState<string>();
     const [password, setPassword] = useState<string>();
+    const cookie = new Cookies();
+    const accessCookie = cookie.get("accessCookie");
 
     useEffect(()=>{
-        if(localStorage.getItem("isLogin")){
+        if(accessCookie){
             alert("이미 로그인된 상태입니다");
             window.location.href = "/";
         }

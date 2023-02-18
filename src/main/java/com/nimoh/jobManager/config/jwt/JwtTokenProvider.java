@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,8 +28,12 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
     Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    private String secretKey = "nimohsecret";
-    private long tokenValidTime = 30 * 60 * 1000L;
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+    private long tokenValidTime = 60 * 30 * 1000L;
+
+    private long refreshTokenValidTime = 60 * 60 * 24 * 14 * 1000L;
 
     @PostConstruct
     protected void init() {
@@ -48,6 +53,19 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String createRefreshToken(String userPk, String roles) {
+        Claims claims = Jwts.claims().setSubject(userPk);
+        claims.put("roles", roles);
+        Date now = new Date();
+        logger.info(secretKey);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         logger.info(userDetails.getAuthorities().toString());
@@ -60,8 +78,11 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
+        if (request.getHeader("Authorization") != null) {
+            return request.getHeader("Authorization").split(" ")[1];
+        }
         // Bearer과 공백을 제외하고 token만 가져오기
-        return request.getHeader("Authorization").split(" ")[1];
+        return null;
     }
 
     public boolean validateToken(String jwtToken) {

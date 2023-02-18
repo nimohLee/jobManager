@@ -6,6 +6,7 @@ import { UpdateInfo } from "../../common/types/propType";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { getCookie } from '../../common/functions/cookie';
 
 function AddApply() {
     const [data, setData] = useState<UpdateInfo["info"]>();
@@ -53,6 +54,7 @@ function AddApply() {
         }
         setValidated(true);
         const url = "/api/v1/job";
+        const accessToken = getCookie("accessToken");
         try {
             await axios({
                 method: "post",
@@ -60,6 +62,7 @@ function AddApply() {
                 data: data,
                 headers: {
                     "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
                 },
             });
             alert("등록이 완료되었습니다.");

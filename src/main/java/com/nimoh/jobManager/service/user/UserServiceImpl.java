@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -63,12 +65,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(UserLogInRequest request) {
+    public Map<String, String> login(UserLogInRequest request) {
         User findUser = userRepository.findByUid(request.getUid())
                 .orElseThrow(() -> new UserException((UserErrorResult.USER_NOT_FOUND)));
         String encodedPw = findUser.getPassword();
         if (passwordEncoder.matches(request.getPassword(), encodedPw)) {
-            return jwtTokenProvider.createToken(findUser.getUsername(), findUser.getRoles());
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("accessToken", jwtTokenProvider.createToken(findUser.getUsername(), findUser.getRoles()));
+            tokens.put("refreshToken", jwtTokenProvider.createRefreshToken(findUser.getUsername(),findUser.getRoles()));
+            return tokens;
         } else {
             throw new UserException(UserErrorResult.WRONG_PASSWORD);
         }
