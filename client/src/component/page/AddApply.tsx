@@ -16,7 +16,7 @@ function AddApply() {
             alert('로그인이 필요합니다');
             window.location.href= "/login";
         };
-        setData({ ...data, huntingSite: "사람인", requiredCareer: "경력무관" });
+        setData({ ...data, huntingSite: "사람인", requiredCareer: "경력무관", salary: "모름" });
     }, []);
 
     const CURRENT_URL =
@@ -62,7 +62,7 @@ function AddApply() {
                 data: data,
                 headers: {
                     "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                    "Authorization": `Bearer ${accessToken}`
                 },
             });
             alert("등록이 완료되었습니다.");
@@ -74,9 +74,18 @@ function AddApply() {
 
     const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
-        e.target.ariaLabel === "RequiredCareer"
-            ? setData({ ...data, requiredCareer: value })
-            : setData({ ...data, huntingSite: value });
+        
+        switch(e.target.ariaLabel){
+            case "RequiredCareer":
+                setData({ ...data, requiredCareer: value });
+                break;
+            case "HuntingSite":
+                setData({ ...data, huntingSite: value });
+                break;
+            case "Salary":
+                setData({ ...data, salary: value });
+                break;
+        }
     };
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,9 +99,6 @@ function AddApply() {
                 break;
             case "Location":
                 setData({ ...data, location: value });
-                break;
-            case "Salary":
-                setData({ ...data, salary: value });
                 break;
             case "ApplyDate":
                 setData({ ...data, applyDate: value });
@@ -215,7 +221,7 @@ function AddApply() {
                         </Form.Label>
                         <Col sm="7">
                             <Form.Control
-                                type="text"
+                                type="number"
                                 placeholder="직원 수"
                                 aria-label="Employees"
                                 onChange={onChange}
@@ -263,13 +269,20 @@ function AddApply() {
                             연봉
                         </Form.Label>
                         <Col sm="7">
-                            <Form.Control
-                                type="text"
-                                placeholder="연봉 (단위 : 만원, 알 수 없을 시 0 입력) "
+                            <Form.Select
                                 aria-label="Salary"
-                                onChange={onChange}
+                                defaultChecked
+                                defaultValue="모름"
+                                onChange={onSelectChange}
                                 required
-                            />
+                            >
+                                <option value="모름">모름</option>
+                                <option value="2000~2500만원">2000~2500만원</option>
+                                <option value="2500~3000만원">2500~3000만원</option>
+                                <option value="3000~3200만원">3000~3200만원</option>
+                                <option value="3200~3500만원">3200~3500만원</option>
+                                <option value="3500만원 이상">3500만원 이상</option>
+                            </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 연봉을 입력하세요
                             </Form.Control.Feedback>
@@ -310,7 +323,7 @@ function AddApply() {
                         </Form.Label>
                         <Col sm="7">
                             <Form.Control
-                                type="text"
+                                type="date"
                                 placeholder="지원 일자 (ex. 2022-01-26 )"
                                 aria-label="ApplyDate"
                                 onChange={onChange}

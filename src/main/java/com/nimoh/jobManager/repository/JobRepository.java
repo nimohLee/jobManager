@@ -16,5 +16,7 @@ import java.util.List;
 public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findAllByUser(User user);
 
+    List<Job> findAllByUserOrderByApplyDateDesc(User user);
+
     List<Job> findAllByCompanyNameContaining(String companyName);
 }

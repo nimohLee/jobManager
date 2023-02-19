@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.controller;
 
+import com.nimoh.jobManager.commons.cookie.CookieProvider;
 import com.nimoh.jobManager.data.dto.user.UserLogInRequest;
 import com.nimoh.jobManager.data.dto.user.UserSignUpRequest;
 import com.nimoh.jobManager.data.entity.User;
@@ -28,14 +29,16 @@ import java.util.Map;
 @RequestMapping("api/v1/user")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final CookieProvider cookieProvider;
 
     private final long accessTokenValidTime = 60 * 30 * 1000L;
 
     private final long refreshTokenValidTime = 60 * 60 * 24 * 14 * 1000L;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, CookieProvider cookieProvider) {
         this.userService = userService;
+        this.cookieProvider = cookieProvider;
     }
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -96,9 +99,7 @@ public class UserController {
         Cookie refreshTokenCookie = new Cookie("refreshToken", tokens.get("refreshToken"));
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setPath("/");
-
         refreshTokenCookie.setMaxAge((int) refreshTokenValidTime);
-
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge((int) accessTokenValidTime);
         response.addCookie(accessTokenCookie);

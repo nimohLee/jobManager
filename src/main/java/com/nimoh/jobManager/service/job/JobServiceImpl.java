@@ -40,7 +40,7 @@ public class JobServiceImpl implements JobService {
         if (user.isEmpty()) {
             throw new UserException(UserErrorResult.USER_NOT_FOUND);
         }
-        final List<Job> findResult = jobRepository.findAllByUser(user.get());
+        final List<Job> findResult = jobRepository.findAllByUserOrderByApplyDateDesc(user.get());
         return findResult.stream().map(this::makeJobResponse)
                 .collect(Collectors.toList());
     }

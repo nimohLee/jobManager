@@ -3,10 +3,7 @@ package com.nimoh.jobManager.service.token;
 import com.nimoh.jobManager.commons.cookie.CookieProvider;
 import com.nimoh.jobManager.commons.token.TokenErrorResult;
 import com.nimoh.jobManager.commons.token.TokenException;
-import com.nimoh.jobManager.commons.user.UserErrorResult;
-import com.nimoh.jobManager.commons.user.UserException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
-import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +17,6 @@ import javax.servlet.http.Cookie;
 public class TokenServiceImpl implements TokenService {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserRepository userRepository;
     private final CookieProvider cookieProvider;
     Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
 
