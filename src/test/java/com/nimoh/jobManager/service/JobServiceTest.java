@@ -109,7 +109,7 @@ public class JobServiceTest {
         jobs.add(job);
         jobs.add(job1);
         doReturn(Optional.of(user(1L))).when(userRepository).findById(any());
-        doReturn(jobs).when(jobRepository).findAllByUser(any());
+        doReturn(jobs).when(jobRepository).findAllByUserOrderByApplyDateDesc(any());
         //when
         List<JobResponse> result = jobService.findByUser(1L);
         //then
