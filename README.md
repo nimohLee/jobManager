@@ -20,8 +20,7 @@
 <img width="819" alt="image" src="https://user-images.githubusercontent.com/106662308/219962941-702348bf-d89a-470d-a3d4-8d362b743fd3.png">
 
 ## Rest API 문서 ( Swagger API )
-<img width="1430" alt="image" src="https://user-images.githubusercontent.com/106662308/219963025-39a0cb14-ba71-4b8c-9e62-fe06d92b8c49.png">
-
+<img width="1427" alt="image" src="https://user-images.githubusercontent.com/106662308/219963804-941cdd18-86a9-4acb-b245-890d77155ab2.png">
 
 ## 데이터베이스
 ### ERD
