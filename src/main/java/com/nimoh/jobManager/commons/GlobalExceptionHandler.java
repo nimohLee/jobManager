@@ -4,6 +4,8 @@ import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.job.JobErrorResult;
 import com.nimoh.jobManager.commons.job.JobException;
+import com.nimoh.jobManager.commons.token.TokenErrorResult;
+import com.nimoh.jobManager.commons.token.TokenException;
 import com.nimoh.jobManager.commons.user.UserErrorResult;
 import com.nimoh.jobManager.commons.user.UserException;
 import lombok.Getter;
@@ -46,14 +48,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({CrawlerException.class})
     public ResponseEntity<ErrorResponse> handleRestApiException(final CrawlerException exception) {
-        log.warn("BoardException occur:", exception);
+        log.warn("CrawlerException occur:", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
 
     @ExceptionHandler({JobException.class})
     public ResponseEntity<ErrorResponse> handleRestApiException(final JobException exception) {
-        log.warn("BoardException occur:", exception);
+        log.warn("JobException occur:", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
@@ -67,6 +69,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(final Exception exception) {
         log.warn("Exception occur: ", exception);
         return this.makeErrorResponseEntity(JobErrorResult.UNKNOWN_EXCEPTION);
+    }
+
+    @ExceptionHandler({TokenException.class})
+    public ResponseEntity<ErrorResponse> handleRestApiException(final TokenException exception) {
+        log.warn("Exception occur: ", exception);
+        return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
     private ResponseEntity<Object> makeErrorResponseEntity(final String errorDescription) {
@@ -85,6 +93,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final CrawlerErrorResult errorResult) {
+        return ResponseEntity.status(errorResult.getHttpStatus())
+                .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
+    }
+
+    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final TokenErrorResult errorResult) {
         return ResponseEntity.status(errorResult.getHttpStatus())
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
     }

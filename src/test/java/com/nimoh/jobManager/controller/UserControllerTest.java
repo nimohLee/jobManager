@@ -1,7 +1,6 @@
 package com.nimoh.jobManager.controller;
 
 import com.google.gson.Gson;
-import com.nimoh.jobManager.data.dto.user.UserResponse;
 import com.nimoh.jobManager.data.dto.user.UserSignUpRequest;
 import com.nimoh.jobManager.commons.GlobalExceptionHandler;
 import com.nimoh.jobManager.commons.user.UserErrorResult;
@@ -24,11 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
-import javax.xml.transform.Result;
-
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -245,7 +241,9 @@ public class UserControllerTest {
     public void 로그인성공_토큰발급() throws Exception {
         //given
         String url = "/api/v1/user/login";
-        doReturn("token").when(userService).login(any());
+        Map<String, String> token = new HashMap<>();
+        token.put("accessToken", "12345");
+        doReturn(token).when(userService).login(any());
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post(url)

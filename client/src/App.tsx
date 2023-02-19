@@ -12,26 +12,8 @@ import NotFound from "./component/page/NotFound";
 import SubHeader from "./component/layout/SubHeader";
 import AddApply from "./component/page/AddApply";
 import Profile from "./component/page/Profile";
-import { useEffect } from "react";
-import axios from "axios";
 import JobPosting from './component/page/JobPosting';
 function App() {
-    const checkLogin = async () => {
-        const url = "/api/v1/user/session";
-        try {
-            const result = await axios({
-                method: "get",
-                url: url,
-            });
-            result.status === 200 ? localStorage.setItem("isLogin","true"):localStorage.removeItem("isLogin");
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    useEffect(() => {
-      checkLogin();
-    }, []);
     return (
         <div className="App">
             <BrowserRouter>

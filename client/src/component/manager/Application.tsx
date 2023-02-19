@@ -18,6 +18,7 @@ import axios from 'axios';
 import { ResponseInfo } from '../../common/types/propType';
 import ApplicationDetail from './ApplcationDetail';
 import { Button, Modal } from 'react-bootstrap';
+import { getCookie } from '../../common/functions/cookie';
 
 
 function classNames(...classes:any) {
@@ -37,10 +38,14 @@ function Application({info}:ResponseInfo) {
 
   const deleteApplication = async () => {
     const url = "/api/v1/job/"+info.id;
+    const accessToken = getCookie("accessToken");
     try{
       await axios({
         method:"delete",
-        url: url
+        url: url,
+        headers : {
+          "Authorization" : `Bearer ${accessToken}`
+        }
       });
       setDeleteModal(false);
       window.location.reload();
@@ -67,7 +72,7 @@ function Application({info}:ResponseInfo) {
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <CurrencyDollarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-              {info.salary}만원
+              {info.salary}
             </div>
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />

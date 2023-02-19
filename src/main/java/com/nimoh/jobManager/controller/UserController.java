@@ -1,26 +1,23 @@
 package com.nimoh.jobManager.controller;
 
+import com.nimoh.jobManager.commons.cookie.CookieProvider;
 import com.nimoh.jobManager.data.dto.user.UserLogInRequest;
-import com.nimoh.jobManager.data.dto.user.UserResponse;
 import com.nimoh.jobManager.data.dto.user.UserSignUpRequest;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.service.user.UserService;
-import com.sun.xml.bind.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * 사용자 컨트롤러
@@ -32,10 +29,16 @@ import javax.validation.Valid;
 @RequestMapping("api/v1/user")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final CookieProvider cookieProvider;
 
-    public UserController(UserService userService) {
+    private final long accessTokenValidTime = 60 * 30 * 1000L;
+
+    private final long refreshTokenValidTime = 60 * 60 * 24 * 14 * 1000L;
+
+    public UserController(UserService userService, CookieProvider cookieProvider) {
         this.userService = userService;
+        this.cookieProvider = cookieProvider;
     }
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -86,13 +89,22 @@ public class UserController {
             }
     )
     @PostMapping("login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<Void> login(
             @RequestBody UserLogInRequest userLogInRequest,
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        String resultToken = userService.login(userLogInRequest);
-        return ResponseEntity.status(HttpStatus.OK).body(resultToken);
+        Map<String, String> tokens = userService.login(userLogInRequest);
+        Cookie accessTokenCookie = new Cookie("accessToken", tokens.get("accessToken"));
+        Cookie refreshTokenCookie = new Cookie("refreshToken", tokens.get("refreshToken"));
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge((int) refreshTokenValidTime);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge((int) accessTokenValidTime);
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Operation(summary = "로그아웃", description = "로그아웃을 시도합니다")
@@ -110,20 +122,4 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @Operation(summary = "세션유무", description = "현재 로그인 세션이 있는 지 유무를 반환합니다")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "현재 세션이 있습니다 (true) "),
-                    @ApiResponse(responseCode = "204", description = "현재 세션이 없습니다 (false) "),
-            }
-    )
-    @GetMapping("session")
-    public ResponseEntity<Boolean> getSession(
-            HttpServletRequest request
-    ) {
-        HttpSession session = request.getSession();
-        Object attribute = session.getAttribute("sid");
-        if (attribute == null) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(false);
-        else return ResponseEntity.status(HttpStatus.OK).body(true);
-    }
 }

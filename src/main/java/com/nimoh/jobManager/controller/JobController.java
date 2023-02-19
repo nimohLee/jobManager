@@ -69,6 +69,10 @@ public class JobController {
      * @param jobRequest
      */
     @Operation(summary = "직무 지원 등록", description = "직무 지원을 작성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "직무 지원 등록 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다")
+    })
     @PostMapping("")
     public ResponseEntity<Void> save(
             @RequestBody final JobRequest jobRequest,
@@ -87,6 +91,10 @@ public class JobController {
      * @param jobId
      */
     @Operation(summary = "직무 지원 수정", description = "직무 지원 id로 직무 지원을 수정합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "직무 지원 수정 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다")
+    })
     @PutMapping("/{jobId}")
     public ResponseEntity<JobResponse> update(
             @PathVariable Long jobId,
@@ -103,6 +111,11 @@ public class JobController {
      * @param jobId
      */
     @Operation(summary = "직무 지원 삭제", description = "직무 지원 id로 직무 지원을 삭제합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "직무 지원 삭제 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "403", description = "권한이 없습니다")
+    })
     @DeleteMapping("/{jobId}")
     public ResponseEntity<Void> delete(
             @AuthenticationPrincipal User user,

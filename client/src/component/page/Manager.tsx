@@ -3,6 +3,7 @@ import Application from "../manager/Application";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ResponseInfo } from "../../common/types/propType";
+import { getCookie } from '../../common/functions/cookie';
 
 type JobData = [ResponseInfo["info"]];
 
@@ -11,15 +12,25 @@ function Manager() {
 
     const fetchJobs = async () => {
         const url = "api/v1/job";
-        try {
-            const result = await axios({
-                method: "get",
-                url: url,
-            });
-            setJobDatas(result.data);
-        } catch (err) {
-            console.error(err);
+        const accessToken = getCookie("accessToken");
+        if (accessToken){
+            try {
+                const result = await axios({
+                    method: "get",
+                    url: url,
+                    headers : {
+                        "Authorization" : `Bearer ${accessToken}`
+                    }
+                });
+                setJobDatas(result.data);
+            } catch (err) {
+                console.error(err);
+            }
+        } else {
+            alert("로그인이 필요합니다.")
+            window.location.href = "/";
         }
+        
     };
 
     useEffect(() => {
