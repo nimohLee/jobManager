@@ -100,7 +100,7 @@ public class JobRepositoryTest {
         jobRepository.save(job2);
 
         //when
-        final List<Job> findJobResult = jobRepository.findAllByUser(User.builder().id(user.getId()).build());
+        final List<Job> findJobResult = jobRepository.findAllByUserOrderByApplyDateDesc(User.builder().id(user.getId()).build());
 
         //then
         assertThat(findJobResult.size()).isEqualTo(2);
