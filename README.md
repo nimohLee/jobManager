@@ -16,6 +16,13 @@
 ## CI/CD 구축 환경 도식화
 <img width="1004" alt="image" src="https://user-images.githubusercontent.com/106662308/218254239-245a4bc5-80dd-48f6-ae6b-675ad9259f7b.png">
 
+## AWS Architecture
+<img width="819" alt="image" src="https://user-images.githubusercontent.com/106662308/219962941-702348bf-d89a-470d-a3d4-8d362b743fd3.png">
+
+## Rest Api 문서 ( Swagger API )
+<img width="1430" alt="image" src="https://user-images.githubusercontent.com/106662308/219963025-39a0cb14-ba71-4b8c-9e62-fe06d92b8c49.png">
+
+
 ## 데이터베이스
 ### ERD
 <img width="494" alt="image" src="https://user-images.githubusercontent.com/106662308/214835461-80022065-cc01-454e-9b21-ac59f79a1ca4.png">
