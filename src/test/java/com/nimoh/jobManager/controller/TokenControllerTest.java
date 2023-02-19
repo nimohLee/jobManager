@@ -2,6 +2,7 @@ package com.nimoh.jobManager.controller;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.nimoh.jobManager.commons.GlobalExceptionHandler;
+import com.nimoh.jobManager.commons.cookie.CookieProvider;
 import com.nimoh.jobManager.commons.token.TokenErrorResult;
 import com.nimoh.jobManager.commons.token.TokenException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,6 +47,9 @@ public class TokenControllerTest {
 
     @Mock
     private TokenService tokenService;
+
+    @Mock
+    private CookieProvider cookieProvider;
 
     protected MockHttpServletRequest request;
 
@@ -65,9 +70,7 @@ public class TokenControllerTest {
         final String url = "/api/v1/token";
         final String cookieValue = "some value";
         final Cookie refreshToken = new Cookie("refreshToken", cookieValue);
-
-        Mockito.doThrow(new TokenException(TokenErrorResult.REFRESH_TOKEN_IS_NULL)).when(tokenService).refreshToken(any());
-
+        doThrow(new TokenException(TokenErrorResult.INVALID_REFRESH_TOKEN)).when(tokenService).accessTokenRefresh(any());
         //when
             ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)
                     .cookie(refreshToken)
@@ -81,9 +84,10 @@ public class TokenControllerTest {
         //given
         final String url = "/api/v1/token";
         final String cookieValue = "some value";
+        final Cookie newAccessToken = new Cookie("accessToken", cookieValue);
         final Cookie refreshToken = new Cookie("refreshToken", cookieValue);
 
-        Mockito.doReturn("refresh_token").when(tokenService).refreshToken(any());
+        doReturn(newAccessToken).when(tokenService).accessTokenRefresh(any());
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)

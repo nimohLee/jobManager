@@ -77,6 +77,10 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
+    public String getUserRoles(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("roles",String.class);
+    }
+
     public String resolveToken(HttpServletRequest request) {
         if (request.getHeader("Authorization") != null) {
             return request.getHeader("Authorization").split(" ")[1];
@@ -94,5 +98,13 @@ public class JwtTokenProvider {
             logger.error(e.getMessage());
             return false;
         }
+    }
+
+    public long getTokenValidTime() {
+        return tokenValidTime;
+    }
+
+    public long getRefreshTokenValidTime() {
+        return refreshTokenValidTime;
     }
 }

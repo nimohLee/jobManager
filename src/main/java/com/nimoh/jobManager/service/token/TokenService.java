@@ -1,6 +1,7 @@
 package com.nimoh.jobManager.service.token;
 
-public interface TokenService {
+import javax.servlet.http.Cookie;
 
-    String refreshToken(String refreshToken);
+public interface TokenService {
+    Cookie accessTokenRefresh(Cookie[] cookies);
 }
