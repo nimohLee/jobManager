@@ -204,7 +204,7 @@ function Editor({ info, setInfo, show, setShow, onHide }: InfoProps) {
                         <InputGroup.Text>근무지 위치</InputGroup.Text>
                         <Form.Control
                             type="text"
-                            placeholder={info.location}
+                            value={data.location}
                             aria-label="Location"
                             onChange={onChange}
                             onClick={handleClick}
