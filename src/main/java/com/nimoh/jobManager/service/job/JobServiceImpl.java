@@ -69,6 +69,7 @@ public class JobServiceImpl implements JobService {
         }
 
         Job job = makeJob(jobRequest, user.get());
+        job.setId(jobId);
         Job result = jobRepository.save(job);
 
         return makeJobResponse(result);

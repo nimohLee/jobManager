@@ -23,6 +23,7 @@ export default function Header() {
                     url: "/api/v1/user/logout"
                 });
                 localStorage.removeItem("isLogin");
+                alert("로그아웃 되었습니다");
                 window.location.href = "/";
             }catch(err){
                 alert("로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요");
