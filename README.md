@@ -14,7 +14,7 @@
 - 여러 구직사이트의 구직 정보와 구직 내역을 하나의 사이트에서 관리하기 위함
 
 ## 접속 링크
-[접속링크](http://nimoh.shop)
+<a href="http://nimoh.shop" target="_blank">접속링크</a>
 
 ID : test
 
