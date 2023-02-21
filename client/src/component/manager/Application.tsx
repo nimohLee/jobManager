@@ -156,6 +156,7 @@ function Application({info}:ResponseInfo) {
                     <a
                       href="#"
                       className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline')}
+                      onClick={handleShow}
                     >
                       수정
                     </a>
