@@ -216,6 +216,7 @@ function Editor({ info, setInfo, show, setShow, onHide }: InfoProps) {
                     <InputGroup className="mb-3">
                         <InputGroup.Text>지원일</InputGroup.Text>
                         <Form.Control
+                          type='date'
                             aria-label="Date"
                             placeholder={info.applyDate}
                         />

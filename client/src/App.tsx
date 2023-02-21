@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css"; // Import precompiled Bootstrap css
 import { BrowserRouter, Routes, Route } from "react-router-dom";

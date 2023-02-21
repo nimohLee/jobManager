@@ -1,4 +1,32 @@
+import axios from 'axios';
+import { useEffect } from 'react';
+import { getCookie } from '../../common/functions/cookie';
+
 function Main() {
+    const accessTokenValidCheck = async () => {
+        const accessToken = getCookie("accessToken");
+        try{
+            const result = await axios({
+                method: "get",
+                url: "/api/v1/token",
+                headers:{   
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            })
+            if( result.data === false){
+                alert("만료된 토큰입니다. 다시 로그인해주세요");
+                localStorage.removeItem("isLogin");
+                window.location.href = "/login";
+            }
+            
+        }catch(e){
+            console.error(e);
+        }
+    }
+
+    useEffect(()=>{
+        accessTokenValidCheck();
+    },[])
     return (
         <main className="bg">
             <section className="intro-section">
