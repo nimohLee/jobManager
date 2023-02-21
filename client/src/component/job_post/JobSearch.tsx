@@ -75,7 +75,7 @@ function JobSearch() {
     return (
         <div className='mb-32'>
             <form action="" onSubmit={onSubmit}>
-                <div className="flex justify-center">
+                <div className="flex flex-col mx-10 md:flex-row justify-center">
                     <select
                         name="job_post"
                         id=""
