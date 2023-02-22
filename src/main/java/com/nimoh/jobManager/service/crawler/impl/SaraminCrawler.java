@@ -17,14 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Service("SaraminCrawler")
 public class SaraminCrawler implements JobSearchService {
-    Logger logger = LoggerFactory.getLogger(SaraminCrawler.class);
     final private String SARAMIN_URL = "www.saramin.co.kr";
     private final JsoupConnection jsoupConnection;
 
@@ -35,33 +32,42 @@ public class SaraminCrawler implements JobSearchService {
 
     @Override
     public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption) throws IOException {
+        checkSearchOptionIsNull(searchOption);
         final String recruitSort = searchOption.get("recruitSort");
-
-        if(searchOption.get("searchWord")==null||searchOption.get("recruitPage")==null||recruitSort==null){
-            throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
-        }
-
-        // 정렬옵션에 임의의 값이 들어왔을 때 예외처리
-        SaraminRecruitSort[] saraminRecruitSorts = SaraminRecruitSort.values();
-        if(!Arrays.stream(saraminRecruitSorts).anyMatch(sort -> sort.getResultSort().equals(recruitSort))){
-            throw new CrawlerException(CrawlerErrorResult.OPTION_BAD_REQUEST);
-        }
+        checkValidSortOption(recruitSort);
 
         final String searchList = "https://" + SARAMIN_URL +"/zf_user/search/recruit?search_done=y&search_optional_item=n&company_cd=0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C9%2C10&show_applied=&quick_apply=&except_read=&ai_head_hunting=&mainSearch=n&loc_mcd=101000&inner_com_type=&recruitPageCount=20"
                 + "&searchword=" +searchOption.get("searchWord")
                 + "&recruitPage=" + searchOption.get("recruitPage")
                 + "&recruitSort=" + searchOption.get("recruitSort");
-        logger.info(searchList);
-        Connection conn = jsoupConnection.connect(searchList);
+
         try {
-            Document document = conn.get();
+            Document document = jsoupConnection.get(searchList);
             List<JobCrawlerDto> jobList = parseHTML(document); // 칼럼명
-            logger.info("jobinfo = "+jobList.toString());
             return jobList;
-        } catch (CrawlerException ce) {
-            throw ce;
-        } catch (IOException ioe) {
-            throw ioe;
+        } catch (IOException e) {
+            throw new IOException("JsoupConnect Error");
+        }
+    }
+
+    /**
+     * 검색옵션에 null이 있는 지 체크. null이 있다면 크롤러예외를 던집니다.
+     * @param searchOption
+     */
+    private void checkSearchOptionIsNull(Map<String, String> searchOption) {
+        if(searchOption.get("searchWord")==null||searchOption.get("recruitPage")==null||searchOption.get("recruitSort")==null){
+            throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
+        }
+    }
+
+    /**
+     * 정렬옵션이 SaraminRecruitSort Enum에 해당하지 않는다면 크롤러예외를 던집니다.
+     * @param recruitSort
+     */
+    private void checkValidSortOption(String recruitSort){
+        SaraminRecruitSort[] saraminRecruitSorts = SaraminRecruitSort.values();
+        if(!Arrays.stream(saraminRecruitSorts).anyMatch(sort -> sort.getResultSort().equals(recruitSort))){
+            throw new CrawlerException(CrawlerErrorResult.OPTION_BAD_REQUEST);
         }
     }
 
