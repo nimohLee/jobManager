@@ -6,8 +6,6 @@
   height: 100vh;
 }
 .intro-section{
-  position: absolute;
-  top: 45vh;
   display: flex;
   justify-content: center;
   align-items: center;

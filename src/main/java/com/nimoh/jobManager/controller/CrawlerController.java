@@ -25,14 +25,13 @@ public class CrawlerController {
 
     Logger logger = LoggerFactory.getLogger(CrawlerController.class);
 
-    private final Map<String, JobSearchService> crawlerServiceMap;
+    private final JobSearchService jobSearchService;
     private final JobPlanetService jobPlanetService;
 
-    public CrawlerController(Map<String, JobSearchService> crawlerServiceMap, JobPlanetService jobPlanetService) {
-        this.crawlerServiceMap = crawlerServiceMap;
+    public CrawlerController(JobSearchService jobSearchService, JobPlanetService jobPlanetService) {
+        this.jobSearchService = jobSearchService;
         this.jobPlanetService = jobPlanetService;
     }
-
 
     @Operation(
             summary = "사람인 채용공고 크롤링", description = "사람인 채용공고를 크롤링하여 List로 반환", parameters = {}
@@ -49,7 +48,7 @@ public class CrawlerController {
             @RequestParam Map<String, String> params
     ) throws IOException {
         logger.info("get /saramin Query :" + params);
-        List<JobCrawlerDto> result = crawlerServiceMap.get("SaraminCrawler").getSearchList(params);
+        List<JobCrawlerDto> result = jobSearchService.getSearchList(params, "saraminCrawler");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -68,7 +67,7 @@ public class CrawlerController {
             @RequestParam Map<String, String> params
     ) throws IOException {
         logger.info("get /jobkorea Query :" + params);
-        List<JobCrawlerDto> result = crawlerServiceMap.get("JobKoreaCrawler").getSearchList(params);
+        List<JobCrawlerDto> result = jobSearchService.getSearchList(params,"jobKoreaCrawler");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -87,7 +86,7 @@ public class CrawlerController {
             @RequestParam Map<String, String> params
     ) throws IOException {
         logger.info("get /incruit Query :" + params);
-        List<JobCrawlerDto> result = crawlerServiceMap.get("IncruitCrawler").getSearchList(params);
+        List<JobCrawlerDto> result = jobSearchService.getSearchList(params,"incruitCrawler");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

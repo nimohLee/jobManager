@@ -25,12 +25,12 @@ function Main() {
     }
 
     useEffect(()=>{
-        accessTokenValidCheck();
+        localStorage.getItem("isLogin") && accessTokenValidCheck();
     },[])
     return (
-        <main className="bg">
+        <main className="bg flex">
             <section className="intro-section">
-                <div className="translate-x-10 md:translate-x-16">
+                <div className="ml-10">
                     <h2 className="text-4xl md:text-6xl flex flex-column md:flex-row"><span>Job</span> <span>Manager</span></h2>
                     <p className="text-xl">
                         Manage your application efficiently

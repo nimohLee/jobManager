@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum JobKoreaRecruitSort {
+public enum JobKoreaRecruitSort{
     RELATION("ExactDesc"),
     REG_DATE("RegDtDesc"),
     EDIT_DATE("EditDtDesc"),
