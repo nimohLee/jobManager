@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum SaraminRecruitSort {
+public enum SaraminRecruitSort{
     RELATION("relation"),
     ACCURACY("accuracy"),
     REG_DATE("reg_dt"),

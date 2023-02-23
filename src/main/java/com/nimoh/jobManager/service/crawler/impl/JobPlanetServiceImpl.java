@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Service
 public class JobPlanetServiceImpl implements JobPlanetService {
-    Logger logger = LoggerFactory.getLogger(IncruitCrawler.class);
+    Logger logger = LoggerFactory.getLogger(JobPlanetServiceImpl.class);
     final private String JOBPLANET_URL = "https://www.jobplanet.co.kr";
 
     @Override
