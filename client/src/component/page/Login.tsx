@@ -1,5 +1,5 @@
 import Button from "react-bootstrap/Button";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { FormEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
@@ -47,7 +47,15 @@ function Login() {
             localStorage.setItem("isLogin","true");
             window.location.href="/";
         }catch(err){
-            alert("아이디 또는 비밀번호가 잘못되었습니다");
+            if ( err instanceof AxiosError){
+                if (err.response?.status===504){
+                    alert("서버에 문제가 발생하였습니다");
+                }
+                else {
+                    alert("아이디 또는 비밀번호가 잘못되었습니다");
+                }
+            }
+            console.error(err);
         }finally{
             setIsLoading(false);
         }
