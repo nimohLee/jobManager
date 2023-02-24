@@ -113,16 +113,6 @@ export default function Header() {
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href="/profile"
-                          className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline')}
-                        >
-                          프로필 설정
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
                           onClick={postLogout}
                           className={classNames(active ? 'bg-gray-100 no-underline cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline cursor-pointer')}
                         >
