@@ -1,5 +1,4 @@
 package com.nimoh.jobManager.crawler.impl;
-
 import com.nimoh.jobManager.commons.crawler.crawlerSort.JobKoreaRecruitSort;
 import com.nimoh.jobManager.crawler.Crawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
@@ -7,7 +6,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
