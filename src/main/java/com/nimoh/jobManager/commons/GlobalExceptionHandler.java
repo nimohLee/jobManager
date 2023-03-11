@@ -77,6 +77,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
+
     private ResponseEntity<Object> makeErrorResponseEntity(final String errorDescription) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorDescription));
