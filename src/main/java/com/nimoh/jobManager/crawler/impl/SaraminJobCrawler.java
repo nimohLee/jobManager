@@ -3,7 +3,8 @@ package com.nimoh.jobManager.crawler.impl;
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.crawler.crawlerSort.SaraminRecruitSort;
-import com.nimoh.jobManager.crawler.Crawler;
+import com.nimoh.jobManager.crawler.JobHtmlParser;
+import com.nimoh.jobManager.crawler.JobCrawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class SaraminCrawler implements Crawler {
+public class SaraminJobCrawler implements JobCrawler, JobHtmlParser<JobCrawlerDto> {
 
     final private String baseUrl = "www.saramin.co.kr";
 
@@ -46,6 +47,7 @@ public class SaraminCrawler implements Crawler {
                 + "&recruitSort=" + searchOption.get("recruitSort");
     }
 
+    @Override
     public List<JobCrawlerDto> parseHTML(Document document) {
         Elements itemRecruit = document.select(".item_recruit");
         try {
@@ -79,4 +81,5 @@ public class SaraminCrawler implements Crawler {
         }
         return jobInfo;
     }
+
 }

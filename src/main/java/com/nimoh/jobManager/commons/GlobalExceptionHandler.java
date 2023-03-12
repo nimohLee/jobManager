@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             final MethodArgumentNotValidException ex,
@@ -76,6 +75,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn("Exception occur: ", exception);
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
+
 
     private ResponseEntity<Object> makeErrorResponseEntity(final String errorDescription) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
