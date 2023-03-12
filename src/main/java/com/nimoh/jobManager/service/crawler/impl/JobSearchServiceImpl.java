@@ -44,7 +44,7 @@ public class JobSearchServiceImpl implements JobSearchService {
             Document document = jsoupConnection.get(searchList);
             return crawler.parseHTML(document);
         } catch (IOException e) {
-            throw new IOException("JsoupConnect Error");
+            throw new IOException("JsoupConnect Error", e);
         }
     }
 }

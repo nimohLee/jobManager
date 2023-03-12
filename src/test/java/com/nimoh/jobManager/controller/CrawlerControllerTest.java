@@ -1,6 +1,7 @@
 package com.nimoh.jobManager.controller;
 
 import com.google.gson.Gson;
+import com.nimoh.jobManager.commons.GlobalExceptionHandler;
 import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.service.crawler.JobPlanetService;
@@ -44,6 +45,37 @@ public class CrawlerControllerTest {
 
     @BeforeEach
     void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(crawlerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(crawlerController).setControllerAdvice(new GlobalExceptionHandler()).build();
+    }
+
+    @Test
+    void 사람인크롤링실패_service에서throw() throws Exception {
+        //given
+        String url = "/api/v1/crawler/saramin";
+        MultiValueMap<String, String> mapParams = new LinkedMultiValueMap<>();
+        mapParams.add("query","query");
+        doThrow(new CrawlerException(CrawlerErrorResult.OPTION_BAD_REQUEST)).when(jobSearchService).getSearchList(mapParams.toSingleValueMap(), "saraminCrawler");
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .params(mapParams)
+        );
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void 사람인크롤링성공() throws Exception {
+        //given
+        String url = "/api/v1/crawler/saramin";
+        MultiValueMap<String, String> mapParams = new LinkedMultiValueMap<>();
+        mapParams.add("query","query");
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .params(mapParams)
+        );
+        //then
+        resultActions.andExpect(status().isOk());
     }
 }
