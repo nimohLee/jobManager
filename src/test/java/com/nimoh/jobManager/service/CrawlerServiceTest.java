@@ -5,6 +5,7 @@ import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.crawler.crawlerSort.SaraminRecruitSort;
 import com.nimoh.jobManager.commons.jsoup.JsoupConnection;
 
+import com.nimoh.jobManager.crawler.JobPlanetHtmlParser;
 import com.nimoh.jobManager.crawler.impl.SaraminJobCrawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import com.nimoh.jobManager.data.dto.crawler.JobPlanetDto;
@@ -28,10 +29,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class JobCrawlerServiceTest {
+public class CrawlerServiceTest {
 
     @Mock
     private JsoupConnection jsoupConnection;
+
     @Mock
     private Map<String, com.nimoh.jobManager.crawler.JobCrawler> crawlerMap;
     @Mock
@@ -121,6 +123,17 @@ public class JobCrawlerServiceTest {
     @Nested
     @DisplayName("잡플래닛 테스트")
     class JobPlanetTest {
+
+        @Mock
+        private JsoupConnection jsoupConnection;
+        @Mock
+        private JobPlanetHtmlParser<JobPlanetDto> jobHtmlParser;
+        @InjectMocks
+        private JobPlanetServiceImpl jobPlanetService;
+
+        private final String URL = "https://www.jobplanet.co.kr";
+
+
         @Test
         void 회사조회실패_companyName이null() throws IOException {
             //given
@@ -135,6 +148,9 @@ public class JobCrawlerServiceTest {
         void 회사조회성공() throws IOException {
             //given
             String companyName = "카카오";
+            Document document = new Document("www.jobPlanet.com");
+            doReturn(document).when(jsoupConnection).get(any());
+            doReturn(JobPlanetDto.builder().build()).when(jobHtmlParser).parseHTML(any());
             //when
             JobPlanetDto result = jobPlanetService.getCompanyRate(companyName);
             //then

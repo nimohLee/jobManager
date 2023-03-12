@@ -4,6 +4,7 @@ import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
 import com.nimoh.jobManager.commons.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.jsoup.JsoupConnection;
 import com.nimoh.jobManager.crawler.JobHtmlParser;
+import com.nimoh.jobManager.crawler.JobPlanetHtmlParser;
 import com.nimoh.jobManager.data.dto.crawler.JobPlanetDto;
 import com.nimoh.jobManager.service.crawler.JobPlanetService;
 import org.jsoup.nodes.Document;
@@ -20,13 +21,13 @@ public class JobPlanetServiceImpl implements JobPlanetService {
     Logger logger = LoggerFactory.getLogger(JobPlanetServiceImpl.class);
 
     private final JsoupConnection jsoupConnection;
-    private final JobHtmlParser jobHtmlParser;
+    private final JobPlanetHtmlParser<JobPlanetDto> jobHtmlParser;
 
 
     final private String JOBPLANET_URL = "https://www.jobplanet.co.kr";
 
     @Autowired
-    public JobPlanetServiceImpl(JsoupConnection jsoupConnection, @Qualifier("jobPlanet") JobHtmlParser<JobPlanetDto> jobHtmlParser) {
+    public JobPlanetServiceImpl(JsoupConnection jsoupConnection,JobPlanetHtmlParser<JobPlanetDto> jobHtmlParser) {
         this.jsoupConnection = jsoupConnection;
         this.jobHtmlParser = jobHtmlParser;
     }
@@ -41,7 +42,7 @@ public class JobPlanetServiceImpl implements JobPlanetService {
         logger.info(searchList);
         try {
             Document document = jsoupConnection.get(searchList);
-            JobPlanetDto jobRate = (JobPlanetDto) jobHtmlParser.parseHTML(document); // 칼럼명
+            JobPlanetDto jobRate = jobHtmlParser.parseHTML(document); // 칼럼명
             logger.info("jobRate = " + jobRate.toString());
             return jobRate;
         } catch (CrawlerException ce) {
