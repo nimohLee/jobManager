@@ -1,6 +1,7 @@
 package com.nimoh.jobManager.crawler.impl;
 import com.nimoh.jobManager.commons.crawler.crawlerSort.JobKoreaRecruitSort;
-import com.nimoh.jobManager.crawler.Crawler;
+import com.nimoh.jobManager.crawler.JobHtmlParser;
+import com.nimoh.jobManager.crawler.JobCrawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class JobKoreaCrawler implements Crawler {
+public class JobKoreaJobCrawler implements JobCrawler, JobHtmlParser<JobCrawlerDto> {
     final private String baseUrl = "www.jobkorea.co.kr";
 
     @Override
