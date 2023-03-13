@@ -1,4 +1,4 @@
-package com.nimoh.jobManager.commons.token;
+package com.nimoh.jobManager.exception.token;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

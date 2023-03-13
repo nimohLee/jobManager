@@ -1,36 +1,26 @@
 package com.nimoh.jobManager.controller;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.nimoh.jobManager.commons.GlobalExceptionHandler;
+import com.nimoh.jobManager.exception.GlobalExceptionHandler;
 import com.nimoh.jobManager.commons.cookie.CookieProvider;
-import com.nimoh.jobManager.commons.token.TokenErrorResult;
-import com.nimoh.jobManager.commons.token.TokenException;
+import com.nimoh.jobManager.exception.token.TokenErrorResult;
+import com.nimoh.jobManager.exception.token.TokenException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
 import com.nimoh.jobManager.service.token.TokenService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;

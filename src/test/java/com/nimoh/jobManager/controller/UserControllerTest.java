@@ -2,9 +2,9 @@ package com.nimoh.jobManager.controller;
 
 import com.google.gson.Gson;
 import com.nimoh.jobManager.data.dto.user.UserSignUpRequest;
-import com.nimoh.jobManager.commons.GlobalExceptionHandler;
-import com.nimoh.jobManager.commons.user.UserErrorResult;
-import com.nimoh.jobManager.commons.user.UserException;
+import com.nimoh.jobManager.exception.GlobalExceptionHandler;
+import com.nimoh.jobManager.exception.user.UserErrorResult;
+import com.nimoh.jobManager.exception.user.UserException;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;

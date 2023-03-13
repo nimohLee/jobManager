@@ -1,11 +1,11 @@
 package com.nimoh.jobManager.service.job;
 
-import com.nimoh.jobManager.commons.user.UserErrorResult;
-import com.nimoh.jobManager.commons.user.UserException;
+import com.nimoh.jobManager.exception.user.UserErrorResult;
+import com.nimoh.jobManager.exception.user.UserException;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
-import com.nimoh.jobManager.commons.job.JobErrorResult;
-import com.nimoh.jobManager.commons.job.JobException;
+import com.nimoh.jobManager.exception.job.JobErrorResult;
+import com.nimoh.jobManager.exception.job.JobException;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.repository.JobRepository;

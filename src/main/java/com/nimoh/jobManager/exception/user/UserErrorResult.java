@@ -1,4 +1,4 @@
-package com.nimoh.jobManager.commons.user;
+package com.nimoh.jobManager.exception.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
