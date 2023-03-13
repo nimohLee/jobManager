@@ -1,9 +1,8 @@
 package com.nimoh.jobManager.service.crawler.impl;
 
-import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
-import com.nimoh.jobManager.commons.crawler.CrawlerException;
+import com.nimoh.jobManager.exception.crawler.CrawlerErrorResult;
+import com.nimoh.jobManager.exception.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.jsoup.JsoupConnection;
-import com.nimoh.jobManager.crawler.JobHtmlParser;
 import com.nimoh.jobManager.crawler.JobPlanetHtmlParser;
 import com.nimoh.jobManager.data.dto.crawler.JobPlanetDto;
 import com.nimoh.jobManager.service.crawler.JobPlanetService;
@@ -11,7 +10,6 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

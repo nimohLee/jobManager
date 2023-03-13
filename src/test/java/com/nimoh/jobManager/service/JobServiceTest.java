@@ -2,8 +2,8 @@ package com.nimoh.jobManager.service;
 
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
-import com.nimoh.jobManager.commons.job.JobErrorResult;
-import com.nimoh.jobManager.commons.job.JobException;
+import com.nimoh.jobManager.exception.job.JobErrorResult;
+import com.nimoh.jobManager.exception.job.JobException;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.Skill;
 import com.nimoh.jobManager.data.entity.User;

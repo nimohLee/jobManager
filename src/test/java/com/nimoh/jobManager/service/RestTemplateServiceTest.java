@@ -39,15 +39,6 @@ class RestTemplateServiceTest {
     @Nested
     @DisplayName("getCodecode()")
     class getGeocode {
-        @Test
-        void 좌표가져오기성공() {
-            //given
-            String parameter = "서울특별시 강남구 논현동";
-            //when
-            Map<String, String> result = restTemplateService.getGeocode(parameter);
-            //then
-            Assertions.assertThat(result).isNotNull();
-        }
 
         @Test
         void 좌표가져오기실패_Parameter가null() {
@@ -57,6 +48,16 @@ class RestTemplateServiceTest {
             final RestTemplateException exception = assertThrows(RestTemplateException.class, () -> restTemplateService.getGeocode(parameter));
             //then
             Assertions.assertThat(exception.getErrorResult()).isEqualTo(RestTemplateErrorResult.LOCATION_IS_NULL);
+        }
+
+        @Test
+        void 좌표가져오기성공() {
+            //given
+            String parameter = "서울특별시 강남구 논현동";
+            //when
+            Map<String, String> result = restTemplateService.getGeocode(parameter);
+            //then
+            Assertions.assertThat(result).isNotNull();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.nimoh.jobManager.commons.crawler;
+package com.nimoh.jobManager.exception.crawler;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

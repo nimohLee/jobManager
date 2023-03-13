@@ -1,9 +1,9 @@
 package com.nimoh.jobManager.controller;
 
 import com.google.gson.Gson;
-import com.nimoh.jobManager.commons.GlobalExceptionHandler;
-import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
-import com.nimoh.jobManager.commons.crawler.CrawlerException;
+import com.nimoh.jobManager.exception.GlobalExceptionHandler;
+import com.nimoh.jobManager.exception.crawler.CrawlerErrorResult;
+import com.nimoh.jobManager.exception.crawler.CrawlerException;
 import com.nimoh.jobManager.service.crawler.JobPlanetService;
 import com.nimoh.jobManager.service.crawler.JobSearchService;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package com.nimoh.jobManager.service.crawler.impl;
 
-import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
-import com.nimoh.jobManager.commons.crawler.CrawlerException;
+import com.nimoh.jobManager.exception.crawler.CrawlerErrorResult;
+import com.nimoh.jobManager.exception.crawler.CrawlerException;
 import com.nimoh.jobManager.commons.jsoup.JsoupConnection;
 import com.nimoh.jobManager.crawler.JobCrawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;

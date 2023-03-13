@@ -1,10 +1,9 @@
 package com.nimoh.jobManager.service.token;
 
 import com.nimoh.jobManager.commons.cookie.CookieProvider;
-import com.nimoh.jobManager.commons.token.TokenErrorResult;
-import com.nimoh.jobManager.commons.token.TokenException;
+import com.nimoh.jobManager.exception.token.TokenErrorResult;
+import com.nimoh.jobManager.exception.token.TokenException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
-import com.nimoh.jobManager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

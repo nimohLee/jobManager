@@ -1,13 +1,13 @@
-package com.nimoh.jobManager.commons;
+package com.nimoh.jobManager.exception;
 
-import com.nimoh.jobManager.commons.crawler.CrawlerErrorResult;
-import com.nimoh.jobManager.commons.crawler.CrawlerException;
-import com.nimoh.jobManager.commons.job.JobErrorResult;
-import com.nimoh.jobManager.commons.job.JobException;
-import com.nimoh.jobManager.commons.token.TokenErrorResult;
-import com.nimoh.jobManager.commons.token.TokenException;
-import com.nimoh.jobManager.commons.user.UserErrorResult;
-import com.nimoh.jobManager.commons.user.UserException;
+import com.nimoh.jobManager.exception.crawler.CrawlerErrorResult;
+import com.nimoh.jobManager.exception.crawler.CrawlerException;
+import com.nimoh.jobManager.exception.job.JobErrorResult;
+import com.nimoh.jobManager.exception.job.JobException;
+import com.nimoh.jobManager.exception.token.TokenErrorResult;
+import com.nimoh.jobManager.exception.token.TokenException;
+import com.nimoh.jobManager.exception.user.UserErrorResult;
+import com.nimoh.jobManager.exception.user.UserException;
 import com.nimoh.jobManager.exception.restTemplate.RestTemplateErrorResult;
 import com.nimoh.jobManager.exception.restTemplate.RestTemplateException;
 import lombok.Getter;

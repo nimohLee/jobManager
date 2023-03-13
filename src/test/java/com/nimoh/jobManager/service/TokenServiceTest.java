@@ -1,12 +1,10 @@
 package com.nimoh.jobManager.service;
 
 import com.nimoh.jobManager.commons.cookie.CookieProvider;
-import com.nimoh.jobManager.commons.token.TokenErrorResult;
-import com.nimoh.jobManager.commons.token.TokenException;
+import com.nimoh.jobManager.exception.token.TokenErrorResult;
+import com.nimoh.jobManager.exception.token.TokenException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
-import com.nimoh.jobManager.service.token.TokenService;
 import com.nimoh.jobManager.service.token.TokenServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
