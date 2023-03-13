@@ -1,5 +1,7 @@
 package com.nimoh.jobManager.service.api;
 
+import com.nimoh.jobManager.exception.restTemplate.RestTemplateErrorResult;
+import com.nimoh.jobManager.exception.restTemplate.RestTemplateException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -21,6 +23,10 @@ public class RestTemplateServiceImpl implements RestTemplateService {
     private String REST_API_KEY;
 
     public Map<String, String> getGeocode(String location) {
+        if (location == null) {
+            throw new RestTemplateException(RestTemplateErrorResult.LOCATION_IS_NULL);
+        }
+
         RestTemplate restTemplate = new RestTemplate();
 
         final HttpHeaders headers = new HttpHeaders();
@@ -35,6 +41,7 @@ public class RestTemplateServiceImpl implements RestTemplateService {
                 .encode(Charset.defaultCharset())
                 .build()
                 .toUri();
+
         ParameterizedTypeReference<Map<String, Object>> typeRef =
                 new ParameterizedTypeReference<Map<String, Object>>() {
                 };

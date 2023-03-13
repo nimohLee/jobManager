@@ -8,6 +8,8 @@ import com.nimoh.jobManager.commons.token.TokenErrorResult;
 import com.nimoh.jobManager.commons.token.TokenException;
 import com.nimoh.jobManager.commons.user.UserErrorResult;
 import com.nimoh.jobManager.commons.user.UserException;
+import com.nimoh.jobManager.exception.restTemplate.RestTemplateErrorResult;
+import com.nimoh.jobManager.exception.restTemplate.RestTemplateException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +53,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return this.makeErrorResponseEntity(exception.getErrorResult());
     }
 
+    @ExceptionHandler({RestTemplateException.class})
+    public ResponseEntity<ErrorResponse> handleRestApiException(final RestTemplateException exception) {
+        log.warn("CrawlerException occur:", exception);
+        return this.makeErrorResponseEntity(exception.getErrorResult());
+    }
+
 
     @ExceptionHandler({JobException.class})
     public ResponseEntity<ErrorResponse> handleRestApiException(final JobException exception) {
@@ -82,10 +90,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorDescription));
     }
 
+
+
     private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final JobErrorResult errorResult) {
         return ResponseEntity.status(errorResult.getHttpStatus())
                 .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
     }
+
+    private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final RestTemplateErrorResult errorResult) {
+        return ResponseEntity.status(errorResult.getHttpStatus())
+                .body(new ErrorResponse(errorResult.name(), errorResult.getMessage()));
+    }
+
 
     private ResponseEntity<ErrorResponse> makeErrorResponseEntity(final UserErrorResult errorResult) {
         return ResponseEntity.status(errorResult.getHttpStatus())
