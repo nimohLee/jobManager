@@ -4,7 +4,6 @@ import com.nimoh.jobManager.data.entity.Skill;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

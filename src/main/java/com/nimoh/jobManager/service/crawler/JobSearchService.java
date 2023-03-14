@@ -8,5 +8,5 @@ import java.util.Map;
 
 
 public interface JobSearchService {
-    List<JobCrawlerDto> getSearchList(Map<String, String> searchOption, String crawlerName) throws IOException;
+    List<JobCrawlerDto> getSearchList(Map<String, String> searchOption, String crawlerName);
 }

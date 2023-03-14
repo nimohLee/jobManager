@@ -31,7 +31,7 @@ public class JobPlanetServiceImpl implements JobPlanetService {
     }
 
     @Override
-    public JobPlanetDto getCompanyRate(String companyName) throws IOException {
+    public JobPlanetDto getCompanyRate(String companyName){
         if (companyName == null) {
             throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
         }
@@ -46,7 +46,7 @@ public class JobPlanetServiceImpl implements JobPlanetService {
         } catch (CrawlerException ce) {
             throw ce;
         } catch (IOException ioe) {
-            throw ioe;
+            throw new CrawlerException(CrawlerErrorResult.IO_EXCEPTION);
         }
     }
 }

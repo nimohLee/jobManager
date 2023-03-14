@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.Map;
 
 public interface JobPlanetService {
-    JobPlanetDto getCompanyRate(String companyName) throws IOException;
+    JobPlanetDto getCompanyRate(String companyName);
 }

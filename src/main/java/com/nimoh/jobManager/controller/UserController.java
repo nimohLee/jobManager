@@ -30,18 +30,14 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final CookieProvider cookieProvider;
 
     private final long accessTokenValidTime = 60 * 30 * 1000L;
 
     private final long refreshTokenValidTime = 60 * 60 * 24 * 14 * 1000L;
 
-    public UserController(UserService userService, CookieProvider cookieProvider) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.cookieProvider = cookieProvider;
     }
-
-    private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 
     @Operation(summary = "회원가입", description = "회원가입")
@@ -91,7 +87,6 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<Void> login(
             @RequestBody UserLogInRequest userLogInRequest,
-            HttpServletRequest request,
             HttpServletResponse response
     ) {
         Map<String, String> tokens = userService.login(userLogInRequest);

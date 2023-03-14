@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.service;
 
+import com.nimoh.jobManager.data.dto.user.UserResponse;
 import com.nimoh.jobManager.exception.restTemplate.RestTemplateErrorResult;
 import com.nimoh.jobManager.exception.restTemplate.RestTemplateException;
 import com.nimoh.jobManager.service.api.RestTemplateService;
@@ -26,7 +27,6 @@ class RestTemplateServiceTest {
     @Autowired
     private RestTemplateService restTemplateService;
 
-
     @TestConfiguration
     class Config {
         @Bean
@@ -39,7 +39,6 @@ class RestTemplateServiceTest {
     @Nested
     @DisplayName("getCodecode()")
     class getGeocode {
-
         @Test
         void 좌표가져오기실패_Parameter가null() {
             //given

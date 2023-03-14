@@ -1,6 +1,5 @@
 package com.nimoh.jobManager.data.dto.crawler;
 
-
 import lombok.*;
 
 @Data
