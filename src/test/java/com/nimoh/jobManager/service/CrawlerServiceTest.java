@@ -90,11 +90,11 @@ public class CrawlerServiceTest {
             searchOption.put("recruitPage", "페이지");
             searchOption.put("recruitSort", SaraminRecruitSort.ACCURACY.getResultSort());
 
-            doThrow(IOException.class).when(jsoupConnection).get(any());
+            doThrow(new CrawlerException(CrawlerErrorResult.IO_EXCEPTION)).when(jsoupConnection).get(any());
             //when
-            IOException ioException = Assertions.assertThrows(IOException.class, () -> jobSearchService.getSearchList(searchOption, "saraminCrawler"));
+            CrawlerException result = Assertions.assertThrows(CrawlerException.class, () -> jobSearchService.getSearchList(searchOption, "saraminCrawler"));
             //then
-            assertThat(ioException.getMessage()).isEqualTo("JsoupConnect Error");
+            assertThat(result.getErrorResult()).isEqualTo(CrawlerErrorResult.IO_EXCEPTION);
         }
 
         @Test

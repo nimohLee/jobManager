@@ -26,7 +26,7 @@ public class JobSearchServiceImpl implements JobSearchService {
     }
 
     @Override
-    public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption, String crawlerName) throws IOException {
+    public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption, String crawlerName) {
         JobCrawler jobCrawler = crawlerMap.get(crawlerName);
         if (jobCrawler.checkSearchOption(searchOption)){
             throw new CrawlerException(CrawlerErrorResult.OPTION_NULL_EXCEPTION);
@@ -44,7 +44,7 @@ public class JobSearchServiceImpl implements JobSearchService {
             Document document = jsoupConnection.get(searchList);
             return jobCrawler.parseHTML(document);
         } catch (IOException e) {
-            throw new IOException("JsoupConnect Error", e);
+            throw new CrawlerException(CrawlerErrorResult.IO_EXCEPTION);
         }
     }
 }
