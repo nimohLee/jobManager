@@ -46,7 +46,7 @@ public class CrawlerController {
     @GetMapping("saramin")
     public ResponseEntity<List<JobCrawlerDto>> getSaraminList(
             @RequestParam Map<String, String> params
-    ) throws IOException {
+    ){
         logger.info("get /saramin Query :" + params);
         List<JobCrawlerDto> result = jobSearchService.getSearchList(params, "saraminCrawler");
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -65,7 +65,7 @@ public class CrawlerController {
     @GetMapping("jobkorea")
     public ResponseEntity<List<JobCrawlerDto>> getJobKoreaList(
             @RequestParam Map<String, String> params
-    ) throws IOException {
+    ){
         logger.info("get /jobkorea Query :" + params);
         List<JobCrawlerDto> result = jobSearchService.getSearchList(params,"jobKoreaCrawler");
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -84,7 +84,7 @@ public class CrawlerController {
     @GetMapping("incruit")
     public ResponseEntity<List<JobCrawlerDto>> getIncruitList(
             @RequestParam Map<String, String> params
-    ) throws IOException {
+    ){
         logger.info("get /incruit Query :" + params);
         List<JobCrawlerDto> result = jobSearchService.getSearchList(params,"incruitCrawler");
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -103,7 +103,7 @@ public class CrawlerController {
     @GetMapping("jobplanet")
     public ResponseEntity<JobPlanetDto> getJobPlanet(
             @RequestParam String companyName
-    ) throws IOException {
+    ){
         logger.info("get /jobplanet Query :" + companyName);
         JobPlanetDto result = jobPlanetService.getCompanyRate(companyName);
         return ResponseEntity.status(HttpStatus.OK).body(result);

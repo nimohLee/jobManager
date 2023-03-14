@@ -26,7 +26,6 @@ public class TokenController {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenService tokenService;
-    private final CookieProvider cookieProvider;
 
     @Operation(summary = "토큰", description = "토큰을 재발급 합니다")
     @ApiResponses(

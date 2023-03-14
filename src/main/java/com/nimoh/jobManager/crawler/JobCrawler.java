@@ -1,7 +1,6 @@
 package com.nimoh.jobManager.crawler;
 
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.List;

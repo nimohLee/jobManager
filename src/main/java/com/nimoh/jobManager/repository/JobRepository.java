@@ -3,7 +3,6 @@ package com.nimoh.jobManager.repository;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

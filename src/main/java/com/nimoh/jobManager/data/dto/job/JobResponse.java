@@ -1,11 +1,8 @@
 package com.nimoh.jobManager.data.dto.job;
 
 import com.nimoh.jobManager.data.entity.Skill;
-import com.nimoh.jobManager.data.entity.User;
 import lombok.*;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
