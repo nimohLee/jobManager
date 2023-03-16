@@ -6,6 +6,7 @@ import com.nimoh.jobManager.commons.jsoup.JsoupConnection;
 import com.nimoh.jobManager.crawler.JobCrawler;
 import com.nimoh.jobManager.data.dto.crawler.JobCrawlerDto;
 import com.nimoh.jobManager.service.crawler.JobSearchService;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class JobSearchServiceImpl implements JobSearchService {
     private final JsoupConnection jsoupConnection;
     private final Map<String, JobCrawler> crawlerMap;
-
-    @Autowired
-    public JobSearchServiceImpl(JsoupConnection jsoupConnection, Map<String, JobCrawler> crawlerMap) {
-        this.jsoupConnection = jsoupConnection;
-        this.crawlerMap = crawlerMap;
-    }
 
     @Override
     public List<JobCrawlerDto> getSearchList(Map<String, String> searchOption, String crawlerName) {

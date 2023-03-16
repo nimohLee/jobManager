@@ -7,6 +7,7 @@ import com.nimoh.jobManager.service.crawler.JobSearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/crawler")
 public class CrawlerController {
 
@@ -27,11 +29,6 @@ public class CrawlerController {
 
     private final JobSearchService jobSearchService;
     private final JobPlanetService jobPlanetService;
-
-    public CrawlerController(JobSearchService jobSearchService, JobPlanetService jobPlanetService) {
-        this.jobSearchService = jobSearchService;
-        this.jobPlanetService = jobPlanetService;
-    }
 
     @Operation(
             summary = "사람인 채용공고 크롤링", description = "사람인 채용공고를 크롤링하여 List로 반환", parameters = {}
