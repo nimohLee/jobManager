@@ -21,8 +21,7 @@ public class JobPlanetServiceImpl implements JobPlanetService {
     private final JsoupConnection jsoupConnection;
     private final JobPlanetHtmlParser<JobPlanetDto> jobHtmlParser;
 
-
-    final private String JOBPLANET_URL = "https://www.jobplanet.co.kr";
+    private final String JOBPLANET_URL = "https://www.jobplanet.co.kr";
 
     @Autowired
     public JobPlanetServiceImpl(JsoupConnection jsoupConnection,JobPlanetHtmlParser<JobPlanetDto> jobHtmlParser) {

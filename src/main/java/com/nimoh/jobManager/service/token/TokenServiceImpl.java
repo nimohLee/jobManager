@@ -17,7 +17,6 @@ public class TokenServiceImpl implements TokenService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final CookieProvider cookieProvider;
-    Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
 
     @Override
     public Cookie accessTokenRefresh(Cookie[] cookies) {
