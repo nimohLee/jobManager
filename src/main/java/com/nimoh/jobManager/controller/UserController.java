@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class UserController {
 
     private final long refreshTokenValidTime = 60 * 60 * 24 * 14 * 1000L;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }

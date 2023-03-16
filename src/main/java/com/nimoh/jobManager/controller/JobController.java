@@ -10,6 +10,7 @@ import com.nimoh.jobManager.service.job.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,10 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v1/job")
+@RequiredArgsConstructor
 public class JobController {
     private final JobService jobService;
     private final RestTemplateService restTemplateService;
-    Logger logger = LoggerFactory.getLogger(JobController.class);
-
-    @Autowired
-    public JobController(JobService jobService, RestTemplateService restTemplateService) {
-        this.jobService = jobService;
-        this.restTemplateService = restTemplateService;
-    }
 
     /**
      * 직무 지원 목록 리턴
