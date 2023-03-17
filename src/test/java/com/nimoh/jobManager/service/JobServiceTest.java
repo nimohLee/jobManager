@@ -42,6 +42,7 @@ public class JobServiceTest {
         //given
         JobRequest jobRequest = JobRequest.builder().build();
         Long userId = 1L;
+        doReturn(Optional.ofNullable(User.builder().id(userId).build())).when(userRepository).findById(any());
         //when
         final JobException result = assertThrows(JobException.class, () -> jobService.save(jobRequest, userId));
 
