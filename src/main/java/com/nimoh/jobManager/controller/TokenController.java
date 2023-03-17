@@ -1,6 +1,5 @@
 package com.nimoh.jobManager.controller;
 
-import com.nimoh.jobManager.commons.cookie.CookieProvider;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
 import com.nimoh.jobManager.service.token.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
+/**
+ * JWT 토큰 관련 컨트롤러
+ *
+ * @author nimoh
+ */
 @RestController
 @RequestMapping("/api/v1/token")
 @RequiredArgsConstructor

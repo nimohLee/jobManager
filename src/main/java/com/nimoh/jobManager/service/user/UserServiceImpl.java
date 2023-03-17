@@ -9,7 +9,6 @@ import com.nimoh.jobManager.exception.user.UserErrorResult;
 import com.nimoh.jobManager.exception.user.UserException;
 import com.nimoh.jobManager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
