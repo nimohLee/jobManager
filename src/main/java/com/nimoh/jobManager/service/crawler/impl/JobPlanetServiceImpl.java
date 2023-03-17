@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * 서비스 - 잡플래닛 크롤링
+ *
+ * @author nimoh
+ */
+
 @Service
 public class JobPlanetServiceImpl implements JobPlanetService {
     Logger logger = LoggerFactory.getLogger(JobPlanetServiceImpl.class);
@@ -29,6 +35,13 @@ public class JobPlanetServiceImpl implements JobPlanetService {
         this.jobHtmlParser = jobHtmlParser;
     }
 
+    /**
+     * 잡플래닛에서 회사 별점 가져옴
+     *
+     * @param companyName 회사명
+     * @return 잡플래닛 조회 결과
+     * @throws CrawlerException - companyName이 null인 경우 또는 Document관련 IOException 발생 시
+     */
     @Override
     public JobPlanetDto getCompanyRate(String companyName){
         if (companyName == null) {
@@ -42,8 +55,6 @@ public class JobPlanetServiceImpl implements JobPlanetService {
             JobPlanetDto jobRate = jobHtmlParser.parseHTML(document); // 칼럼명
             logger.info("jobRate = " + jobRate.toString());
             return jobRate;
-        } catch (CrawlerException ce) {
-            throw ce;
         } catch (IOException ioe) {
             throw new CrawlerException(CrawlerErrorResult.IO_EXCEPTION);
         }

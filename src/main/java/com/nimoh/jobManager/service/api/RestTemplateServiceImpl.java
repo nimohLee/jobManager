@@ -22,6 +22,13 @@ public class RestTemplateServiceImpl implements RestTemplateService {
     @Value("${properties.kakaoAPI}") // 변수 파일에 등록된 java.file.test 값 가져오기
     private String REST_API_KEY;
 
+    /**
+     * 주소로 좌표를 가져옴
+     *
+     * @param location
+     * @return location (주소 문자열)에 대한 좌표
+     * @throws RestTemplateException if location is null
+     */
     public Map<String, String> getGeocode(String location) {
         if (location == null) {
             throw new RestTemplateException(RestTemplateErrorResult.LOCATION_IS_NULL);

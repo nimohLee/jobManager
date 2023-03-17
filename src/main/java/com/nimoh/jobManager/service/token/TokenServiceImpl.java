@@ -5,8 +5,6 @@ import com.nimoh.jobManager.exception.token.TokenErrorResult;
 import com.nimoh.jobManager.exception.token.TokenException;
 import com.nimoh.jobManager.config.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
