@@ -3,6 +3,11 @@ package com.nimoh.jobManager.data.dto.crawler;
 import lombok.*;
 import java.util.List;
 
+/**
+ * 구직사이트 크롤러 DTO
+ *
+ * @author nimoh
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

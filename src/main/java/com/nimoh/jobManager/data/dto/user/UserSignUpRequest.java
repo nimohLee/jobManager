@@ -7,6 +7,11 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 회원 가입 요청 DTO
+ *
+ * @author nimoh
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -42,6 +42,12 @@ public class UserController {
     }
 
 
+    /**
+     * 회원가입
+     *
+     * @param userSignUpRequest 회원가입 요청 DTO
+     * @return 성공시 Http Status code 201 과 요청 결과가 담긴 DTO
+     */
     @Operation(summary = "회원가입", description = "회원가입")
     @ApiResponses(
             value = {
@@ -57,6 +63,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userSignUpRequest.toString());
     }
 
+    /**
+     * 회원탈퇴
+     *
+     * @return 성공 시 Http Status code 204
+     */
     @Operation(summary = "회원탈퇴", description = "회원을 탈퇴합니다")
     @ApiResponses(
             value = {
@@ -74,10 +85,14 @@ public class UserController {
         } else {
             return ResponseEntity.badRequest().build();
         }
-
-
     }
 
+    /**
+     * 로그인
+     *
+     * @param userLogInRequest 로그인 요청 DTO
+     * @return 성공 시 Http Status code 200
+     */
     @Operation(summary = "로그인", description = "로그인을 시도합니다")
     @ApiResponses(
             value = {
@@ -104,6 +119,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    /**
+     * 로그아웃
+     *
+     * @return 성공 시 Http Status code 204
+     */
     @Operation(summary = "로그아웃", description = "로그아웃을 시도합니다")
     @ApiResponses(
             value = {

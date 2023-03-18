@@ -30,57 +30,79 @@ public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
 
+    /**
+     * 현재 유저의 지원 내역 모두 조회
+     *
+     * @param userId 현재 유저 PK
+     * @return 조회된 지원 내역 리스트 반환
+     * @throws UserException 해당 유저가 없을 시 예외 발생
+     */
     @Override
     public List<JobResponse> findByUser(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
-            throw new UserException(UserErrorResult.USER_NOT_FOUND);
-        }
-        final List<Job> findResult = jobRepository.findAllByUserOrderByApplyDateDesc(user.get());
+        final User user = userRepository.findById(userId).orElseThrow(()-> new UserException(UserErrorResult.USER_NOT_FOUND));
+        final List<Job> findResult = jobRepository.findAllByUserOrderByApplyDateDesc(user);
         return findResult.stream().map(this::makeJobResponse)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 지원내역 등록
+     *
+     * @param jobRequest 등록할 지원 내역 DTO
+     * @param userId 현재 유저 PK
+     * @return 저장된 지원 내역 DTO
+     * @throws UserException 해당 유저가 없을 시 예외 발생
+     */
     @Override
     public JobResponse save(JobRequest jobRequest, Long userId) {
-        System.out.println(jobRequest);
-        final Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        final User user = userRepository.findById(userId).orElseThrow(()-> new UserException(UserErrorResult.USER_NOT_FOUND));
+        final Job job = makeJob(jobRequest, user);
+        try {
+            final Job savedJob = jobRepository.save(job);
+            return makeJobResponse(savedJob);
+        } catch (Exception e) {
             throw new JobException(JobErrorResult.REQUEST_VALUE_INVALID);
         }
-        final Job job = makeJob(jobRequest, user.get());
-        final Job savedJob = jobRepository.save(job);
-
-        return makeJobResponse(savedJob);
     }
 
+    /**
+     * 지원 내역 수정
+     *
+     * @param jobRequest 수정할 지원 내역 DTO
+     * @param userId 현재 유저 PK
+     * @param jobId 수정할 지원 내역 PK
+     * @return 수정한 지원 내역 Response
+     * @throws JobException 지원 내역을 찾을 수 없는 경우 또는 지원 내역에 해당하는 유저가 아닌 경우
+     * @throws UserException 현재 유저가 DB에 없을 때 예외 발생
+     */
     public JobResponse update(JobRequest jobRequest, Long userId, Long jobId) {
-        final Optional<Job> targetJob = jobRepository.findById(jobId);
-        if (targetJob.isEmpty()) {
-            throw new JobException(JobErrorResult.APPLY_NOT_FOUND);
-        }
-        Optional<User> user = userRepository.findById(userId);
-        if (!targetJob.get().getUser().equals(user.get())) {
+        final Job targetJob = jobRepository.findById(jobId).orElseThrow(()-> new JobException(JobErrorResult.APPLY_NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(()-> new UserException(UserErrorResult.USER_NOT_FOUND));
+        if (!targetJob.getUser().equals(user)) {
             throw new JobException(JobErrorResult.NO_PERMISSION);
         }
 
-        Job job = makeJob(jobRequest, user.get());
+        Job job = makeJob(jobRequest, user);
         job.setId(jobId);
         Job result = jobRepository.save(job);
 
         return makeJobResponse(result);
     }
 
+    /**
+     * 지원 내역 삭제
+     *
+     * @param jobId 삭제 하고자 하는 지원 내역 PK
+     * @param userId 현재 유저 PK
+     * @return 삭제 성공 시 true 반환
+     * @throws JobException 지원 내역을 찾을 수 없는 경우 또는 지원 내역에 해당하는 유저가 아닌 경우
+     * @throws UserException 현재 유저가 DB에 없을 때 예외 발생
+     */
     public boolean delete(Long jobId, Long userId) {
-        final Optional<Job> targetJob = jobRepository.findById(jobId);
-        final Optional<User> user = userRepository.findById(userId);
-        if (targetJob.isEmpty()) {
-            throw new JobException(JobErrorResult.APPLY_NOT_FOUND);
-        }
-        if (user.isEmpty()) {
-            throw new JobException(JobErrorResult.REQUEST_VALUE_INVALID);
-        }
-        if (!targetJob.get().getUser().equals(user.get())) {
+        final Job targetJob = jobRepository.findById(jobId).orElseThrow(()-> new JobException(JobErrorResult.APPLY_NOT_FOUND));
+        final User user = userRepository.findById(userId).orElseThrow(()-> new JobException(JobErrorResult.REQUEST_VALUE_INVALID));
+
+        if (!targetJob.getUser().equals(user)) {
             throw new JobException(JobErrorResult.NO_PERMISSION);
         }
         jobRepository.deleteById(jobId);
@@ -99,7 +121,6 @@ public class JobServiceImpl implements JobService {
                 .y(jobRequest.getY())
                 .position(jobRequest.getPosition())
                 .requiredCareer(jobRequest.getRequiredCareer())
-//                .primarySkill(jobRequest.getPrimarySkill())
                 .applyDate(jobRequest.getApplyDate())
                 .result("지원완료")
                 .note(jobRequest.getNote())
@@ -120,7 +141,6 @@ public class JobServiceImpl implements JobService {
                 .y(job.getY())
                 .position(job.getPosition())
                 .requiredCareer(job.getRequiredCareer())
-//                .primarySkill(job.getPrimarySkill())
                 .applyDate(job.getApplyDate())
                 .result(job.getResult())
                 .note(job.getNote())

@@ -10,6 +10,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 사용자 및 시큐리티 관련 엔티티
+ *
+ * @author nimoh
+ */
 @Entity
 @Data
 @Builder

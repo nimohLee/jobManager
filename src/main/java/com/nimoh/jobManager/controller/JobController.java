@@ -32,7 +32,7 @@ public class JobController {
     /**
      * 직무 지원 목록 리턴
      *
-     * @return
+     * @return 현재 유저의 직무 지원 목록
      */
     @Operation(summary = "직무 지원 목록 조회", description = "직무 지원 목록을 모두 조회합니다")
     @ApiResponses(value = {
@@ -52,7 +52,8 @@ public class JobController {
     /**
      * 직무 지원 등록
      *
-     * @param jobRequest
+     * @param jobRequest 지원 내역 등록 요청 DTO
+     * @return 성공 시 Http Status code 201
      */
     @Operation(summary = "직무 지원 등록", description = "직무 지원을 작성합니다.")
     @ApiResponses(value = {
@@ -74,7 +75,8 @@ public class JobController {
     /**
      * 직무 지원 수정
      *
-     * @param jobId
+     * @param jobId 수정할 지원 내역 PK
+     * @param jobRequest 수정할 내용
      */
     @Operation(summary = "직무 지원 수정", description = "직무 지원 id로 직무 지원을 수정합니다")
     @ApiResponses(value = {
@@ -94,7 +96,7 @@ public class JobController {
     /**
      * 직무 지원 삭제
      *
-     * @param jobId
+     * @param jobId 삭제할 지원 내역 PK
      */
     @Operation(summary = "직무 지원 삭제", description = "직무 지원 id로 직무 지원을 삭제합니다")
     @ApiResponses(value = {

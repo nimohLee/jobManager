@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+/**
+ * 크롤링 에러 결과
+ *
+ * @author nimoh
+ */
 @RequiredArgsConstructor
 @Getter
 public enum CrawlerErrorResult {

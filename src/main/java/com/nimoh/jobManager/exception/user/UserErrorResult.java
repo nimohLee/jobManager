@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+/**
+ * 사용자 관련 에러 결과
+ *
+ * @author nimoh
+ */
 @AllArgsConstructor
 @Getter
 public enum UserErrorResult {

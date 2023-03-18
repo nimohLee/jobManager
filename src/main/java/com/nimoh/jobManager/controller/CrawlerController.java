@@ -36,6 +36,12 @@ public class CrawlerController {
     private final JobSearchService jobSearchService;
     private final JobPlanetService jobPlanetService;
 
+    /**
+     * 사람인 채용공고를 크롤링하여 List로 반환
+     *
+     * @param params 검색 옵션 QueryString
+     * @return 성공 시 Http Status 200 && 검색 결과
+     */
     @Operation(
             summary = "사람인 채용공고 크롤링", description = "사람인 채용공고를 크롤링하여 List로 반환", parameters = {}
     )
@@ -55,6 +61,12 @@ public class CrawlerController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 잡코리아 채용공고를 크롤링하여 List로 반환
+     *
+     * @param params 검색 옵션 QueryString
+     * @return 성공 시 Http Status 200 && 검색 결과
+     */
     @Operation(
             summary = "잡코리아 채용공고 크롤링", description = "잡코리아 채용공고를 크롤링하여 List로 반환", parameters = {}
     )
@@ -74,8 +86,14 @@ public class CrawlerController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 인크루트 채용공고를 크롤링하여 List로 반환
+     *
+     * @param params 검색 옵션 QueryString
+     * @return 성공 시 Http Status 200 && 검색 결과
+     */
     @Operation(
-            summary = "잡코리아 채용공고 크롤링", description = "잡코리아 채용공고를 크롤링하여 List로 반환", parameters = {}
+            summary = "인크루트 채용공고 크롤링", description = "인크루트 채용공고를 크롤링하여 List로 반환", parameters = {}
     )
     @ApiResponses(
             value = {
@@ -93,6 +111,12 @@ public class CrawlerController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 잡플래닛 회사정보를 크롤링하여 반환
+     *
+     * @param companyName 검색할 회사명
+     * @return 성공 시 Http Status 200 && 검색 결과
+     */
     @Operation(
             summary = "잡플래닛 기업검색 크롤링", description = "잡플래닛 기업검색를 크롤링하여 List로 반환", parameters = {}
     )

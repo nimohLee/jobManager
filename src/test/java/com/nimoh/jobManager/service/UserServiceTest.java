@@ -21,8 +21,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -80,8 +79,19 @@ public class UserServiceTest {
     }
 
     @Test
+    public void 회원탈퇴실패_해당유저없음() {
+        //given
+        when(userRepository.findById(any())).thenReturn(Optional.empty()).thenThrow(new UserException(UserErrorResult.USER_NOT_FOUND));
+        //when
+        UserException result = assertThrows(UserException.class, () -> userService.deleteById(0L));
+        //then
+        assertThat(result.getErrorResult()).isEqualTo(UserErrorResult.USER_NOT_FOUND);
+    }
+
+    @Test
     public void 회원탈퇴성공() {
         //given
+        when(userRepository.findById(any())).thenReturn(Optional.of(user()));
         doNothing().when(userRepository).deleteById(1L);
         //when
         boolean result = userService.deleteById(1L);
