@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 유저 서비스 구현체
+ * 서비스 - 유저 CRUD 서비스
  *
  * @author nimoh
  */
@@ -31,7 +31,13 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
 
-
+    /**
+     * 회원 가입
+     *
+     * @param request 회원 가입 정보 DTO
+     * @return 회원 가입 성공 시 UserResponse 객체
+     * @throws UserException 회원 가입 하고자 하는 아이디가 이미 존재하는 경우 예외 발생
+     */
     @Override
     public UserResponse signUp(UserSignUpRequest request) {
         Optional<User> duplicateResult = userRepository.findByUid(request.getUid());
@@ -55,12 +61,27 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    /**
+     * 회원 탈퇴
+     *
+     * @param userId 탈퇴할 유저 PK
+     * @return 성공 시 true
+     * @throws UserException 해당 PK의 유저가 존재하지 않을 시 예외 발생
+     */
     @Override
     public boolean deleteById(Long userId) {
-        userRepository.deleteById(userId);
+        User findUser = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorResult.USER_NOT_FOUND));
+        userRepository.deleteById(findUser.getId());
         return true;
     }
 
+    /**
+     * 유저 로그인
+     *
+     * @param request 로그인을 위한 UserLogInRequest 객체 (아이디, 비밀번호)
+     * @return acessToken과 refreshToken이 담긴 Map
+     * @throws UserException 해당 유저가 없을 시 또는 비밀 번호가 틀렸을 시 예외 발생
+     */
     @Override
     public Map<String, String> login(UserLogInRequest request) {
         User findUser = userRepository.findByUid(request.getUid())
