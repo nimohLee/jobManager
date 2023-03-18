@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +56,7 @@ public class JobServiceTest {
         //given
         Long userId = 1L;
         doReturn(Optional.of(user(1L))).when(userRepository).findById(any());
-        doReturn(job(2L)).when(jobRepository).save(ArgumentMatchers.any(Job.class));
+        doReturn(job(2L)).when(jobRepository).save(any());
         //when
         JobResponse result = jobService.save(jobRequest(), userId);
         //then

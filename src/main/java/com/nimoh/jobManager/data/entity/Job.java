@@ -1,13 +1,12 @@
 package com.nimoh.jobManager.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 지원 내역 엔티티
@@ -17,6 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Table
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -55,9 +55,10 @@ public class Job extends BaseEntity{
 
     private String result;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "primary_skill_id")
-//    private List<Skill> primarySkill = new ArrayList<>();
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "primary_skill_id")
+    private List<Skill> primarySkill = new ArrayList<>();
 
     private String note;
 

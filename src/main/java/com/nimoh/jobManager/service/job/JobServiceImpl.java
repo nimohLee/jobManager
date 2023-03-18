@@ -124,6 +124,7 @@ public class JobServiceImpl implements JobService {
                 .applyDate(jobRequest.getApplyDate())
                 .result("지원완료")
                 .note(jobRequest.getNote())
+                .primarySkill(jobRequest.getPrimarySkill())
                 .user(user)
                 .build();
     }
