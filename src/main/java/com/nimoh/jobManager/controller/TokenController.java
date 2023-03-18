@@ -29,6 +29,11 @@ public class TokenController {
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenService tokenService;
 
+    /**
+     * 토큰 재발급
+     *
+     * @return 성공 시 Http Status code 201
+     */
     @Operation(summary = "토큰", description = "토큰을 재발급 합니다")
     @ApiResponses(
             value = {
@@ -47,6 +52,11 @@ public class TokenController {
     }
 
 
+    /**
+     * Access Token 유효성 검사
+     *
+     * @return token 유효 시 true를 담은 ResponseEntity
+     */
     @Operation(summary = "토큰", description = "접근 토큰의 유효성을 확인합니다")
     @ApiResponses(
             value = {
