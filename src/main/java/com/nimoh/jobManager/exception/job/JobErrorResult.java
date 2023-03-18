@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+/**
+ * 지원 내역 관련 에러 결과
+ *
+ * @author nimoh
+ */
 @Getter
 @RequiredArgsConstructor
 public enum JobErrorResult {

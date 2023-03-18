@@ -5,6 +5,11 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * 조회한 지원 내역이 담긴 DTO
+ *
+ * @author nimoh
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

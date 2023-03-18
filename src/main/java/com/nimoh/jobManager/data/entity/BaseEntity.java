@@ -10,6 +10,11 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
+/**
+ * 다른 엔티티에 상속 시킬 속성을 정의하는 엔티티
+ *
+ * @author nimoh
+ */
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @MappedSuperclass

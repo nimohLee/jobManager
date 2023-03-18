@@ -4,6 +4,11 @@ import com.nimoh.jobManager.validator.Password;
 import com.nimoh.jobManager.validator.UserId;
 import lombok.*;
 
+/**
+ * 로그인 요청 DTO
+ *
+ * @author nimoh
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

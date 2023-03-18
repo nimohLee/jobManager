@@ -4,6 +4,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * 기술 관련 엔티티
+ *
+ * @author nimoh
+ */
 @Entity
 @Table
 @Data

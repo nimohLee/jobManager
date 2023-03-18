@@ -9,6 +9,11 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * 지원 내역 엔티티
+ *
+ * @author nimoh
+ */
 @Entity
 @Table
 @Data
