@@ -7,7 +7,7 @@ import com.nimoh.jobManager.exception.job.JobException;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.Skill;
 import com.nimoh.jobManager.data.entity.User;
-import com.nimoh.jobManager.repository.JobRepository;
+import com.nimoh.jobManager.repository.job.JobRepository;
 import com.nimoh.jobManager.repository.UserRepository;
 import com.nimoh.jobManager.service.job.JobServiceImpl;
 import org.junit.jupiter.api.Test;

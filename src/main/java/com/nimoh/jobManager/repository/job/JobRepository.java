@@ -1,4 +1,4 @@
-package com.nimoh.jobManager.repository;
+package com.nimoh.jobManager.repository.job;
 
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.User;

@@ -3,19 +3,15 @@ package com.nimoh.jobManager.repository;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.Skill;
 import com.nimoh.jobManager.data.entity.User;
-import org.junit.jupiter.api.BeforeEach;
+import com.nimoh.jobManager.repository.job.JobRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
