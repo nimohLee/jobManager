@@ -27,7 +27,8 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
                 .where(
                         likeJobName(cond.getName()),
                         resultIs(cond.getResult()),
-                        requiredExperienceIs(cond.getRequiredExperience())
+                        requiredExperienceIs(cond.getRequiredExperience()),
+                        salaryBetween(cond.getMinSalary(), cond.getMaxSalary())
                 ).fetch();
     }
 
@@ -48,6 +49,13 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
     private BooleanExpression requiredExperienceIs(RequiredExperience requiredExperience) {
         if (requiredExperience != null) {
             return job.requiredCareer.eq(requiredExperience.getCareer());
+        }
+        return null;
+    }
+
+    private BooleanExpression salaryBetween(Integer minSalary, Integer maxSalary) {
+        if (minSalary != null && maxSalary != null) {
+            return job.salary.between(minSalary, maxSalary);
         }
         return null;
     }

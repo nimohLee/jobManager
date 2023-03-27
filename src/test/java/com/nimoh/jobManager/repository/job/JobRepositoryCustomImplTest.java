@@ -98,4 +98,18 @@ public class JobRepositoryCustomImplTest {
         //then
         assertThat(byCond.size()).isEqualTo(1);
     }
+
+    @Test
+    void 연봉으로검색성공() {
+        //given
+        jobRepository.save(Job.builder().salary(3700).build());
+        jobRepository.save(Job.builder().salary(5000).build());
+        JobSearchCondition cond = new JobSearchCondition();
+        cond.setMinSalary(3500);
+        cond.setMaxSalary(4000);
+        //when
+        List<Job> byCond = jobRepositoryCustom.findByCond(cond);
+        //then
+        assertThat(byCond.size()).isEqualTo(1);
+    }
 }

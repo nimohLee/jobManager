@@ -43,7 +43,7 @@ public class Job extends BaseEntity{
 
     private String y;
 
-    private String salary;
+    private Integer salary;
 
     @Column(name = "apply_date")
     private LocalDate applyDate;

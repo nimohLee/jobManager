@@ -11,14 +11,14 @@ public class JobSearchCondition {
     private String name;
     private Result result;
     private RequiredExperience requiredExperience;
-    private int minSalary;
-    private int maxSalary;
+    private Integer minSalary;
+    private Integer maxSalary;
     private String location;
     private JobSearchSite jobSearchSite;
 
     public JobSearchCondition(){}
 
-    public JobSearchCondition(String name, Result result, RequiredExperience requiredExperience, int minSalary, int maxSalary, JobSearchSite jobSearchSite) {
+    public JobSearchCondition(String name, Result result, RequiredExperience requiredExperience, Integer minSalary, Integer maxSalary, JobSearchSite jobSearchSite) {
         this.name = name;
         this.result = result;
         this.requiredExperience = requiredExperience;
