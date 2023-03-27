@@ -217,6 +217,27 @@ function AddApply() {
                         controlId="formPlaintextPassword"
                     >
                         <Form.Label column sm="3">
+                            주요 기술
+                        </Form.Label>
+                        <Col sm="7">
+                            <Form.Control
+                                type="text"
+                                placeholder="필요 기술"
+                                aria-label="PrimarySkill"
+                                onChange={onChange}
+                                required
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                필요 기술을 선택해주세요
+                            </Form.Control.Feedback>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group
+                        as={Row}
+                        className="mb-3"
+                        controlId="formPlaintextPassword"
+                    >
+                        <Form.Label column sm="3">
                             직원 수
                         </Form.Label>
                         <Col sm="7">

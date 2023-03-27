@@ -8,7 +8,7 @@ import com.nimoh.jobManager.exception.job.JobErrorResult;
 import com.nimoh.jobManager.exception.job.JobException;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.User;
-import com.nimoh.jobManager.repository.JobRepository;
+import com.nimoh.jobManager.repository.job.JobRepository;
 import com.nimoh.jobManager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -124,6 +124,7 @@ public class JobServiceImpl implements JobService {
                 .applyDate(jobRequest.getApplyDate())
                 .result("지원완료")
                 .note(jobRequest.getNote())
+                .primarySkill(jobRequest.getPrimarySkill())
                 .user(user)
                 .build();
     }

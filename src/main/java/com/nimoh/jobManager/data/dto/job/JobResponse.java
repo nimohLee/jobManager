@@ -32,7 +32,7 @@ public class JobResponse {
 
     private String y;
 
-    private String salary;
+    private Integer salary;
 
     private LocalDate applyDate;
 

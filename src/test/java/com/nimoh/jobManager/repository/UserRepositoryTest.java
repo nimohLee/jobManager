@@ -54,6 +54,5 @@ public class UserRepositoryTest {
                 .email("email@email.com")
                 .password("password")
                 .build();
-
     }
 }

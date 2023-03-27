@@ -3,24 +3,21 @@ package com.nimoh.jobManager.repository;
 import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.Skill;
 import com.nimoh.jobManager.data.entity.User;
-import org.junit.jupiter.api.BeforeEach;
+import com.nimoh.jobManager.repository.job.JobRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-//DataJpaTest에 Transactional 어노테이션이 DB 사용 후 자동 롤백해줌
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
@@ -33,12 +30,6 @@ public class JobRepositoryTest {
     UserRepository userRepository;
 
     private User user;
-
-//    @BeforeEach
-//    public void init(){
-//        // 연관관계를 위해 유저 미리 하나 생성
-//        user = saveUser(1L);
-//    }
 
     private User saveUser(Long userId){
         User user = User.builder()
@@ -109,8 +100,8 @@ public class JobRepositoryTest {
     @Test
     public void 회사명으로지원조회() {
         //given
-        final Job job = job( user);
-        final Job job2 = job( user);
+        final Job job = job(user);
+        final Job job2 = job(user);
 
         jobRepository.save(job);
         jobRepository.save(job2);
@@ -148,6 +139,8 @@ public class JobRepositoryTest {
     }
 
     private Job job(User user){
+        List<Skill> primarySkill = new ArrayList<>();
+        primarySkill.add(Skill.builder().name("java").build());
         return Job.builder()
                 .companyName("nimoh company")
                 .employeesNumber(25)
@@ -156,7 +149,7 @@ public class JobRepositoryTest {
                 .applyDate(LocalDate.now())
                 .position("백엔드")
                 .requiredCareer("신입")
-//                .primarySkill(Arrays.asList(Skill.builder().name("Java").build()))
+                .primarySkill(primarySkill)
                 .result("합격")
                 .note("모르겠음")
                 .user(user)
