@@ -30,6 +30,10 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.14'
     implementation 'org.jsoup:jsoup:1.15.3'
 
+    //테스트에서 lombok 사용
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
     //Querydsl 추가
     implementation 'com.querydsl:querydsl-jpa'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"

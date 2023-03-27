@@ -1,9 +1,10 @@
 package com.nimoh.jobManager.repository.job;
 
+import com.nimoh.jobManager.commons.enums.RequiredExperience;
 import com.nimoh.jobManager.commons.enums.Result;
 import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
 import com.nimoh.jobManager.data.entity.Job;
-import com.nimoh.jobManager.data.entity.QJob;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,8 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
                 .from(job)
                 .where(
                         likeJobName(cond.getName()),
-                        resultIs(cond.getResult())
+                        resultIs(cond.getResult()),
+                        requiredExperienceIs(cond.getRequiredExperience())
                 ).fetch();
     }
 
@@ -39,6 +41,13 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
     private BooleanExpression resultIs(Result result) {
         if (result != null) {
             return job.result.eq(result.getResultName());
+        }
+        return null;
+    }
+
+    private BooleanExpression requiredExperienceIs(RequiredExperience requiredExperience) {
+        if (requiredExperience != null) {
+            return job.requiredCareer.eq(requiredExperience.getCareer());
         }
         return null;
     }

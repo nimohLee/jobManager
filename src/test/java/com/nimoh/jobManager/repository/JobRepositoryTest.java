@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-//DataJpaTest에 Transactional 어노테이션이 DB 사용 후 자동 롤백해줌
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
