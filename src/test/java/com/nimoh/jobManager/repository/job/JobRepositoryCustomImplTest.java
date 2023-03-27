@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.repository.job;
 
+import com.nimoh.jobManager.commons.enums.JobSearchSite;
 import com.nimoh.jobManager.commons.enums.RequiredExperience;
 import com.nimoh.jobManager.commons.enums.Result;
 import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
@@ -112,4 +113,31 @@ public class JobRepositoryCustomImplTest {
         //then
         assertThat(byCond.size()).isEqualTo(1);
     }
+
+    @Test
+    void 지역으로검색성공() {
+        //given
+        jobRepository.save(Job.builder().location("부산광역시 해운대구").build());
+        jobRepository.save(Job.builder().location("서울특별시 강남구").build());
+        JobSearchCondition cond = new JobSearchCondition();
+        cond.setLocation("부산");
+        //when
+        List<Job> byCond = jobRepositoryCustom.findByCond(cond);
+        //then
+        assertThat(byCond.size()).isEqualTo(1);
+    }
+
+    @Test
+    void 구직사이트으로검색성공() {
+        //given
+        jobRepository.save(Job.builder().huntingSite(JobSearchSite.SARAMIN.getName()).build());
+        jobRepository.save(Job.builder().location(JobSearchSite.JOBKOREA.getName()).build());
+        JobSearchCondition cond = new JobSearchCondition();
+        cond.setJobSearchSite(JobSearchSite.SARAMIN);
+        //when
+        List<Job> byCond = jobRepositoryCustom.findByCond(cond);
+        //then
+        assertThat(byCond.size()).isEqualTo(1);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.repository.job;
 
+import com.nimoh.jobManager.commons.enums.JobSearchSite;
 import com.nimoh.jobManager.commons.enums.RequiredExperience;
 import com.nimoh.jobManager.commons.enums.Result;
 import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
@@ -28,7 +29,9 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
                         likeJobName(cond.getName()),
                         resultIs(cond.getResult()),
                         requiredExperienceIs(cond.getRequiredExperience()),
-                        salaryBetween(cond.getMinSalary(), cond.getMaxSalary())
+                        salaryBetween(cond.getMinSalary(), cond.getMaxSalary()),
+                        locationIs(cond.getLocation()),
+                        jobSearchSiteIs(cond.getJobSearchSite())
                 ).fetch();
     }
 
@@ -56,6 +59,20 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
     private BooleanExpression salaryBetween(Integer minSalary, Integer maxSalary) {
         if (minSalary != null && maxSalary != null) {
             return job.salary.between(minSalary, maxSalary);
+        }
+        return null;
+    }
+
+    private BooleanExpression locationIs(String location) {
+        if (location != null) {
+            return job.location.contains(location);
+        }
+        return null;
+    }
+
+    private BooleanExpression jobSearchSiteIs(JobSearchSite jobSearchSite) {
+        if (jobSearchSite != null) {
+            return job.huntingSite.eq(jobSearchSite.getName());
         }
         return null;
     }
