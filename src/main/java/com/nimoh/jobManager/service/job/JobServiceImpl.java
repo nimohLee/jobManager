@@ -1,5 +1,6 @@
 package com.nimoh.jobManager.service.job;
 
+import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
 import com.nimoh.jobManager.exception.user.UserErrorResult;
 import com.nimoh.jobManager.exception.user.UserException;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
@@ -10,7 +11,9 @@ import com.nimoh.jobManager.data.entity.Job;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.repository.job.JobRepository;
 import com.nimoh.jobManager.repository.UserRepository;
+import com.nimoh.jobManager.repository.job.JobRepositoryCustom;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +28,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
+    private final JobRepositoryCustom jobRepositoryCustom;
 
     /**
      * 현재 유저의 지원 내역 모두 조회
@@ -43,6 +48,18 @@ public class JobServiceImpl implements JobService {
         final List<Job> findResult = jobRepository.findAllByUserOrderByApplyDateDesc(user);
         return findResult.stream().map(this::makeJobResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobResponse> findByCond(Long userId, JobSearchCondition cond) {
+        try {
+            final User user = userRepository.findById(userId).orElseThrow(()-> new UserException(UserErrorResult.USER_NOT_FOUND));
+            List<Job> findJobs = jobRepositoryCustom.findByCond(user.getId(), cond);
+            return findJobs.stream().map(this::makeJobResponse).collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("JobServiceImpl#findByCond occur exception ", e);
+            throw new JobException(JobErrorResult.UNKNOWN_EXCEPTION);
+        }
     }
 
     /**

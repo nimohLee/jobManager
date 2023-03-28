@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface JobRepositoryCustom {
-    List<Job> findByCond(JobSearchCondition cond);
+    List<Job> findByCond(Long userId, JobSearchCondition cond);
 }

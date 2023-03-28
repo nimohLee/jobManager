@@ -1,8 +1,10 @@
 package com.nimoh.jobManager.commons.enums;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public enum JobSearchSite {
 
     SARAMIN("사람인"),
