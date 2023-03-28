@@ -5,7 +5,6 @@ import com.nimoh.jobManager.commons.enums.RequiredExperience;
 import com.nimoh.jobManager.commons.enums.Result;
 import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
 import com.nimoh.jobManager.data.entity.Job;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,11 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Job> findByCond(JobSearchCondition cond) {
+    public List<Job> findByCond(Long userId, JobSearchCondition cond) {
         return queryFactory.select(job)
                 .from(job)
                 .where(
+                        job.user.id.eq(userId),
                         likeJobName(cond.getName()),
                         resultIs(cond.getResult()),
                         requiredExperienceIs(cond.getRequiredExperience()),

@@ -2,6 +2,7 @@ package com.nimoh.jobManager.service;
 
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
+import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
 import com.nimoh.jobManager.exception.job.JobErrorResult;
 import com.nimoh.jobManager.exception.job.JobException;
 import com.nimoh.jobManager.data.entity.Job;
@@ -9,7 +10,10 @@ import com.nimoh.jobManager.data.entity.Skill;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.repository.job.JobRepository;
 import com.nimoh.jobManager.repository.UserRepository;
+import com.nimoh.jobManager.repository.job.JobRepositoryCustom;
 import com.nimoh.jobManager.service.job.JobServiceImpl;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -31,6 +36,9 @@ public class JobServiceTest {
 
     @InjectMocks
     private JobServiceImpl jobService;
+
+    @Mock
+    private JobRepositoryCustom jobRepositoryCustom;
 
     @Mock
     private JobRepository jobRepository;
@@ -117,6 +125,34 @@ public class JobServiceTest {
         //then
         assertThat(result.size()).isEqualTo(2);
     }
+
+    @Nested
+    @DisplayName("지원 내역 조회")
+    class FindAll {
+
+        @Test
+        void 조건에맞는조회실패_throw발생() {
+            //given
+            doThrow(JobException.class).when(jobRepositoryCustom).findByCond(any(),any());
+            //when
+            assertThatThrownBy(() -> jobService.findByCond(any(),any())).isInstanceOf(JobException.class);
+            //then
+        }
+
+        @Test
+        void 조건에맞는조회성공() {
+            //given
+            User user = user(1L);
+            doReturn(Optional.of(user)).when(userRepository).findById(user.getId());
+            doReturn(Arrays.asList(Job.builder().build(), Job.builder().build())).when(jobRepositoryCustom).findByCond(any(), any());
+            JobSearchCondition cond = new JobSearchCondition();
+            //when
+            List<JobResponse> result = jobService.findByCond(user.getId(), cond);
+            //then
+            assertThat(result.size()).isEqualTo(2);
+        }
+    }
+
 
     public JobRequest jobRequest() {
         return JobRequest.builder()
