@@ -77,6 +77,42 @@ public class JobControllerTest {
     }
 
     @Test
+    @WithMockUser
+    public void 조건별지원조회실패_service에서throw() throws Exception {
+        //given
+        final String url = "/api/v1/job/cond";
+        doThrow(new JobException(JobErrorResult.UNKNOWN_EXCEPTION)).when(jobService).findByCond(any(),any());
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser
+    public void 조건별지원조회성공() throws Exception {
+        //given
+        final String url = "/api/v1/job/cond";
+        doReturn(Arrays.asList(
+                JobResponse.builder().build(),
+                JobResponse.builder().build(),
+                JobResponse.builder().build()
+        )).when(jobService).findByCond(any(),any());
+        //when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("name","신발")
+        );
+        //then
+        resultActions.andExpect(status().isOk());
+    }
+
+    @Test
     public void 지원등록성공() throws Exception {
         //given
         final String url = "/api/v1/job";

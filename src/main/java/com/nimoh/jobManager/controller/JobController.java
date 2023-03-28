@@ -1,7 +1,11 @@
 package com.nimoh.jobManager.controller;
 
+import com.nimoh.jobManager.commons.enums.JobSearchSite;
+import com.nimoh.jobManager.commons.enums.RequiredExperience;
+import com.nimoh.jobManager.commons.enums.Result;
 import com.nimoh.jobManager.data.dto.job.JobResponse;
 import com.nimoh.jobManager.data.dto.job.JobRequest;
+import com.nimoh.jobManager.data.dto.job.JobSearchCondition;
 import com.nimoh.jobManager.data.entity.User;
 import com.nimoh.jobManager.service.api.RestTemplateService;
 import com.nimoh.jobManager.service.job.JobService;
@@ -48,6 +52,39 @@ public class JobController {
         List<JobResponse> result = jobService.findByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @Operation(summary = "직무 지원 목록 조건 별 조회", description = "직무 지원 목록을 조건 별로 모두 조회합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "직무 지원 목록 조회 성공"),
+            @ApiResponse(responseCode = "204", description = "직무 지원내역이 없습니다"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "500", description = "알 수 없는 에러가 발생했습니다.")
+    })
+    @GetMapping("/cond")
+    public ResponseEntity<List<JobResponse>> getListbyCond(
+            @AuthenticationPrincipal User user,
+            @RequestParam(value = "name",required = false) String name,
+            @RequestParam(value = "result",required = false) String result,
+            @RequestParam(value = "requiredExperience",required = false) String requiredExperience,
+            @RequestParam(value = "minSalary",required = false) Integer minSalary,
+            @RequestParam(value = "maxSalary",required = false) Integer maxSalary,
+            @RequestParam(value = "location",required = false) String location,
+            @RequestParam(value = "jobSearchSite",required = false) String jobSearchSite
+    ) {
+        JobSearchCondition cond = JobSearchCondition.builder()
+                .name(name)
+                .result(result!=null?Result.valueOf(result):null)
+                .requiredExperience(requiredExperience!=null?RequiredExperience.valueOf(requiredExperience):null)
+                .minSalary(minSalary)
+                .maxSalary(maxSalary)
+                .location(location)
+                .jobSearchSite(jobSearchSite!=null?JobSearchSite.valueOf(jobSearchSite):null)
+                .build();
+        Long userId = user.getId();
+        List<JobResponse> findResult = jobService.findByCond(userId, cond);
+        return ResponseEntity.status(HttpStatus.OK).body(findResult);
+    }
+
 
     /**
      * 직무 지원 등록
