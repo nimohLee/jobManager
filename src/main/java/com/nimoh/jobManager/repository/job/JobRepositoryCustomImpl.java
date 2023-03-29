@@ -20,6 +20,12 @@ public class JobRepositoryCustomImpl implements JobRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * Querydsl을 사용하여 조건에 따라 검색하는 동적쿼리 Method
+     * @param userId 현재 유저 PK
+     * @param cond 검색 조건
+     * @return 검색 조건에 따른 검색 결과 (지원 내역)
+     */
     @Override
     public List<Job> findByCond(Long userId, JobSearchCondition cond) {
         return queryFactory.select(job)
