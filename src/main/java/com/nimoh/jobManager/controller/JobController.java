@@ -73,7 +73,7 @@ public class JobController {
             @ApiResponse(responseCode = "500", description = "알 수 없는 에러가 발생했습니다.")
     })
     @GetMapping("/cond")
-    public ResponseEntity<List<JobResponse>> getListbyCond(
+    public ResponseEntity<List<JobResponse>> getListByCond(
             @AuthenticationPrincipal User user,
             @RequestParam(value = "name",required = false) String name,
             @RequestParam(value = "result",required = false) String applyResult,

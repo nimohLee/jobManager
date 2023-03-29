@@ -50,6 +50,12 @@ public class JobServiceImpl implements JobService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 검색 조건에 따른 현재 유저의 지원 내역 조회
+     * @param userId 현재 유저의 PK
+     * @param cond 검색 조건
+     * @return 검색 조건으로 조회한 지원 내역 리스트
+     */
     @Override
     public List<JobResponse> findByCond(Long userId, JobSearchCondition cond) {
         try {
