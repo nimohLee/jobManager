@@ -53,6 +53,18 @@ public class JobController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     *
+     * @param user 현재 사용자
+     * @param name 검색어 (회사명)
+     * @param applyResult 검색 조건 (지원결과)
+     * @param requiredExperience 검색 조건 (요구 경력)
+     * @param minSalary 검색 조건 (최소 연봉)
+     * @param maxSalary 검색 조건 (최대 연봉)
+     * @param location 검색 조건 (회사 위치)
+     * @param jobSearchSite 검색 조건 (구직 사이트)
+     * @return 검색 조건에 따른 지원 내역 반환
+     */
     @Operation(summary = "직무 지원 목록 조건 별 조회", description = "직무 지원 목록을 조건 별로 모두 조회합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "직무 지원 목록 조회 성공"),
@@ -64,7 +76,7 @@ public class JobController {
     public ResponseEntity<List<JobResponse>> getListbyCond(
             @AuthenticationPrincipal User user,
             @RequestParam(value = "name",required = false) String name,
-            @RequestParam(value = "result",required = false) String result,
+            @RequestParam(value = "result",required = false) String applyResult,
             @RequestParam(value = "requiredExperience",required = false) String requiredExperience,
             @RequestParam(value = "minSalary",required = false) Integer minSalary,
             @RequestParam(value = "maxSalary",required = false) Integer maxSalary,
@@ -73,7 +85,7 @@ public class JobController {
     ) {
         JobSearchCondition cond = JobSearchCondition.builder()
                 .name(name)
-                .result(result!=null?Result.valueOf(result):null)
+                .result(applyResult!=null?Result.valueOf(applyResult):null)
                 .requiredExperience(requiredExperience!=null?RequiredExperience.valueOf(requiredExperience):null)
                 .minSalary(minSalary)
                 .maxSalary(maxSalary)

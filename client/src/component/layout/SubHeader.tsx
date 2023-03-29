@@ -11,7 +11,17 @@ function SubHeader({ title, children }: PropsInfo) {
     <div>
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
+            {
+              title==='지원 내역'
+              ?
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
+                  <div>
+                    <input type="text" name="" id="" placeholder='검색어를 입력하세요'/>
+                  </div>
+              </div>
+              :<h1 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h1>
+            }
           </div>
         </header>
         <main>
